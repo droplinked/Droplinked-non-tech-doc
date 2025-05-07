@@ -2,7 +2,7 @@
 
 **Droplinked** is an innovative e-commerce platform designed to help users easily create and customize their online stores with advanced Web 2 and Web 3 capabilities. Through Droplinked, merchants can build their own e-commerce sites on the platform, gaining access to a range of features that cater to both traditional and blockchain-based transactions. 
 
-Our platform allows for seamless store creation with full customization options, including design flexibility and support for physical, digital, and print-on-demand products. Additionally, Droplinked offers integrated shipping options via **EasyPost**, and supports cryptocurrency payments and Web 3 login via digital wallets, making it the perfect solution for modern e-commerce entrepreneurs.
+Our platform allows for seamless store creation with full customization options, including design flexibility and support for physical, digital, and print-on-demand products. Additionally, Droplinked offers integrated shipping options via EasyPost, and supports cryptocurrency payments and Web 3 login via digital wallets, making it the perfect solution for modern e-commerce entrepreneurs.
 
 ## Key Features:
 - **Store Creation and Customization**: Merchants can easily create fully customizable online stores with a user-friendly interface. Design flexibility allows users to tailor their stores to fit their brand identity.
