@@ -4,12 +4,6 @@
 
 Our platform allows for seamless store creation with full customization options, including design flexibility and support for physical, digital, and print-on-demand products. Additionally, Droplinked offers integrated shipping options via EasyPost, and supports cryptocurrency payments and Web 3 login via digital wallets, making it the perfect solution for modern e-commerce entrepreneurs.
 
-## Key Features:
-- **Store Creation and Customization**: Merchants can easily create fully customizable online stores with a user-friendly interface. Design flexibility allows users to tailor their stores to fit their brand identity.
-- **Web 3 Support**: Integration with blockchain technologies, including crypto payments and wallet-based logins, gives merchants and customers enhanced transparency and security.
-- **Product Flexibility**: The platform supports physical products, digital items, and print-on-demand options, providing users with the flexibility to sell a variety of goods.
-- **Shipping Integration**: EasyPost shipping integration simplifies the process of managing logistics and tracking, ensuring smooth operations for merchants.
-- **Coming Soon – AI Tools**: Future updates will bring AI-powered tools to enhance store management and marketing, further streamlining the e-commerce experience.
 
 ## Target Audience:
 Droplinked is designed for a wide range of users:
@@ -32,3 +26,14 @@ Droplinked aims to empower users by simplifying online store creation, providing
 
 ## Conclusion:
 Whether you're an individual wanting to start an online shop, an NFT artist exploring new ways to sell your digital art, or a producer looking to affiliate products, Droplinked provides a comprehensive and customizable solution. By combining the best of Web 2 and Web 3, we create a transparent, secure, and user-friendly environment for modern e-commerce businesses.
+
+## Roles:
+
+- **Merchant**: The individual who creates a store using the Shop Builder on droplinked.com and adds products to it. Essentially, they are the seller of the products.
+- **Customer**: The buyer and consumer of products from the store created by the merchant.
+- **Admin**: The administrators of Droplinked who can perform various configurations from the Super Admin dashboard.
+
+## Platform Details:
+
+- **Shop Builder**: The platform used by merchants to create and manage their stores, accessible at droplinked.com.
+- **Shop Frontend**: The storefront created by the merchant, displayed as droplinked.io/:shopname.
