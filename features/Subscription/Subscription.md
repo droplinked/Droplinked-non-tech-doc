@@ -32,7 +32,7 @@ Shops with legacy plans or admin-activated plans will have their renewals manage
   2. Clicks on the profile icon in the top-right corner of the dashboard.
   3. From the dropdown menu, selects the "Plans" option.
   4. Merchant is redirected to the subscription plans page.
-  5. All plans (Starter, Pro, Premium, Enterprise) are visible with options for monthly, yearly, and 5-year billing.
+  5. All plans (Starter, Pro, Premium, Enterprise) are visible with options for monthly, yearly, and 3-year billing.
   6. Merchant selects a desired plan and billing cycle.
   7. Chooses a payment method (credit card or crypto wallet).
   8. Completes the payment.
@@ -43,7 +43,7 @@ Shops with legacy plans or admin-activated plans will have their renewals manage
 ## 4. Inputs:
 
 - **User Inputs**:
-  - **Billing Cycle Selection**: The merchant selects the preferred billing cycle (monthly, yearly, or 5-year).
+  - **Billing Cycle Selection**: The merchant selects the preferred billing cycle (monthly, yearly, or 3-year).
   - **Plan Selection**: The merchant selects the desired subscription plan (Pro, Premium, or Enterprise).
   - **Payment Method**: The merchant chooses a payment method (credit/debit card or crypto wallet).
 
