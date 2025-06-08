@@ -47,7 +47,7 @@ This feature enables merchants to automatically generate a default set of produc
 
 | Version | Date       | Change Summary         | Author     |
 |---------|------------|-------------------------|------------|
-| 2.0.0     | 2025-06-08 | Initial version created | Behdad |
+| 2.0.0     | 2025-06-08 | Beta version released | Behdad |
 
 ## 🔗 Dependencies
 - **Product**: This feature relies on the product creation process and the ability to upload logos during shop setup.
