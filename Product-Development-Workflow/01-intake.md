@@ -14,7 +14,7 @@ The **Intake** folder is where all product requests begin their journey. Anyone 
 
 ```
 ┌─────────┐    ┌────────────┐    ┌──────────┐
-│   NEW   │ → │ EVALUATING │ → │ ACCEPTED │ → To Define
+│   NEW   │ →  │ EVALUATING │ → v│ ACCEPTED │ → To Define
 └─────────┘    └─────┬──────┘    └──────────┘
                      │
          ┌───────────┴───────────┐
@@ -104,7 +104,7 @@ ATTACHMENTS
 
 ### For Evaluators
 
-- ✅ Respond within **3 business days**
+- ✅ Respond within maximum **3 business days**
 - ✅ If rejecting, provide **clear reasoning**
 - ✅ If marking as "Later", set a **review date**
 - ✅ When accepting, create linked **Spec ticket**
@@ -125,16 +125,16 @@ When a request is **Accepted**, a corresponding **Spec** ticket is created in th
 
 ```
    ┌──────────────────────────────────────────────────────────────┐
-   │                         INTAKE                                │
-   │                                                               │
-   │   User submits         Product team        Decision made      │
-   │   request              evaluates                              │
-   │       │                    │                    │             │
-   │       ▼                    ▼                    ▼             │
+   │                         INTAKE                               │
+   │                                                              │
+   │   User submits         Product team        Decision made     │
+   │   request              evaluates                             │
+   │       │                    │                    │            │
+   │       ▼                    ▼                    ▼            │
    │   ┌───────┐          ┌──────────┐         ┌─────────┐        │
    │   │  NEW  │ ───────► │EVALUATING│ ───────►│ACCEPTED │────────┼──► Define
    │   └───────┘          └────┬─────┘         └─────────┘        │
-   │                           │                                   │
+   │                           │                                  │
    │               ┌───────────┴───────────┐                      │
    │               ▼                       ▼                      │
    │          ┌─────────┐            ┌─────────┐                  │
@@ -143,7 +143,7 @@ When a request is **Accepted**, a corresponding **Spec** ticket is created in th
    │              │                       │                       │
    │              ▼                       ▼                       │
    │           Closed              Review Later                   │
-   │                                                               │
+   │                                                              │
    └──────────────────────────────────────────────────────────────┘
 ```
 

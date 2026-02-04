@@ -59,6 +59,26 @@ The **Define** folder transforms accepted requests into detailed specifications.
 
 ---
 
+## 🎨 Designer Responsibilities (Must be in ticket)
+
+Designer must add these items inside the spec ticket (or linked doc):
+
+1) **Competitor Review**
+- List all competitors reviewed (names + links)
+- Quick notes per competitor (what works / what doesn’t)
+
+2) **Conclusion Based on Competitors**
+- Final decision and why it’s best for us
+
+3) **Wireframes**
+- Low/medium fidelity wireframes linked in ticket
+
+4) **Decision Rationale**
+- Explain why key UI/UX decisions were made
+- Must be clear enough to revisit later
+
+---
+
 ## 📄 Spec Document Structure
 
 Every spec follows this standardized format:
@@ -174,6 +194,38 @@ CHANGE LOG
 
 ---
 
+## 🧪 Test Case Format (with example)
+
+Keep test cases short, clear, and testable. Always break the feature into **small, independent tasks** before writing test cases.
+
+### ✅ How to break tasks
+1) **Feature → Sub-features** (e.g., Product Type Toggle)
+2) **Sub-feature → Scenarios** (default state, change state, error state)
+3) **Scenario → Test Cases** (one action, one expected result)
+
+### ✅ Test Case Header (example)
+
+**1.3 Product Type Toggle**
+- **Total TCs:** 3
+- **Tester:** زهرا
+- **Status:** ✅ Pass (3/3)
+- **Environment:** Staging
+- **Last Sprint:** Sprint 14
+- **Date:** 1404/02/02
+
+### ✅ Test Case Table (example)
+
+| TC ID | Scenario Title | Type | Precondition | Given | When | Then | Expected Result | Test Data | Status | Bug |
+|------|----------------|------|--------------|-------|------|------|-----------------|-----------|--------|-----|
+| TC-PRODUCT-1.3-001 | Verify Default Physical | UI | User logged in | Opens create page | Page loads | Physical selected | Toggle shows Physical | - | ✅ Pass | - |
+| TC-PRODUCT-1.3-002 | Verify Toggle to Digital | Functional | On create page, Physical selected | Clicks Digital | Form switches | Digital form shows | Digital form shows | - | ✅ Pass | - |
+| TC-PRODUCT-1.3-003 | Verify Toggle to Physical | Functional | On create page, Digital selected | Clicks Physical | Form switches | Physical form shows | Physical form shows | - | ✅ Pass | - |
+
+**Rules:**
+- One test case = one action + one expected result
+- Use clear Given/When/Then for every row
+- Status must be filled (✅ Pass / ❌ Fail / ⏳ Blocked)
+
 ## 📝 Example Spec Ticket
 
 ```
@@ -251,20 +303,20 @@ Progress: 2/10
                                           │
                                           ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              DEFINE PHASE                                    │
+│                              DEFINE PHASE                                   │
 │                                                                             │
-│  ┌─────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────────┐   │
-│  │ WAITING │ →  │WRITING SPEC  │ →  │WAITING FOR  │ →  │ RESEARCHING  │   │
-│  │         │    │  (DRAFT)     │    │  DESIGN     │    │              │   │
-│  └─────────┘    └──────────────┘    └─────────────┘    └──────┬───────┘   │
+│  ┌─────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────────┐    │
+│  │ WAITING │ →  │WRITING SPEC  │ →  │WAITING FOR  │ →  │ RESEARCHING  │    │
+│  │         │    │  (DRAFT)     │    │  DESIGN     │    │              │    │
+│  └─────────┘    └──────────────┘    └─────────────┘    └──────┬───────┘    │
 │                                                                │           │
 │       Product/Lead writes                            Designer  │           │
 │       initial spec                                  researches │           │
 │                                                                ▼           │
-│  ┌───────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────┐   │
-│  │ READY FOR DEV │ ← │WRITING TEST │ ← │WAITING FOR  │ ← │DESIGNING│   │
-│  │      ✅       │    │   CASES     │    │ TEST CASES  │    │         │   │
-│  └───────┬───────┘    └─────────────┘    └─────────────┘    └─────────┘   │
+│  ┌───────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────┐    │
+│  │ READY FOR DEV │ ←  │WRITING TEST │ ←  │WAITING FOR  │ ← s │DESIGNING│   │   │
+│  │      ✅      │    │   CASES     │    │ TEST CASES  │    │         │    │
+│  └───────┬───────┘    └─────────────┘    └─────────────┘    └─────────┘    │
 │          │                   │                  │                │         │
 │          │                  QA              Spec updated    Wireframe/UI   │
 │          │            writes tests         after design     created        │
