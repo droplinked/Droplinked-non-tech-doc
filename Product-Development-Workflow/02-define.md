@@ -228,68 +228,46 @@ Keep test cases short, clear, and testable. Always break the feature into **smal
 
 ## 📝 Example Spec Ticket
 
-```
-═══════════════════════════════════════════════════════════
-SPEC: Product Image Upload System
-═══════════════════════════════════════════════════════════
+### SPEC: Product Image Upload System
 
-Feature ID: IAA-STM-401
-Status: Designing
-Owner: Behdad
+- **Feature ID:** IAA-STM-401
+- **Status:** Designing
+- **Owner:** Behdad
+- **Category:** Shop Settings
+- **Actors:** Merchant (Admin), Merchant (Member)
+- **Channel:** Web
 
-Category: Shop Settings
-Actors: Merchant (Admin), Merchant (Member)
-Channel: Web
+#### Links
 
-───────────────────────────────────────────────────────────
-LINKS
-───────────────────────────────────────────────────────────
+- 🔗 **Linked Request:** REQ-089
+- 📄 **Spec Document:** [Link to Notion/Docs]
+- 🎨 **Design:** [Link to Figma]
+- 🧪 **Test Cases:** [Link to Test Sheet]
 
-🔗 Linked Request: REQ-089
-📄 Spec Document: [Link to Notion/Docs]
-🎨 Design: [Link to Figma]
-🧪 Test Cases: [Link to Test Sheet]
+#### Problem Statement
 
-───────────────────────────────────────────────────────────
-PROBLEM STATEMENT
-───────────────────────────────────────────────────────────
+Merchants need an intuitive way to upload multiple product images with drag-and-drop support, reordering capability, and clear feedback during upload.
 
-Merchants need an intuitive way to upload multiple product
-images with drag-and-drop support, reordering capability,
-and clear feedback during upload.
+#### User Stories
 
-───────────────────────────────────────────────────────────
-USER STORIES
-───────────────────────────────────────────────────────────
+- As a merchant, I want to upload multiple images at once so that I can save time.
+- As a merchant, I want to reorder images by dragging so that I can set the main product image easily.
+- As a merchant, I want to see upload progress so that I know when uploads are complete.
 
-• As a merchant, I want to upload multiple images at once
-  so that I can save time.
-  
-• As a merchant, I want to reorder images by dragging
-  so that I can set the main product image easily.
-  
-• As a merchant, I want to see upload progress
-  so that I know when uploads are complete.
+#### Acceptance Criteria
 
-───────────────────────────────────────────────────────────
-ACCEPTANCE CRITERIA
-───────────────────────────────────────────────────────────
+- ☑ Drag & drop from desktop works
+- ☑ Click to open file picker works
+- ☐ Preview shows before upload completes
+- ☐ Progress bar during upload
+- ☐ Delete button on each image
+- ☐ Drag to reorder images
+- ☐ First image marked as "Main"
+- ☐ Error for invalid format
+- ☐ Error for files > 5MB
+- ☐ Error for more than 10 images
 
-☑ Drag & drop from desktop works
-☑ Click to open file picker works
-☐ Preview shows before upload completes
-☐ Progress bar during upload
-☐ Delete button on each image
-☐ Drag to reorder images
-☐ First image marked as "Main"
-☐ Error for invalid format
-☐ Error for files > 5MB
-☐ Error for more than 10 images
-
-Progress: 2/10
-
-═══════════════════════════════════════════════════════════
-```
+**Progress:** 2/10
 
 ---
 

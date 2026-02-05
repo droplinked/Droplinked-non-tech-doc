@@ -58,38 +58,23 @@ The **Intake** folder is where all product requests begin their journey. Anyone 
 
 ## 📝 Example Request Ticket
 
-```
-═══════════════════════════════════════════════════════════
-REQUEST: Sarah - Add Export to CSV Feature
-═══════════════════════════════════════════════════════════
+### REQUEST: Sarah - Add Export to CSV Feature
 
-Status: Evaluating
-Request Date: 2024-03-15
+- **Status:** Evaluating
+- **Request Date:** 2024-03-15
 
-───────────────────────────────────────────────────────────
-DESCRIPTION
-───────────────────────────────────────────────────────────
+#### Description
 
-Need the ability to export order reports to CSV format
-for accounting purposes.
+Need the ability to export order reports to CSV format for accounting purposes.
 
-───────────────────────────────────────────────────────────
-WHY / PROBLEM
-───────────────────────────────────────────────────────────
+#### Why / Problem
 
-Currently, our accounting team manually copies data from
-the dashboard. This takes ~2 hours weekly and is error-prone.
-CSV export would save time and reduce errors.
+Currently, our accounting team manually copies data from the dashboard. This takes ~2 hours weekly and is error-prone. CSV export would save time and reduce errors.
 
-───────────────────────────────────────────────────────────
-ATTACHMENTS
-───────────────────────────────────────────────────────────
+#### Attachments
 
-📎 current-workflow-screenshot.png
-📎 sample-csv-format.xlsx
-
-═══════════════════════════════════════════════════════════
-```
+- 📎 current-workflow-screenshot.png
+- 📎 sample-csv-format.xlsx
 
 ---
 
