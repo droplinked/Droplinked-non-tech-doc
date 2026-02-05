@@ -1,0 +1,43 @@
+﻿Feature,Dependency,Doc,Doc Link,Domain,Has Help Center,Help Center Link,Status,Test,Test Link
+REDIRECT,,Yes,https://www.notion.so/Onboarding-Redirection-2cba781ca50980dfb2caf0a1789f95b7,Authentication,No,,Dev Complete (Untested),No,
+OTP,,Yes,https://www.notion.so/Confirm-Email-OTP-Verification-Flow-2ada781ca50980709d73ca8386237c64,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Login,,Yes,https://www.notion.so/Merchant-Login-2ada781ca50980a1988be47c791536be,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Google auth,,Yes,https://www.notion.so/Google-Authentication-for-Login-Signup-2ada781ca5098081a9f6deadf2d9b34f,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Password Reset,,Yes,https://www.notion.so/Reset-Password-Flow-2ada781ca5098092bb86d363e7086176,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Referal,,Yes,https://www.notion.so/Merchant-Referral-Code-Signup-Flow-2ada781ca50980ae8390d12f5eb3311b,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Partnership,,Yes,https://www.notion.so/Partner-Signup-Flow-2ada781ca509808e82bbcc6b432092ff,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+Shop Information Page,,Yes,https://www.notion.so/Shop-Information-Page-2aea781ca509808984bcdfcd5feeb2f4,OnBoarding,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1601282625#gid=1601282625
+Create Inspirational Inventory,,Yes,https://www.notion.so/Create-Inspirational-Inventory-2aea781ca50980fca934f22322c54179,OnBoarding,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1601282625#gid=1601282625
+"Shop Currency, Subscription & Final Onboarding",,Yes,https://www.notion.so/Shop-Currency-Subscription-Final-Onboarding-2aea781ca50980c1ad09cc9256567b74,OnBoarding,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1601282625#gid=1601282625
+Home,,Yes,https://www.notion.so/Merchant-Dashboard-2b0a781ca50980ce95bffe1c6b9b44c5,Report - Dashboard,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=287004397#gid=287004397
+Analytics,,Yes,https://www.notion.so/Analytics-Page-2b0a781ca5098016abdad88025d46749,Report - Dashboard,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=287004397#gid=287004397
+Product List Page,,Yes,https://www.notion.so/Product-List-Page-2aea781ca509805b8e99d32e8874aaee,Products,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1960676129#gid=1960676129
+Create & Edit Physical Product,,Yes,https://www.notion.so/Create-Edit-Physical-Product-2aea781ca50980288e59f18e04fcdc37,Products,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1960676129#gid=1960676129
+Create & Edit Digital Product,,Yes,https://www.notion.so/Create-Edit-Digital-Product-2aea781ca50980649562fc0273d87321,Products,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1960676129#gid=1960676129
+Create & Edit POD Product,,Yes,https://www.notion.so/Create-Edit-POD-Product-2aea781ca50980b48792d0954234cc83,Products,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1960676129#gid=1960676129
+Soft Delete Product,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Duplicate Product,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Reorder Products,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Product Publish & Visibility Status,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Product Release Date,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Default Product Image Selection,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+AI-Powered Product Image & Description,,Yes,https://www.notion.so/Shared-Product-Features-2aea781ca50980a19800cba2edde22be,Shared Product Features,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=1897333552#gid=1897333552
+Collection,,Yes,https://www.notion.so/Collections-Management-2b0a781ca5098079a5f0f24294645017,Collection,No,,Dev Complete (Untested),Yes,
+Discount Coupons,,Yes,https://www.notion.so/Credits-Coupons-2b0a781ca50980c4ae29d495bda763fa,Web3,No,,Dev Complete (Untested),Yes,
+Record NFt,,Yes,https://www.notion.so/Record-NFT-260a781ca509801d930ac70a7eb517c9,Web3,No,,Dev Complete (Untested),Yes,
+Ruleset Creation & Management,,Yes,https://www.notion.so/Ruleset-Creation-Management-260a781ca50980c3bb3ecd5426444154,Web3,No,,Dev Complete (Untested),Yes,
+Merchant Wallet,,Yes,https://www.notion.so/Merchant-Wallet-260a781ca509803c9315f61736dc090e,Web3,No,,Dev Complete (Untested),Yes,
+Orders,,No,,Order,No,,Analysis,No,
+Customers,,Yes,https://www.notion.so/Customer-List-2cba781ca5098002b776e07c8d23881e,Order,No,,Dev Complete (Untested),No,
+Blog,,No,,,No,,Analysis,No,
+Template builder,,Yes,https://www.notion.so/Shop-Builder-Designer-Canvas-2b0a781ca50980e6943cc78bc7f1194e,Settings,No,,Dev Complete (Untested),Yes,
+General,,No,,Settings,No,,Dev Complete (Untested),No,
+Payment methods,,No,,Settings,No,,Dev Complete (Untested),No,
+User Management,,No,,Settings,No,,Refactor Needed,No,
+API Keys,,No,https://www.notion.so/API-Keys-Management-2cba781ca50980d5aa59cc47a92b79e6,Settings,No,,Dev Complete (Untested),No,
+Subscriptions,,Yes,https://www.notion.so/Subscription-Plans-Management-260a781ca5098089a895e1ef82aa1377,Subscription,No,,Analysis,No,
+Shipping,,No,,Shipping,No,,Analysis,No,
+Chatbot,,No,,ChatBot,No,,Analysis,No,
+Token pricing,,No,,Web3,No,,Refactor Needed,No,
+Register,,Yes,https://www.notion.so/Merchant-Signup-Email-Verification-Flow-25ba781ca5098025a5e7daad7ab8d055,Authentication,No,,Dev Complete (Untested),Yes,https://docs.google.com/spreadsheets/d/10VXFsC0n7e0sUPVJLAXHQAYx1PPDN7N_-0cl5nI309c/edit?gid=551564659#gid=551564659
+,,No,,,No,,,No,
