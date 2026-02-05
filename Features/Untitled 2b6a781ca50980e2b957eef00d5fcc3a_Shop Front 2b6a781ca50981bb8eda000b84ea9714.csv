@@ -1,0 +1,10 @@
+﻿Domain,Feature,Status,Doc,Test,Has Help Center,Doc Link,Test Link,Help Center Link
+Login,Login,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Customer-Login-2b0a781ca5098016b7d1cea9a52cf1ae,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Product Listing Page,Design,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Shop-Builder-Designer-Canvas-2b0a781ca50980e6943cc78bc7f1194e?pvs=24,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Product Listing Page,Product,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Product-Listing-Page-PLP-2b0a781ca5098007a7dac3ba5a6ab8a0,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Product Listing Page,Product Detail Page (PDP),Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Product-Detail-Page-PDP-2b0a781ca50980f491e8cd50e60f4c39,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Currency,Currency,Refactor Needed,No,No,No,,,
+Cart,Add to Cart,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Cart-2b3a781ca5098041ad94d8bbc332619c,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Cart,Cart Overlay,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Cart-2b3a781ca5098041ad94d8bbc332619c,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Web3,Ruleset,Dev Complete (Untested),Yes,Yes,No,https://www.notion.so/Cart-2b3a781ca5098041ad94d8bbc332619c,https://docs.google.com/spreadsheets/d/1n2wFk6MGI2NsmA70KD9FAn7_O46AxdTaZlyVThnelnU/edit?gid=1863474365#gid=1863474365,
+Web3,Claim NFT,In Progress,No,No,No,,,
