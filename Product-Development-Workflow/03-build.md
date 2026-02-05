@@ -99,75 +99,56 @@ The **Build** folder is where development happens. Specs from the Define phase a
 
 ## 📋 Epic Ticket Format
 
-```
-═══════════════════════════════════════════════════════════
-EPIC: Frontend - Product Creation Page
-═══════════════════════════════════════════════════════════
+### EPIC: Frontend - Product Creation Page
 
-ID: EPIC-012
-Type: Feature
-Labels: Frontend
-Linked Spec: SPEC-018
-Estimated: 48h
-Reviewer: [Name]
-Assignee: [Team/Person]
+- **ID:** EPIC-012
+- **Type:** Feature
+- **Labels:** Frontend
+- **Linked Spec:** SPEC-018
+- **Estimated:** 48h
+- **Reviewer:** [Name]
+- **Assignee:** [Team/Person]
 
-───────────────────────────────────────────────────────────
-DESCRIPTION
-───────────────────────────────────────────────────────────
+#### Description
 
 Complete frontend implementation for product creation page:
 - Physical and digital product forms
 - Image and file upload
 - Preview and submit functionality
 
-───────────────────────────────────────────────────────────
-SUBTASKS
-───────────────────────────────────────────────────────────
+#### Subtasks
 
-#   Title                              Assignee  Est   Status
-──────────────────────────────────────────────────────────
-01  Page Structure & Layout            Alex      4h    ✅ Done
-02  Basic Info Form                    Alex      4h    ✅ Done
-03  Image Upload with Drag             Sara      6h    🔄 In Progress
-04  Product Type Toggle                Alex      2h    🔄 In Progress
-05  Physical Product Form              Mike      4h    📋 To Do
-06  Digital Product Form               Sara      4h    📋 To Do
-07  Pricing Section                    Mike      4h    📋 To Do
-08  Categories & Tags                  Mike      3h    📋 To Do
-09  SEO Section                        Sara      3h    📋 To Do
-10  Product Preview                    Alex      4h    📋 To Do
-11  Submit Buttons                     Alex      2h    📋 To Do
-12  Validation & Errors                Sara      4h    📋 To Do
-13  Mobile Responsive                  Mike      4h    📋 To Do
+01) Page Structure & Layout — Assignee: Alex | Est: 4h | Status: ✅ Done
+02) Basic Info Form — Assignee: Alex | Est: 4h | Status: ✅ Done
+03) Image Upload with Drag — Assignee: Sara | Est: 6h | Status: 🔄 In Progress
+04) Product Type Toggle — Assignee: Alex | Est: 2h | Status: 🔄 In Progress
+05) Physical Product Form — Assignee: Mike | Est: 4h | Status: 📋 To Do
+06) Digital Product Form — Assignee: Sara | Est: 4h | Status: 📋 To Do
+07) Pricing Section — Assignee: Mike | Est: 3h | Status: 📋 To Do
+08) Categories & Tags — Assignee: Mike | Est: 3h | Status: 📋 To Do
+09) SEO Section — Assignee: Sara | Est: 3h | Status: 📋 To Do
+10) Product Preview — Assignee: Alex | Est: 4h | Status: 📋 To Do
+11) Submit Buttons — Assignee: Alex | Est: 2h | Status: 📋 To Do
+12) Validation & Errors — Assignee: Sara | Est: 4h | Status: 📋 To Do
+13) Mobile Responsive — Assignee: Mike | Est: 4h | Status: 📋 To Do
 
-───────────────────────────────────────────────────────────
-ATTACHMENTS
-───────────────────────────────────────────────────────────
+#### Attachments
 
-📎 Test Coverage Image
-📎 Design Reference
-
-═══════════════════════════════════════════════════════════
-```
+- 📎 Test Coverage Image
+- 📎 Design Reference
 
 ---
 
 ## 📋 Subtask Ticket Format
 
-```
-═══════════════════════════════════════════════════════════
-SUBTASK: Image Upload with Preview & Drag-Drop
-═══════════════════════════════════════════════════════════
+### SUBTASK: Image Upload with Preview & Drag-Drop
 
-Parent Epic: EPIC-012 (Frontend - Product Creation Page)
-Status: In Progress
-Estimated: 6h
-Assignee: Sara
+- **Parent Epic:** EPIC-012 (Frontend - Product Creation Page)
+- **Status:** In Progress
+- **Estimated:** 6h
+- **Assignee:** Sara
 
-───────────────────────────────────────────────────────────
-DESCRIPTION
-───────────────────────────────────────────────────────────
+#### Description
 
 Image upload component for products:
 - Multi-image upload
@@ -177,45 +158,34 @@ Image upload component for products:
 - Reorder by dragging
 - First image = main image
 
-───────────────────────────────────────────────────────────
-TECHNICAL NOTES
-───────────────────────────────────────────────────────────
+#### Technical Notes
 
 [Implementation details, libraries, approach]
 
-───────────────────────────────────────────────────────────
-ACCEPTANCE CRITERIA
-───────────────────────────────────────────────────────────
+#### Acceptance Criteria
 
-☑ Drag & drop files from desktop works
-☑ Click on box opens file picker
-☐ Preview shows before upload completes
-☐ Progress bar during upload
-☐ × button to delete each image
-☐ Drag to reorder images
-☐ First image shows "Main" badge
-☐ Error for invalid format
-☐ Error for files > 5MB
-☐ Error for more than 10 images
+- ☑ Drag & drop files from desktop works
+- ☑ Click on box opens file picker
+- ☐ Preview shows before upload completes
+- ☐ Progress bar during upload
+- ☐ × button to delete each image
+- ☐ Drag to reorder images
+- ☐ First image shows "Main" badge
+- ☐ Error for invalid format
+- ☐ Error for files > 5MB
+- ☐ Error for more than 10 images
 
-Progress: 2/10
+**Progress:** 2/10
 
-───────────────────────────────────────────────────────────
-DESIGN REFERENCE
-───────────────────────────────────────────────────────────
+#### Design Reference
 
 🎨 [Link to Figma]
 
-───────────────────────────────────────────────────────────
-TEST RESULTS
-───────────────────────────────────────────────────────────
+#### Test Results
 
-Test Result: -
-Test Notes: -
-Failed Test Cases: -
-
-═══════════════════════════════════════════════════════════
-```
+- **Test Result:** -
+- **Test Notes:** -
+- **Failed Test Cases:** -
 
 ---
 
