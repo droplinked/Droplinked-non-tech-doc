@@ -46,22 +46,21 @@ The **Define** folder transforms accepted requests into detailed specifications.
 
 ## 📋 Spec Ticket Format
 
+Spec tickets are lightweight. The ticket only contains a title, a short problem statement/description, and links to attached docs.
+
 ### Ticket Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
 | **Title** | Short Text | Feature name |
-| **Linked Request** | Relation | Link to original Request |
-| **Status** | Status | Current phase |
-| **Spec Link** | URL | Link to full spec document |
-| **Design Link** | URL | Link to Figma/design files |
-| **Test Case Link** | URL | Link to test case document |
+| **Problem Statement / Description** | Long Text | Short summary of the problem |
+| **Links (Attachments)** | URLs/Relations | Linked Request, Spec Document, Design, Test Cases |
 
 ---
 
-## 🎨 Designer Responsibilities (Must be in ticket)
+## 🎨 Designer Responsibilities (Must be in linked docs)
 
-Designer must add these items inside the spec ticket (or linked doc):
+Designer must add these items inside the spec document or design file linked from the ticket:
 
 1) **Competitor Review**
 - List all competitors reviewed (names + links)
@@ -195,44 +194,16 @@ Keep test cases short, clear, and testable. Always break the feature into **smal
 
 ### SPEC: Product Image Upload System
 
-- **Feature ID:** IAA-STM-401
-- **Status:** Designing
-- **Owner:** Behdad
-- **Category:** Shop Settings
-- **Actors:** Merchant (Admin), Merchant (Member)
-- **Channel:** Web
+#### Problem Statement / Description
 
-#### Links
+Merchants need an intuitive way to upload multiple product images with drag-and-drop support, reordering capability, and clear feedback during upload.
+
+#### Links (Attachments)
 
 - 🔗 **Linked Request:** REQ-089
 - 📄 **Spec Document:** [Link to Notion/Docs]
 - 🎨 **Design:** [Link to Figma]
 - 🧪 **Test Cases:** [Link to Test Sheet]
-
-#### Problem Statement
-
-Merchants need an intuitive way to upload multiple product images with drag-and-drop support, reordering capability, and clear feedback during upload.
-
-#### User Stories
-
-- As a merchant, I want to upload multiple images at once so that I can save time.
-- As a merchant, I want to reorder images by dragging so that I can set the main product image easily.
-- As a merchant, I want to see upload progress so that I know when uploads are complete.
-
-#### Acceptance Criteria
-
-- ☑ Drag & drop from desktop works
-- ☑ Click to open file picker works
-- ☐ Preview shows before upload completes
-- ☐ Progress bar during upload
-- ☐ Delete button on each image
-- ☐ Drag to reorder images
-- ☐ First image marked as "Main"
-- ☐ Error for invalid format
-- ☐ Error for files > 5MB
-- ☐ Error for more than 10 images
-
-**Progress:** 2/10
 
 ---
 
