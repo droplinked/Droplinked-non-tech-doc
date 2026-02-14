@@ -53,10 +53,11 @@ POD products rely on external fulfillment (Printful) and require a specialized c
     - Step 3: Metadata Sync (Images, Title, Desc, Variants).
 - **Product Fields:**
     - **Title/Design:** Mandatory for creation.
-    - **Images:** Auto-generated (Loading indicator required).
+    - **Images:** Auto-generated (Loading indicator required). Maximum 50 images (if Printful generates more, use first 50 only).
     - **Description:** Auto-generated (Editable).
     - **Collection:** Shared logic (Default/Selectable).
-    - **Status:** Public, Draft, Unlisted, Scheduled.
+    - **Status:** Public, Draft, Unlisted, Scheduled. Default: **Publish**.
+    - **AI Generation:** Available for generating Title and Description from design/images.
 - **Variant Matrix & Pricing:**
     - Matrix: Auto-built based on Printful options.
     - **Fields:**
@@ -107,10 +108,14 @@ POD products rely on external fulfillment (Printful) and require a specialized c
 
 - **BAC 1:** Creation requires interaction with Designer; cannot be done via simple API payload.
 - **BAC 2:** **Auto-Sync:** Images, Title, Desc must populate from Printful.
+- **BAC 2.1:** **Image Limit:** Maximum 50 images. If Printful generates more than 50, only use first 50.
 - **BAC 3:** **Pricing Guardrails:** `Price` field validation: `Price >= Cost`.
 - **BAC 4:** **Read-Only Fields:** `External ID`, `Cost`, `Quantity` are not editable by merchant.
 - **BAC 5:** **Variant Integrity:** Matrix structure (Colors/Sizes) is locked to the Design. Merchant cannot manually add "Green" if not designed.
+- **BAC 5.1:** **SKU Images:** User can set image per SKU in matrix.
 - **BAC 6:** **Image State:** UI must handle "Pending" state for images while Printful generates them.
+- **BAC 6.1:** **Default Status:** New POD products default to **Publish** status.
+- **BAC 6.2:** **AI Generation:** Title and Description can be AI-generated from design/images.
 - **BAC 7:** **Shipping/Files:** No Shipping Tab (Printful handles it). No Files Tab.
 
 ### 📜 Change Log
@@ -140,6 +145,7 @@ POD products rely on external fulfillment (Printful) and require a specialized c
     - Images are async.
     - Status `image_generation_status`: `PENDING` -> `COMPLETED`.
     - FE must poll or listen for socket event to replace Loaders with Images.
+    - **Maximum 50 images:** If Printful generates more than 50, only use first 50.
 - **R4.** **Variant Matrix Construction:**
     - Source: Printful Variants.
     - If Printful Variant `is_available` == False -> System creates SKU with `stock_status` = OUT_OF_STOCK / HIDDEN.

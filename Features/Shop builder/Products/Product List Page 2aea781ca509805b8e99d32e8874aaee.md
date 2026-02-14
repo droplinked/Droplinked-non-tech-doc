@@ -38,11 +38,15 @@ Merchants need a central place to view, navigate, and manage all their products.
     - Collection name
     - Minimum product price
     - Status (Published / Draft)
+    - **Unit Quantity**:
+        - Display "Unlimited" if product has unlimited stock
+        - Display total sum of all SKU quantities if all are finite
+        - Display "Unlimited" if ANY SKU has unlimited stock
 - Action menu (3-dot menu) with:
-    - **View on Store** (opens product page in new tab; disabled if Draft)
+    - **View on Store** (opens product page in new tab; **only visible for Published and Scheduled products**)
     - **Share** (opens simple share modal)
     - **Edit** (redirects to Edit Product page)
-    - **Publish / Unpublish** toggle
+    - **Change Status** (options: **Unlisted** or **Public** only)
     - **Remove** (handled in separate Delete PRD)
 - Search by product title via server-side endpoint.
 - Empty state component when no products exist.
@@ -97,10 +101,10 @@ As a **Merchant**, I want to manage each product quickly.
 
 **Step 2:** Menu options appear:
 
-- View on Store
+- View on Store (only for Published/Scheduled products)
 - Share
 - Edit
-- Publish/Unpublish
+- Change Status (Unlisted / Public)
 - Remove
     
     **Step 3:** Merchant selects the desired action.
@@ -116,11 +120,18 @@ As a **Merchant**, I want to manage each product quickly.
 
 **BAC 2:** Search must work server-side and return results based on product title only.
 
-**BAC 3:** Product row must display thumbnail, title, collection, minimum price, and status.
+**BAC 3:** Product row must display thumbnail, title, collection, minimum price, status, and Unit Quantity.
 
-**BAC 4:** Action menu must include View, Share, Edit, Publish/Unpublish, and Remove.
+**BAC 3.1:** Unit Quantity logic:
+- Display "Unlimited" if product has unlimited stock (continue_selling = true)
+- Display sum of all SKU quantities if all SKUs are finite
+- Display "Unlimited" if ANY SKU has unlimited stock
 
-**BAC 5:** “View on Store” must only open if the product is **Published**; otherwise disabled.
+**BAC 4:** Action menu must include View on Store, Share, Edit, Change Status, and Remove.
+
+**BAC 4.1:** Change Status must only allow switching between **Unlisted** and **Public** statuses.
+
+**BAC 5:** “View on Store” must **only be visible** for products with status **Published** or **Scheduled**; completely hidden for Draft and Unlisted products.
 
 **BAC 6:** When merchant scrolls, product batches must load seamlessly without page reload.
 

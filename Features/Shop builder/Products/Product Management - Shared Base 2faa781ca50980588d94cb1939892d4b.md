@@ -55,8 +55,11 @@ All product types (Physical, Digital, POD) share a common set of features and be
     - External ID (Optional)
     - Keywords (Optional, in Advanced)
 - **Status Management:** Public, Draft, Unlisted, Scheduled Release
+- **Default Status:** Publish (when creating new product)
 - **Stock Management:** Finite vs Unlimited ("Continue selling when out of stock")
 - **Variant System:** Up to 2 variant groups, SKU Matrix generation
+- **SKU Images:** User can set image per SKU in matrix
+- **Images:** Maximum 50 images per product
 - **AI Features:** Generate Title/Desc from Images, Generate Image from Title
 
 **Out of Scope:**
@@ -80,8 +83,8 @@ All product types (Physical, Digital, POD) share a common set of features and be
 | **Status** | ✅ | ✅ | ✅ |
 | **Stock** | ✅ | ✅ | ❌ (Managed by Printful) |
 | **Variants/SKU** | ✅ | ✅ | ✅ (Auto from Designer) |
-| **AI Text Gen** | ✅ | ✅ | ❌ |
-| **AI Image Gen** | ✅ | ✅ | ❌ |
+| **AI Text Gen** | ✅ | ✅ | ✅ (Title/Desc from design) |
+| **AI Image Gen** | ✅ | ✅ | ❌ (Images from Printful) |
 | **Shipping Tab** | ✅ (Optional) | ❌ | ❌ |
 | **Files Tab** | ❌ | ✅ | ❌ |
 | **API Creation** | ✅ | ✅ | ❌ |
@@ -170,13 +173,16 @@ All product types (Physical, Digital, POD) share a common set of features and be
 | BAC-B2 | Product without Price (or Price ≤ 0) cannot be sold | All |
 | BAC-B3 | Product without images shows default placeholder | All |
 | BAC-B4 | One image can be designated as Primary (thumbnail) | All |
+| BAC-B4.1 | Maximum 50 images per product | All |
 | BAC-B5 | Description is optional | All |
 | BAC-B6 | Collection defaults to shop's default collection | All |
-| BAC-B7 | Status can be: Public, Draft, Unlisted, Scheduled | All |
+| BAC-B7 | Status can be: Public, Draft, Unlisted, Scheduled Release | All |
+| BAC-B7.1 | Default status for new products is **Publish** | All |
 | BAC-B8 | Scheduled Release auto-changes to Public at set date | All |
 | BAC-B9 | Keywords can be added in Advanced Settings | All |
 | BAC-B10 | When Variants are defined, Price/Quantity/External ID fields are hidden at product level | Physical, Digital |
 | BAC-B11 | When Variants are defined, Price/Quantity/External ID are managed per SKU in Variants tab | Physical, Digital |
+| BAC-B11.1 | User can set SKU image per SKU in matrix | All |
 | BAC-B12 | Products recorded on blockchain (Onchain Inventory) CANNOT be edited - read-only mode enforced | All |
 
 ---
@@ -223,7 +229,7 @@ ELSE IF title.length > 150:
     REJECT with error "Title cannot exceed 150 characters"
 ELSE:
     ALLOW creation
-    SET status = DRAFT (default)
+    SET status = PUBLISH (default)
 
 ```
 
@@ -262,6 +268,7 @@ ELSE:
 | --- | --- |
 | 0 images | Show default placeholder in storefront |
 | 1+ images | Display in gallery |
+| Max images | 50 images maximum per product |
 | Primary not set | First image is primary by default |
 | Primary set | Designated image used as thumbnail everywhere |
 | Reorder images | ❌ Not supported - images display in upload order |
@@ -554,7 +561,7 @@ Merchants can edit SKU data in three hierarchical levels:
 | Price | ✅ | Inherits from parent if not set |
 | Stock/Quantity | ✅ | Per-SKU inventory |
 | External ID | ✅ | For integration |
-| Image | ✅ | Select from product images |
+| Image | ✅ | User can set SKU image from product images |
 
 **Group Editing Flow:**
 
