@@ -1,298 +1,241 @@
-# Payment Methods Display - Native Token Payments
+# Crypto Payment Page - Web3 Payment Flow
 
-# Crypto Payment Page - Native Token Payments
+## 
 
-**Feature ID:** CHK-PAYMENT-CRYPTO-405
+### Feature ID:
 
-**Category:** Checkout Domain | Payment | Blockchain
+**[CHK-PAYMENT-WEB3-405]**
 
-**Actors:** Customer
+### Title:
 
-**Status:** Defined
+**Web3 Native Token Payment Flow**
 
-**Owner:** Behdad
+### Category:
 
-**Last Updated:** January 31, 2026
+**Checkout Domain** | **Payment** | **Blockchain**
 
----
+### Status:
 
-# **1) Summary**
+**Defined**
 
-### **Problem / Value**
+### Owner:
 
-Customers wishing to pay with cryptocurrency need a dedicated, secure, and user-friendly interface that handles wallet connection, token selection, and transaction verification. This dedicated **Crypto Payment Page** replaces the previous in-checkout dropdown method to properly handle the complexity of Web3 interactions (wallet extensions, token approvals, network switching, gas fees).
-
-### **Desired Outcome**
-
-- When "Crypto" is selected in Checkout, navigate to the dedicated **Crypto Payment Page**.
-- **Step 1: Wallet Selection** – Display supported wallets (currently Phantom & MetaMask; more wallets will be added later).
-- **Step 2: Wallet Connection** – Handle "Install Chrome Extension" prompt if wallet not installed; connect if installed.
-- **Step 3: Token Selection** – Show Total Amount in USD and selected Token. Token-Network pairs displayed in a searchable modal.
-- **Step 4: Wallet Account Selection** – Allow switching wallet accounts.
-- **Step 5: Payment Execution** – "Pay Now" triggers wallet signature → Loading state → Result.
-- **Feedback:** Loading states during transaction processing; success redirects to "Order Confirmed" page.
-- **Fallback:** On failure/error, remain on page with error message; customer can retry or return to checkout.
-- **Pending Handling:** Order remains "Pending" until webhook confirms result or timeout error occurs.
+Behdad
 
 ---
 
-# **2) Scope – In / Out**
+## 1) **Summary**
 
-### **In Scope**
+### Problem/Value:
 
-- **Wallet Support (Current):** Phantom (Solana/EVM), MetaMask (EVM).
-- **Future Expansion:** Architecture supports adding more wallets later.
-- **Extension Detection:** Detect `window.solana` (Phantom) or `window.ethereum` (MetaMask). Link to Chrome Web Store if missing.
-- **Token Display:** Dual pricing (USD fiat amount & Token equivalent amount).
-- **Token Picker Modal:**
-    - Full list of supported Token-Network pairs
-    - Searchable by token name or network
-    - Each entry shows: Token Name – Network Name
-- **Wallet Actions:** Connect, Switch Account, Pay.
-- **Loading States:** After clicking Pay Now, show loading until result received.
-- **Webhook Integration:** Order stays "Pending" until webhook confirms payment or timeout.
+Customers need a secure, dedicated interface for cryptocurrency payments that handles wallet connections, token selection, multi-chain support, and real-time price updates. This Web3 Payment Page replaces the previous in-checkout dropdown to properly manage complex blockchain interactions including wallet extensions, network switching, token approvals, and dynamic conversion rates.
 
-### **Out of Scope**
+### Desired Outcome:
 
-- **Fiat On-Ramp:** Buying crypto with card inside this flow.
-- **Non-Native Tokens:** Tokens not whitelisted by the Merchant/Platform.
-- **Token Swapping:** Converting one token to another before payment.
-- **Multi-signature wallets.**
+- Navigate to dedicated **Web3 Payment Page** when "Crypto" is selected in Checkout
+- **Step 1: Wallet Connection** – Display supported wallets (MetaMask, Trust Wallet, Phantom) with installation detection
+- **Step 2: Network Selection** – Select network group (EVMs or Solana) after wallet connection
+- **Step 3: Token Selection** – Show Total in USD and Token amount; searchable modal for Token-Network pairs
+- **Step 4: Wallet Management** – View connected wallet, copy address, disconnect, or switch wallets
+- **Step 5: Payment Execution** – Real-time price updates every 15 seconds; handle balance checks and conversion rate changes
+- **Step 6: Transaction Processing** – Loading states, wallet signature prompts, success/failure handling
+- **Feedback:** Success redirects to Order Confirmed; failures remain on page with retry option
 
 ---
 
-# **3) Key User Journeys**
+## 2) **Scope – In / Out**
+
+### **In Scope:**
+
+- **Wallet Support:** MetaMask, Trust Wallet, Phantom (with extension detection)
+- **Network Groups:** EVM chains (Ethereum, Polygon, BSC, Base, etc.) and Solana
+- **Installation Flow:** Detect extension presence; show install links for Chrome/Firefox if missing
+- **Network Selection:** Group selection (EVMs/Solana) before token selection
+- **Token Display:** Dual pricing (USD + Token amount) with real-time updates every 15 seconds
+- **Token Picker:** Searchable modal with Token-Network pairs based on merchant activation
+- **Wallet Actions:** Connect, disconnect, copy address, view connected wallets list
+- **Balance Validation:** Check sufficient balance; disable pay button if insufficient
+- **Conversion Rate Monitoring:** Alert if rate changes significantly affecting payment ability
+- **Loading States:** Processing modal with retry option if extension doesn't open
+- **Auto-close:** Modal closes automatically after 5 seconds or manual close
+
+### **Out of Scope:**
+
+- Fiat on-ramp (buying crypto with card)
+- Token swapping/converting
+- Multi-signature wallets
+- Hardware wallet direct integration
 
 ---
 
-## **Journey 1 – Successful Crypto Payment (Happy Path)**
+## 3) **Key User Journeys**
 
-**Step 1:** Customer is on Checkout page with cart total > $0.
+### **Journey 1: Successful Payment (Happy Path)**
 
-**Step 2:** Customer selects "Crypto" payment method.
-
-**Step 3:** Customer is navigated to the **Crypto Payment Page**.
-
-**Step 4:** Page displays list of supported wallets: Phantom, MetaMask.
-
-**Step 5:** Customer clicks on MetaMask.
-
-**Step 6:** System checks if MetaMask extension is installed.
-
-**Step 7:** MetaMask is installed → Sub-options appear: "Connect" button.
-
-**Step 8:** Customer clicks Connect → MetaMask extension prompts for approval.
-
-**Step 9:** Customer approves connection in MetaMask.
-
-**Step 10:** Page updates to show connected state with payment details:
-
-- **Total:** $10.50 USD
-- **Token Amount:** 25 USDC (default token)
-
-**Step 11:** Customer clicks on Token display area.
-
-**Step 12:** Token Selection Modal opens showing all Token-Network pairs:
-
-- USDC - Polygon
-- USDC - Ethereum
-- USDT - Ethereum
-- ETH - Ethereum
-- BNB - Binance
-- etc.
-
-**Step 13:** Modal has search functionality (filter by token name or network).
-
-**Step 14:** Customer selects "USDT - Polygon".
-
-**Step 15:** Modal closes. Price updates to show equivalent USDT amount.
-
-**Step 16:** Customer can click wallet area to see connected accounts and switch if needed.
-
-**Step 17:** Customer clicks **"Pay Now"** button.
-
-**Step 18:** Page enters **Loading State** ("Processing transaction...").
-
-**Step 19:** MetaMask prompts customer to sign/approve transaction.
-
-**Step 20:** Customer approves in MetaMask.
-
-**Step 21:** System waits for blockchain confirmation (order in "Pending" status).
-
-**Step 22:** Webhook confirms successful payment.
-
-**Step 23:** Order status updated to **"Paid"**.
-
-**Step 24:** Customer is redirected to **Order Confirmed** page.
+1. Customer on Checkout → selects "Crypto" → navigates to **Web3 Payment Page**
+2. Page displays: **Total $10.50 USD** + **Connect Wallet** button
+3. Customer clicks **Connect Wallet** → Wallet Selection Modal opens
+4. Modal shows: MetaMask, Trust Wallet, Phantom
+5. Customer selects **MetaMask** → Network Group Selection appears (EVMs / Solana)
+6. Customer selects **EVMs** → Modal shows loading state
+7. MetaMask extension opens → Customer approves connection
+8. Modal shows **Success** message → auto-closes after 5 seconds
+9. Page refreshes automatically → shows connected state:
+   - Total: **$10.50 USD** | **25 USDC**
+   - Connected wallet icon + truncated address
+10. Customer clicks token area → **Token Selection Modal** opens
+11. Modal lists available Token-Network pairs (searchable)
+12. Customer selects **USDC - Polygon** → Modal closes → Token amount updates
+13. Customer clicks **Pay** → **Processing Modal** opens (loading state)
+14. MetaMask opens for signature → Customer approves
+15. System waits for blockchain confirmation → Webhook confirms success
+16. Modal shows **Success** → auto-closes → Redirect to **Order Confirmed** page
 
 ---
 
-## **Journey 2 – Wallet Extension Not Installed**
+### **Journey 2: Wallet Extension Not Installed**
 
-**Step 1:** Customer is on Crypto Payment Page.
-
-**Step 2:** Customer clicks on "Phantom" wallet.
-
-**Step 3:** System detects Phantom extension is NOT installed.
-
-**Step 4:** Under Phantom option, display: **"Install Chrome Extension"** link.
-
-**Step 5:** Customer clicks link → Opens Chrome Web Store for Phantom extension.
-
-**Step 6:** Customer installs extension and returns to page.
-
-**Step 7:** Customer clicks Phantom again → Now shows "Connect" option.
-
-**Step 8:** Proceed with normal connection flow.
+1. Customer on Web3 Payment Page → clicks **Connect Wallet**
+2. Wallet Selection Modal opens → Customer clicks **Trust Wallet**
+3. System detects extension **NOT installed**
+4. Modal updates to **Install Extension** view:
+   - Links: Chrome Web Store, Firefox Add-ons
+   - Instructions on how to install
+5. Customer installs extension → returns to page → refreshes
+6. Customer clicks **Trust Wallet** again → Shows **Connect** option
+7. Proceed with normal connection flow
 
 ---
 
-## **Journey 3 – Transaction Failed/Rejected**
+### **Journey 3: Network Selection & Connection**
 
-**Step 1:** Customer has connected wallet and selected token.
-
-**Step 2:** Customer clicks "Pay Now".
-
-**Step 3:** Page enters Loading State.
-
-**Step 4:** Customer **rejects** transaction in wallet extension (or transaction fails on-chain).
-
-**Step 5:** Page exits Loading State.
-
-**Step 6:** Error message displayed: "Transaction Rejected" or "Payment Failed: [Reason]".
-
-**Step 7:** Customer remains on Crypto Payment Page.
-
-**Step 8:** Customer can:
-- Retry by clicking "Pay Now" again
-- Go back to Checkout to select a different payment method (Credit Card, PayPal, etc.)
+1. Customer selects wallet (e.g., MetaMask) from modal
+2. Network Group Selection appears:
+   - **EVMs** (Ethereum, Polygon, BSC, Base, etc.)
+   - **Solana**
+3. Customer selects **EVMs** → Modal enters loading state
+4. Extension opens automatically for connection approval
+5. If extension doesn't open → Customer clicks **Retry** button
+6. After approval → Success message → Modal auto-closes
+7. Page refreshes showing connected wallet
 
 ---
 
-## **Journey 4 – Pending Until Webhook/Timeout**
+### **Journey 4: Insufficient Balance**
 
-**Step 1:** Customer completes transaction signing in wallet.
-
-**Step 2:** Transaction is broadcast to blockchain.
-
-**Step 3:** Page shows Loading/Processing state.
-
-**Step 4:** System waits for webhook confirmation from blockchain.
-
-**Step 4A – Webhook confirms success:**
-
-- Order status → "Paid"
-- Redirect to Order Confirmed page
-
-**Step 4B – Timeout (no webhook response in expected time):**
-
-- Display error: "Transaction timeout. Please check your wallet or try again."
-- Order remains in "Pending" status
-- Customer can retry or contact support
+1. Customer connected with valid wallet
+2. Page displays: Total $10.50 USD | 25 USDC
+3. Customer clicks **Pay**
+4. System validates wallet balance
+5. **Error Message:** "Your wallet balance is insufficient to complete this transaction. Top up or connect a different wallet."
+6. Pay button **disabled** → Customer can switch wallet or add funds
 
 ---
 
-## **Journey 5 – Switch Token**
+### **Journey 5: Conversion Rate Change**
 
-**Step 1:** Customer is on connected payment view showing default token.
-
-**Step 2:** Customer clicks on Token display (e.g., "25 USDC").
-
-**Step 3:** Token Selection Modal opens.
-
-**Step 4:** Customer uses search to find "ETH".
-
-**Step 5:** Results show: "ETH - Ethereum", "ETH - Base", etc.
-
-**Step 6:** Customer selects "ETH - Ethereum".
-
-**Step 7:** Modal closes.
-
-**Step 8:** Display updates: Token amount recalculated based on current exchange rate.
-
-**Step 9:** Customer proceeds with payment.
+1. Customer on payment page with token selected
+2. Every **15 seconds** → Conversion rate updates automatically
+3. Token amount recalculates based on current rate
+4. If rate changes significantly causing insufficient balance:
+   - **Error Message:** "Your balance for the selected token is no longer sufficient. Choose another."
+   - Pay button disabled until token changed
 
 ---
 
-## **Journey 6 – Switch Wallet Account**
+### **Journey 6: Wallet Doesn't Support Shop Tokens**
 
-**Step 1:** Customer is on connected payment view.
-
-**Step 2:** Customer clicks on Wallet display area (showing connected address).
-
-**Step 3:** List of available wallet accounts displayed.
-
-**Step 4:** Customer selects different account or connects new one.
-
-**Step 5:** Display updates with new account.
-
-**Step 6:** Customer proceeds with payment.
+1. Customer connects wallet that has no supported tokens
+2. Page displays error: **"No supported tokens found in this wallet. Switch to a different wallet."**
+3. Pay button **disabled**
+4. Customer can:
+   - Click wallet area → Open connected wallets modal
+   - Disconnect current wallet
+   - Connect different wallet with supported tokens
 
 ---
 
-# **4) Business Acceptance Criteria (BAC)**
+### **Journey 7: Transaction Failed/Rejected**
+
+1. Customer clicks **Pay** → Processing Modal opens
+2. Wallet extension opens for signature
+3. Customer **rejects** transaction in wallet (or on-chain failure)
+4. Modal shows **Failure** message
+5. Modal closes (manually or auto after 5 seconds)
+6. Customer **remains on Web3 Payment Page**
+7. Customer can:
+   - Retry payment by clicking **Pay** again
+   - Change token/network
+   - Go back to Checkout to select different payment method
 
 ---
 
-### **BAC 1:** Crypto Payment Page must be a dedicated page/view, separate from main checkout.
+### **Journey 8: Switch Token**
 
-### **BAC 2:** Supported wallets displayed: Phantom, MetaMask (more to be added later).
-
-### **BAC 3:** System must detect if wallet extension is installed:
-
-- If installed → Show "Connect" option
-- If NOT installed → Show "Install Chrome Extension" link
-
-### **BAC 4:** Token-Network pairs must be displayed in a searchable modal:
-
-- Format: "[Token Name] - [Network Name]"
-- Search by token name or network name
-- Full list of supported combinations
-
-### **BAC 5:** Dual pricing must always be displayed:
-
-- Fiat amount (USD): "$10.50 USD"
-- Token amount: "25 USDC"
-
-### **BAC 6:** Token selection must dynamically update the displayed token amount based on current exchange rate.
-
-### **BAC 7:** Customer must be able to switch wallet accounts from the payment interface.
-
-### **BAC 8:** "Pay Now" button click must:
-
-- Trigger loading state immediately
-- Initiate wallet signature request
-- Remain in loading until result received
-
-### **BAC 9:** Order remains in "Pending" status until:
-
-- Webhook confirms successful payment → Status = "Paid"
-- Webhook confirms failure → Status = "Failed"
-- Timeout occurs → Error displayed, status remains "Pending"
-
-### **BAC 10:** On successful payment:
-
-- Order status = "Paid"
-- Redirect to Order Confirmed page
-
-### **BAC 11:** On failed/rejected transaction:
-
-- Display error message with reason
-- Remain on Crypto Payment Page
-- Customer can retry or go back to select different payment method
-
-### **BAC 12:** No country-based restrictions on crypto payment availability.
-
-### **BAC 13:** If customer navigates back to checkout, they can select a different payment method (Credit Card, PayPal, Coinbase Commerce).
+1. Customer on connected payment view
+2. Clicks on token display (e.g., "25 USDC")
+3. **Token Selection Modal** opens
+4. Customer uses **search** to find token or network
+5. Selects new Token-Network pair (e.g., "ETH - Ethereum")
+6. Modal closes → Display updates with recalculated token amount
+7. Price updates based on current conversion rate
 
 ---
+
+### **Journey 9: Wallet Management**
+
+1. Customer clicks on **connected wallet display** (icon + address)
+2. **Wallet Modal** opens showing:
+   - Connected wallet: Icon + Name + Truncated Address
+   - Actions: Copy Address, Disconnect, Connect New Wallet
+3. Customer clicks **Copy Address** → Address copied to clipboard
+4. Customer clicks **Disconnect** → Wallet disconnected → Page refreshes to initial state
+5. To change wallet address: Customer changes account in extension → Refreshes page
+
+---
+
+### **Journey 10: Pending Until Webhook/Timeout**
+
+1. Customer approves transaction in wallet
+2. Transaction broadcast to blockchain
+3. Page shows **Processing** state in modal
+4. Order status = **"Pending"**
+5. System waits for webhook confirmation:
+   - **Success:** Order status → "Paid" → Redirect to Order Confirmed
+   - **Timeout:** Error message "Transaction timeout. Please check your wallet or try again." → Remain on page → Can retry
+
+---
+
+## 4) **Business Acceptance Criteria (BAC)**
+
+- **BAC 1:** Web3 Payment Page must be a dedicated page, separate from main checkout
+- **BAC 2:** Supported wallets displayed: MetaMask, Trust Wallet, Phantom
+- **BAC 3:** System must detect wallet extension installation:
+  - Installed → Show "Connect" option
+  - NOT installed → Show install links for Chrome/Firefox
+- **BAC 4:** After wallet selection, display Network Group selection (EVMs / Solana)
+- **BAC 5:** Connection modal must show loading state and retry option if extension doesn't open
+- **BAC 6:** Modal auto-closes after 5 seconds on success/failure (or manual close)
+- **BAC 7:** Dual pricing must always display: Fiat (USD) + Token Amount
+- **BAC 8:** Token-Network pairs must be displayed in searchable modal based on merchant activation
+- **BAC 9:** Conversion rates must update every 15 seconds with automatic token amount recalculation
+- **BAC 10:** Pay button must be disabled with error message if:
+  - Wallet has no supported tokens
+  - Insufficient balance
+  - Conversion rate change makes balance insufficient
+- **BAC 11:** Wallet management modal must allow: Copy address, Disconnect, Connect new wallet
+- **BAC 12:** Clicking Pay must trigger loading modal → wallet signature → wait for webhook
+- **BAC 13:** On success: Auto-close modal → redirect to Order Confirmed page
+- **BAC 14:** On failure: Show error → remain on Web3 Payment Page → allow retry
+- **BAC 15:** Order remains "Pending" until webhook confirms success, failure, or timeout
 
 ### 📜 Change Log
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-14 | Behdad | Complete rewrite with new Web3 flow: network groups, real-time rates, enhanced wallet management | Updated requirements |
 | 2026-02-01 | Behdad | Rewrote AI-Centric Layer without technical implementation details | SSoT business focus |
-| 2026-01-31 | Behdad | Complete rewrite for new dedicated Crypto Payment Page flow | Checkout simplification - new crypto UX |
+| 2026-01-31 | Behdad | Initial version for dedicated Crypto Payment Page | Checkout simplification |
 
 ---
 
@@ -306,14 +249,13 @@ Customers wishing to pay with cryptocurrency need a dedicated, secure, and user-
 
 | Term | Definition |
 | --- | --- |
-| **Crypto Payment Page** | A dedicated page (separate from checkout) where customers complete cryptocurrency payments |
-| **Wallet** | A browser extension (Phantom, MetaMask) that stores customer's cryptocurrency and signs transactions |
-| **Token** | A specific cryptocurrency (e.g., USDC, ETH, BNB) |
-| **Network** | The blockchain where the token exists (e.g., Polygon, Ethereum, Binance) |
-| **Token-Network Pair** | Combination of token + network displayed together (e.g., "USDC - Polygon") |
-| **Dual Pricing** | Showing both fiat amount ($10.50 USD) and crypto equivalent (25 USDC) |
-| **Wallet Connection** | Linking customer's wallet extension to the payment page |
-| **Webhook** | Backend notification that confirms whether blockchain payment succeeded or failed |
+| **Web3 Payment Page** | Dedicated page for completing cryptocurrency payments with wallet integration |
+| **Network Group** | Category of blockchains: EVMs (Ethereum Virtual Machine chains) or Solana |
+| **Token-Network Pair** | Combination of cryptocurrency + blockchain (e.g., "USDC - Polygon") |
+| **Dual Pricing** | Display of both fiat amount ($10.50 USD) and crypto equivalent (25 USDC) |
+| **Conversion Rate** | Real-time exchange rate between USD and selected cryptocurrency |
+| **Extension Detection** | Checking browser for installed wallet extensions (window.ethereum, window.solana, etc.) |
+| **Webhook** | Backend notification confirming blockchain payment success/failure |
 
 ---
 
@@ -321,101 +263,112 @@ Customers wishing to pay with cryptocurrency need a dedicated, secure, and user-
 
 ### **R1. Page Structure & Flow**
 
-- Crypto Payment Page is a **separate page** from main checkout
-- Customer arrives here after selecting "Crypto" on checkout page
-- Page flow: Wallet Selection → Connect → Token Selection → Pay
+- Web3 Payment Page is **separate** from main checkout
+- Customer arrives after selecting "Crypto" on checkout
+- Page flow: Connect Wallet → Select Network Group → Token Selection → Pay
 
-### **R2. Wallet Display Rules**
+### **R2. Wallet Selection Modal Rules**
 
-| Wallet | Detection | If Not Installed | If Installed |
+| Wallet | Detection Method | Not Installed | Installed |
 | --- | --- | --- | --- |
-| Phantom | Check browser | Show "Install Chrome Extension" link | Show "Connect" button |
-| MetaMask | Check browser | Show "Install Chrome Extension" link | Show "Connect" button |
-- More wallets will be added in future (architecture must support expansion)
-- Wallets displayed as list/grid with logos
-- Customer clicks wallet → system checks if installed
+| MetaMask | window.ethereum | Show Chrome + Firefox install links | Show "Connect" + Network Group selection |
+| Trust Wallet | window.ethereum/trust | Show Chrome + Firefox install links | Show "Connect" + Network Group selection |
+| Phantom | window.solana | Show Chrome + Firefox install links | Show "Connect" + Network Group selection |
 
-### **R3. Connection Flow Rules**
+### **R3. Network Group Selection**
 
-- IF wallet not installed:
-    - Show "Install Chrome Extension" link
-    - Link opens Chrome Web Store page for that wallet
-    - After install, customer returns and can connect
-- IF wallet installed:
-    - Show "Connect" button
-    - On click → Wallet extension prompts for approval
-    - Customer approves in wallet
-    - Page transitions to connected state
+- After wallet selection → Display Network Group options:
+  - **EVMs:** Ethereum, Polygon, BSC, Base, SKALE, Bitlayer, XION, XRPLSidechain
+  - **Solana:** Solana mainnet
+- Customer selects group → Modal enters loading state
+- Extension automatically opens for connection approval
 
-### **R4. Connected State Display**
+### **R4. Connection Flow**
 
-After successful connection, show:
+- IF extension not installed:
+  - Show install links for Chrome Web Store and Firefox Add-ons
+  - Include brief installation instructions
+  - After install + refresh → Return to wallet selection
+- IF extension installed:
+  - Show "Connect" button
+  - After network group selection → Extension prompts for approval
+  - On approval → Success message → Auto-close modal (5s)
+  - On rejection → Error message → Retry option
 
-- **Fiat Total:** "$10.50 USD" (order total in dollars)
-- **Token Amount:** "25 USDC" (equivalent in selected token)
-- **Selected Token:** Icon + Amount + Symbol (clickable to change)
-- **Connected Wallet:** Address (truncated, e.g., "0x12...34") (clickable to switch)
-- **Pay Now Button:** Initiates payment
+### **R5. Connected State Display**
 
-### **R5. Token Selection Modal Rules**
+After connection, display:
+- **Total USD:** $10.50 USD
+- **Token Amount:** 25 USDC (clickable to change)
+- **Connected Wallet:** Icon + Truncated Address (clickable for actions)
+- **Pay Button:** Initiates payment (disabled if validation fails)
 
-- Opens when customer clicks on token display area
-- Shows complete list of all Token-Network pairs
-- Format: "[Token Name] - [Network Name]"
-    - Example: "USDC - Polygon", "ETH - Ethereum", "BNB - Binance"
-- Has search bar to filter by token name OR network name
-- Customer selects pair → Modal closes → Price recalculates with new token
+### **R6. Token Selection Modal Rules**
 
-### **R6. Wallet Account Switching**
+- Opens when customer clicks token display area
+- Shows all **Token-Network pairs** activated by merchant
+- Format: "[Token] - [Network]" (e.g., "USDC - Polygon")
+- **Searchable:** By token name OR network name
+- Selection → Modal closes → Token amount recalculates
 
-- Customer clicks on wallet address area
-- Shows list of available accounts in that wallet
-- Customer can select different account
-- Customer can disconnect and connect different wallet
+### **R7. Real-Time Price Updates**
 
-### **R7. Pay Now Execution Rules**
+- Conversion rates refresh **every 15 seconds**
+- Token amount recalculates automatically
+- IF new rate makes balance insufficient:
+  - Display error: "Your balance for the selected token is no longer sufficient. Choose another."
+  - Disable Pay button
 
-1. Customer clicks "Pay Now"
-2. Page enters **loading state** immediately
-3. Wallet extension prompts customer to sign/approve transaction
-4. Customer approves in wallet
-5. Transaction sent to blockchain
-6. Order status = **"Pending"**
-7. System waits for webhook confirmation
-8. **IF webhook confirms success:**
-    - Order status = "Paid"
-    - Redirect to Order Confirmed page
-9. **IF webhook confirms failure OR timeout:**
-    - Display error message
-    - Customer remains on page
-    - Can retry or go back to checkout
+### **R8. Wallet Management Modal**
 
-### **R8. Order Status Flow**
+- Opens when customer clicks wallet display area
+- Shows connected wallet: Icon + Name + Truncated Address
+- Actions available:
+  - **Copy Address:** Copy full wallet address to clipboard
+  - **Disconnect:** Remove wallet connection → Page refreshes
+  - **Connect New Wallet:** Return to wallet selection modal
+- To change wallet address: Change in extension → Refresh page
 
-| Event | Order Status |
-| --- | --- |
-| Customer clicks Pay Now | Pending |
-| Webhook confirms success | Paid |
-| Webhook confirms failure | Failed |
-| Timeout (no webhook response) | Pending (with error shown) |
-| Customer rejects in wallet | No change (can retry) |
+### **R9. Validation Rules**
+
+| Validation | Condition | Result |
+| --- | --- | --- |
+| No Supported Tokens | Wallet has none of merchant's activated tokens | Error: "No supported tokens found in this wallet. Switch to a different wallet." + Disable Pay |
+| Insufficient Balance | Wallet balance < Required amount | Error: "Your wallet balance is insufficient to complete this transaction. Top up or connect a different wallet." + Disable Pay |
+| Rate Change Impact | New rate makes balance insufficient | Error: "Your balance for the selected token is no longer sufficient. Choose another." + Disable Pay |
+
+### **R10. Pay Now Execution Rules**
+
+1. Customer clicks **Pay**
+2. Validate balance and token support (disable if failed)
+3. Open **Processing Modal** with loading state
+4. Trigger wallet extension for signature
+5. IF extension doesn't open → Show **Retry** button
+6. Customer approves in wallet → Transaction broadcast
+7. Order status = **"Pending"**
+8. Wait for webhook confirmation:
+   - **Success:** Modal shows success → Auto-close (5s) → Redirect to Order Confirmed
+   - **Failure:** Modal shows error → Close → Remain on page
+   - **Timeout:** Error: "Transaction timeout. Please check your wallet or try again."
 
 ---
 
 ## **B3) UI/UX States & Triggers**
 
-| State | What Customer Sees | Trigger |
+| State | Customer Sees | Trigger |
 | --- | --- | --- |
-| **Wallet Selection** | List of wallets (Phantom, MetaMask) | Page load |
-| **Extension Missing** | "Install Chrome Extension" link under wallet | Extension not found |
-| **Extension Found** | "Connect" button under wallet | Extension detected |
-| **Connecting** | Loading spinner on Connect button | Customer clicks Connect |
-| **Connected** | Payment view with dual pricing, token, wallet info | Connection approved |
-| **Token Modal Open** | Full list of Token-Network pairs with search | Customer clicks token area |
-| **Processing Payment** | Full-page loading: "Processing transaction..." | Customer clicks Pay Now |
-| **Wallet Prompt** | Message: "Check your wallet extension to approve" | Transaction initiated |
-| **Success** | Redirect to Order Confirmed | Webhook confirms |
-| **Error** | Error message + Retry button | Transaction fails/rejected/timeout |
+| **Initial** | Total USD + Connect Wallet button | Page load (no wallet connected) |
+| **Wallet Modal Open** | List of wallets: MetaMask, Trust Wallet, Phantom | Click Connect Wallet |
+| **Extension Missing** | Install links (Chrome + Firefox) + Instructions | Wallet selected, extension not found |
+| **Network Selection** | EVMs / Solana options | Wallet selected, extension found |
+| **Connecting** | Loading spinner + "Opening wallet..." | Network group selected |
+| **Connection Failed** | Error message + Retry button | Extension didn't open after timeout |
+| **Connected** | Dual pricing, token, wallet info, Pay button | Connection approved |
+| **Token Modal Open** | Searchable Token-Network pairs list | Click token display |
+| **Wallet Modal Open** | Connected wallet + Copy/Disconnect/Connect New | Click wallet display |
+| **Processing Payment** | Loading modal: "Processing transaction..." | Click Pay |
+| **Success** | Success message → Auto-close → Redirect | Webhook confirms success |
+| **Error** | Error message + Close button | Transaction fails/rejected/timeout |
 
 ---
 
@@ -423,16 +376,18 @@ After successful connection, show:
 
 | Edge Case | Expected Behavior |
 | --- | --- |
-| **Wallet extension not installed** | Show "Install Chrome Extension" link with Chrome Web Store URL |
-| **Customer rejects connection** | Show "Connection rejected" message, allow retry |
-| **Customer rejects transaction** | Show "Transaction rejected" message, remain on page, allow retry |
-| **Wrong network in wallet** | Prompt customer to switch network (wallet handles this) |
-| **Insufficient token balance** | Wallet shows warning; ideally check and disable Pay Now with message |
-| **Transaction timeout (webhook slow)** | Show "Transaction timeout. Please check your wallet or contact support." |
-| **Wallet disconnects mid-flow** | Detect disconnect, prompt to reconnect |
-| **Customer closes browser during payment** | Order stays "Pending"; customer can return and check status |
-| **Exchange rate changes during flow** | Rate locked at time of Pay Now click; display shown rate |
-| **Customer clicks Back button** | Return to checkout; can select different payment method |
+| Wallet extension not installed | Show Chrome Web Store + Firefox Add-ons links with instructions |
+| Customer rejects connection | Show "Connection rejected" error, allow retry |
+| Customer rejects transaction | Show "Transaction rejected" error, remain on page, allow retry |
+| Extension doesn't open automatically | Show Retry button in loading modal |
+| Wrong network selected | Prompt to switch network in wallet extension |
+| Insufficient token balance | Disable Pay button, show insufficient balance message |
+| Conversion rate increases beyond balance | Show rate change error, disable Pay until token changed |
+| Wallet has no supported tokens | Show "No supported tokens" error, disable Pay |
+| Transaction timeout (webhook) | Show timeout error, remain on page, allow retry |
+| Wallet disconnects mid-flow | Detect disconnect, refresh page to initial state |
+| Customer closes browser during payment | Order stays "Pending", customer can return and check status |
+| Customer clicks Back button | Return to checkout, can select different payment method |
 
 ---
 
@@ -441,60 +396,88 @@ After successful connection, show:
 | Network | Available Tokens |
 | --- | --- |
 | Polygon | USDC |
-| Binance | BNB, USDC, USDT |
+| Binance (BSC) | BNB, USDC, USDT |
 | SKALE | USDC |
 | Bitlayer | USDC |
 | Ethereum | ETH, USDC, USDT |
 | XION | BNB |
 | Base | ETH |
 | XRPLSidechain | USDT, ETH |
+| Solana | SOL, USDC |
 
-*This list is configurable by merchant in Shop Builder.*
+*Configurable by merchant in Shop Builder settings*
 
 ---
 
 ## **B6) Business Logic Decision Tree**
 
 ```
-CUSTOMER ON CRYPTO PAYMENT PAGE
+CUSTOMER ON WEB3 PAYMENT PAGE
 │
-├──► See list of wallets (Phantom, MetaMask)
+├──► Display: Total USD + Connect Wallet button
 │
-├──► Customer clicks wallet
+├──► Click Connect Wallet
 │     │
-│     ├──► NOT installed → Show "Install Extension" link
-│     │     └──► After install → Return → Click again
-│     │
-│     └──► Installed → Show "Connect" button
+│     └──► Wallet Selection Modal Opens
 │           │
-│           ├──► Click Connect → Wallet prompts approval
-│           │     │
-│           │     ├──► Approved → Show payment view
-│           │     └──► Rejected → Show error, retry
-│           │
-│           └──► Payment View
+│           ├──► MetaMask / Trust Wallet / Phantom
 │                 │
-│                 ├──► Shows: Total (USD) + Token Amount
+│                 ├──► NOT Installed
+│                 │     └──► Show Install Links (Chrome + Firefox)
+│                 │           └──► After Install + Refresh → Return
 │                 │
-│                 ├──► Click Token → Open Token Modal
-│                 │     └──► Select Token-Network → Close → Price updates
-│                 │
-│                 ├──► Click Wallet → Switch account
-│                 │
-│                 └──► Click "Pay Now"
+│                 └──► Installed
 │                       │
-│                       ├──► Loading state
-│                       ├──► Wallet prompts signature
-│                       │     │
-│                       │     ├──► Approved → Wait for webhook
-│                       │     │     │
-│                       │     │     ├──► Success → Paid → Order Confirmed
-│                       │     │     └──► Timeout → Error → Retry
-│                       │     │
+│                       ├──► Show Network Group Selection (EVMs / Solana)
+│                       │
+│                       ├──► Customer Selects Network
+│                       │     └──► Loading State → Open Extension
+│                       │
+│                       ├──► Extension Opens (or Retry if not)
+│                       │
+│                       ├──► Customer Approves/Rejects
+│                       │     ├──► Approved → Success Message → Auto-close (5s)
 │                       │     └──► Rejected → Error → Retry
 │                       │
-│                       └──► Customer can also go Back to checkout
-
+│                       └──► Page Refreshes → Connected State
+│                             │
+│                             ├──► Display: Total USD + Token Amount
+│                             │
+│                             ├──► Token Validation
+│                             │     ├──► No Supported Tokens → Error + Disable Pay
+│                             │     └──► Has Supported Tokens → Enable Token Selection
+│                             │
+│                             ├──► Every 15s: Update Conversion Rate
+│                             │     └──► Recalculate Token Amount
+│                             │     └──► Check Balance Sufficiency
+│                             │
+│                             ├──► Click Token → Token Modal
+│                             │     └──► Select Token-Network → Close → Update Display
+│                             │
+│                             ├──► Click Wallet → Wallet Modal
+│                             │     ├──► Copy Address
+│                             │     ├──► Disconnect
+│                             │     └──► Connect New Wallet
+│                             │
+│                             └──► Click Pay
+│                                   │
+│                                   ├──► Validate Balance
+│                                   │     ├──► Insufficient → Error + Disable
+│                                   │     └──► Sufficient → Continue
+│                                   │
+│                                   ├──► Processing Modal (Loading)
+│                                   │
+│                                   ├──► Extension Opens for Signature
+│                                   │     ├──► Doesn't Open → Retry Button
+│                                   │     └──► Opens → Customer Approves/Rejects
+│                                   │
+│                                   ├──► Transaction Broadcast
+│                                   │     ├──► Approved → Wait Webhook
+│                                   │     │     ├──► Success → Paid → Order Confirmed
+│                                   │     │     └──► Timeout → Error → Retry
+│                                   │     └──► Rejected → Error → Retry
+│                                   │
+│                                   └──► Customer Can Go Back to Checkout
 ```
 
 ---
@@ -503,15 +486,21 @@ CUSTOMER ON CRYPTO PAYMENT PAGE
 
 | Test ID | Scenario | Expected Result |
 | --- | --- | --- |
-| **T1** | MetaMask installed, connect, pay with USDC-Polygon | Success, redirect to Order Confirmed |
-| **T2** | Phantom not installed, click Phantom | Show "Install Chrome Extension" link |
-| **T3** | Install extension, return, click Phantom | Now shows "Connect" button |
+| **T1** | MetaMask installed, connect EVM, pay with USDC-Polygon | Success, redirect to Order Confirmed |
+| **T2** | Phantom not installed, click Phantom | Show Chrome + Firefox install links |
+| **T3** | Install Phantom, return, click Phantom, select Solana | Shows Connect → Network Selection → Connect |
 | **T4** | Connect wallet, reject connection in popup | Show "Connection rejected", can retry |
 | **T5** | Connected, change token from USDC to ETH | Token modal opens, select ETH, price recalculates |
 | **T6** | Search "ETH" in token modal | Shows: ETH-Ethereum, ETH-Base, ETH-XRPLSidechain |
 | **T7** | Search "Polygon" in token modal | Shows: USDC-Polygon |
-| **T8** | Click Pay Now, reject in wallet | Error: "Transaction rejected", remain on page |
-| **T9** | Complete payment, webhook confirms | Order = Paid, redirect to success |
-| **T10** | Complete payment, webhook times out | Error: "Transaction timeout", can retry |
-| **T11** | Switch wallet account mid-flow | New account selected, can proceed with payment |
-| **T12** | Click Back/Cancel, return to checkout | Checkout page shows, can select Credit Card/PayPal |
+| **T8** | Click Pay with insufficient balance | Error: "Insufficient balance", Pay disabled |
+| **T9** | Rate changes making balance insufficient | Error: "Balance no longer sufficient", Pay disabled |
+| **T10** | Wallet with no supported tokens | Error: "No supported tokens found", Pay disabled |
+| **T11** | Click Pay, reject in wallet | Error: "Transaction rejected", remain on page |
+| **T12** | Complete payment, webhook confirms | Order = Paid, redirect to success |
+| **T13** | Complete payment, webhook timeout | Error: "Transaction timeout", can retry |
+| **T14** | Click wallet display → Copy address | Address copied to clipboard |
+| **T15** | Click wallet display → Disconnect | Wallet disconnected, page refreshes |
+| **T16** | Wait 15 seconds on payment page | Conversion rate updates, token amount recalculates |
+| **T17** | Extension doesn't open automatically | Retry button appears in loading modal |
+| **T18** | Switch wallet account in extension → Refresh | New wallet address displayed |
