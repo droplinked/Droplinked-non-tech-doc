@@ -48,11 +48,13 @@ Digital products require a unique fulfillment flow where the customer receives a
 - **Core Features (Shared with Physical):**
     - Dashboard & API creation.
     - Mandatory Title, Optional Description/Price/Images.
+    - **Images:** Maximum 50 images per product.
     - AI Tools: Text & Image Generation.
-    - Status: Public, Draft, Unlisted, Scheduled.
+    - Status: Public, Draft, Unlisted, Scheduled. Default: **Publish**.
     - Stock: Finite or Unlimited ("Continue selling...").
     - Advanced: Keywords.
     - Default Collection assignment.
+    - **SKU Images:** User can set image per SKU in matrix.
 - **Variants (New):**
     - Digital products CAN have variants (Max 2 groups).
     - Example: Resolution (High/Low), Format (PDF/EPUB).
@@ -105,6 +107,7 @@ Digital products require a unique fulfillment flow where the customer receives a
 ### 4) **Business Acceptance Criteria (BAC)**
 
 - **BAC 1:** **Creation:** Requires only Title to save as Draft.
+- **BAC 1.1:** **Default Status:** New products default to **Publish**.
 - **BAC 2:** **Shipping:** Must NOT present Shipping tab/fields.
 - **BAC 3:** **Files/Links:**
     - UI must allow uploading files OR adding URL links.
@@ -112,10 +115,12 @@ Digital products require a unique fulfillment flow where the customer receives a
     - **Max file size:** 5 MB per file.
     - **Reorder files:** ❌ Not supported.
     - Delivery: visible to customer only after successful order.
+- **BAC 3.1:** **Images:** Maximum 50 images per product.
 - **BAC 4:** **Variants:** Must support Variant Groups and SKU Matrix (same logic as Physical).
 - **BAC 4.1:** **Simple vs Variable Field Visibility:**
     - **Simple Product (No Variants):** Price, Quantity, External ID fields shown at product level (General/Advanced tabs).
     - **Variable Product (Has Variants):** Price, Quantity, External ID fields HIDDEN at product level. These fields are managed per SKU in the Variants tab SKU Matrix.
+- **BAC 4.2:** **SKU Images:** User can set image per SKU in matrix.
 - **BAC 5:** **Stock/Price:** Optional fields. Price > 0 to be sellable. Stock logic (Unlimited vs Finite) applies.
 - **BAC 6:** **AI Integration:** Available for Title/Desc/Image generation.
 

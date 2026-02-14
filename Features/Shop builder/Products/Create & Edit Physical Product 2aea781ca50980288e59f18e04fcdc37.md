@@ -54,21 +54,24 @@ Merchants need a flexible and powerful interface to create and manage physical p
 - **Product Fields:**
     - Title (Mandatory).
     - Collection (Default selected in Dashboard, Optional/Default in API).
-    - Images (0 to unlimited; Primary Image selection).
+    - Images (0 to 50 maximum; Primary Image selection).
     - Description (Optional).
     - Price (Optional; >0 to be sellable).
     - External ID (Optional).
     - Stock Configuration (Finite vs. Unlimited/Continue Selling).
+    - **Default Status:** Publish.
 - **Variants:**
     - 0 Variants (Simple) or Variants enabled.
     - Max 2 Variant Groups (e.g., Color, Size).
     - Automatic Color Picker for "Color" type variants.
     - Automatic SKU Matrix Generation (e.g., 5 colors * 5 sizes = 25 SKUs).
     - Group-level or Individual SKU editing (Price, Stock, External ID, Image).
+    - **SKU Images:** User can set image per SKU.
 - **Shipping:**
     - Optional toggle.
     - If enabled: Weight, Dimensions (L/W/H), Units.
     - If disabled: Digital-like checkout behavior.
+    - **Dimensions Required Only For:** 3rd party shipping providers (EasyPost, custom shipping) that require dimensions. Optional for other shipping methods.
 - **AI Features:**
     - Generate Title & Description from Images (Tone selection).
     - Generate Image from Title.
@@ -121,8 +124,10 @@ Merchants need a flexible and powerful interface to create and manage physical p
 ### 4) **Business Acceptance Criteria (BAC)**
 
 - **BAC 1:** Product creation must be possible with **only** a Title.
+- **BAC 1.1:** **Default Status:** New products default to **Publish**.
 - **BAC 2:** **Price Logic:** Field is optional. If Price is null or <= 0, product cannot be added to cart/sold.
 - **BAC 3:** **Image Logic:** 0 images allowed (shows default placeholder). 1 Image designated as Primary (Thumbnail).
+- **BAC 3.1:** **Image Limit:** Maximum 50 images per product.
 - **BAC 4:** **Stock Logic:**
     - If "Continue selling..." = ON: Stock is infinite.
     - If "Continue selling..." = OFF: Non-negative integer required. Sales block at 0.
@@ -130,7 +135,8 @@ Merchants need a flexible and powerful interface to create and manage physical p
 - **BAC 5.1:** **Simple vs Variable Field Visibility:**
     - **Simple Product (No Variants):** Price, Quantity, External ID fields shown at product level (General/Advanced tabs).
     - **Variable Product (Has Variants):** Price, Quantity, External ID fields HIDDEN at product level. These fields are managed per SKU in the Variants tab SKU Matrix.
-- **BAC 6:** **Shipping Logic:** Optional. If configured, requires W/L/H/Weight + Units. If not, bypasses shipping steps in checkout.
+- **BAC 5.2:** **SKU Images:** User can set image per SKU in matrix.
+- **BAC 6:** **Shipping Logic:** Optional. If configured, requires Weight. Dimensions (L/W/H) only required for 3rd party shipping (EasyPost, custom shipping) that need dimensions. If shipping disabled, bypasses shipping steps in checkout.
 - **BAC 7:** **Status Logic:**
     - Public: Sellable immediately.
     - Unlisted: Not in shop lists, accessible via direct link/API? (Clarify behavior: "Not shown in shop").
@@ -164,12 +170,12 @@ Merchants need a flexible and powerful interface to create and manage physical p
 
 ### B2) Detailed Functional Rules (Numbered)
 
-- **R1.** **Creation Minimum:** A Product record can be created receiving only a `Title`. Default status is `Draft`.
+- **R1.** **Creation Minimum:** A Product record can be created receiving only a `Title`. Default status is `Publish`.
 - **R2.** **Collection Assignment:**
     - Dashboard: Pre-selects default collection. User can change.
     - API: Optional. If missing, assigns to Default Collection.
 - **R3.** **Image Handling:**
-    - Min: 0. Max: Unlimited.
+    - Min: 0. Max: 50 images.
     - Apps/Frontend must display a placeholder if Image Count == 0.
     - User must specify one `is_primary` image if count > 0.
 - **R4.** **Price & Sellability:**
@@ -205,7 +211,7 @@ Merchants need a flexible and powerful interface to create and manage physical p
     - **Note:** Product-level price/quantity/external_id are NULL when variants exist.
 - **R10.** **Shipping Configuration:**
     - Toggle `has_shipping`.
-    - If True: `Weight`, `Length`, `Width`, `Height`, `Unit` are Mandatory.
+    - If True: `Weight` is mandatory. `Length`, `Width`, `Height` are only mandatory for 3rd party shipping providers (EasyPost, custom shipping) that require dimensions.
     - If False: Product is treated as virtual during Checkout (No address requirement).
 - **R11.** **Status State Machine:**
     - `Public`: Visible & Purchasable (if R4 & R5 pass).
