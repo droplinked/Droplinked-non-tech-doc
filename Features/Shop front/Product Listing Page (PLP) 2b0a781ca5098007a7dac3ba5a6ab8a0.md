@@ -18,8 +18,9 @@ Customers need a clear and functional view of all products in a shop. Merchants 
 
 ### **Desired Outcome**
 
-- Display only products with **Public** or **Scheduled Release (past date)** status.
-- Products with **Unlisted** or **Draft** status are excluded from PLP entirely.
+- Display products with **Public** status.
+- Display products with **Scheduled Release** status (all scheduled release products are visible regardless of date).
+- Products with **Unlisted** or **Draft** status are excluded from PLP entirely (not visible in listing, search, or any filter).
 - Handle empty states gracefully.
 - Show product thumbnail (or default image if no image exists), title, and lowest SKU price (or product price if no SKUs).
 - Products with zero or no price are displayed with "$0" as the price.
@@ -32,8 +33,8 @@ Customers need a clear and functional view of all products in a shop. Merchants 
 
 ### **In Scope**
 
-- Displaying only **Public** and **Scheduled Release (past date)** products in a list or grid according to the merchant's design.
-- Excluding **Unlisted** and **Draft** products from display (not visible in listing, search, or any filter).
+- Displaying **Public** products and **Scheduled Release** products (all scheduled release products are visible) in a list or grid according to the merchant's design.
+- Excluding **Unlisted** and **Draft** products from display entirely (not visible in listing, search, or any filter).
 - Showing product thumbnail (or **default placeholder image** if product has no images), title, and lowest SKU price (or product-level price if no SKUs exist).
 - Displaying products with zero or no price with "$0" shown as price.
 - Empty state display when no products exist.
@@ -69,7 +70,7 @@ As a **Customer**, I can browse the product listing page to find items of intere
 
 **Step 1:** Customer opens the shop front.
 
-**Step 2:** PLP displays only **Public** and **Scheduled Release (past date)** products according to merchant design. Products with **Unlisted** or **Draft** status are not shown.
+**Step 2:** PLP displays **Public** and **Scheduled Release** products according to merchant design. Products with **Unlisted** or **Draft** status are not shown.
 
 **Step 3:** Each product shows thumbnail (or default placeholder if no image), title, and price (lowest SKU price or product-level price if no SKUs). Products with zero/no price display "$0".
 
@@ -250,3 +251,5 @@ As a **Customer**, I see a clear message when my filters return no results.
 **BAC 17:** Products without images must display a **default placeholder image** instead of breaking the layout.
 
 **BAC 18:** Products with zero or no price must display "$0" as the price in the listing.
+
+**BAC 19:** Products with **Scheduled Release** status must be displayed in PLP regardless of their scheduled release date. These products are visible but not purchasable (Add to Cart is handled on PDP).

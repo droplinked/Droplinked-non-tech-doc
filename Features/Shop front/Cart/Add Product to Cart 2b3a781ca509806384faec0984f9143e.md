@@ -41,10 +41,22 @@ Customers must be able to add products to their cart based on SKU selection, qua
 - Adding product to cart with selected SKU + quantity (or product + quantity for products without SKUs).
 - Auto-creating a cart if none exists.
 - Updating existing cart lines when the same SKU/product is added again.
-- Validating stock before adding items (respecting unlimited stock setting).
-- Verifying product visibility rules (**Unlisted/Draft** products cannot be added).
-- Verifying product release date (**Scheduled Release** with future date cannot be added).
-- **Validating product price** (products with zero or no price cannot be added).
+- **Quantity Selection Logic:**
+  - Customer can select quantity before adding to cart
+  - Default quantity: 1
+  - Limited stock: "Out of Stock" when quantity=0 or selected qty > available stock
+  - Unlimited stock (`continue_selling=true`): Never shows "Out of Stock"
+- **Stock Validation:**
+  - Limited inventory: Real-time validation (quantity ≤ available stock)
+  - Unlimited inventory: No validation, always available
+  - SKUs with 0 quantity cannot be added
+- **Product Status Validation:**
+  - **Public**: Full add to cart functionality
+  - **Scheduled Release**: Product visible in PLP and PDP, but Add to Cart button hidden and API blocked
+  - **Unlisted/Draft**: 404 error, cannot access or add to cart
+- **Price Validation** (products with zero or no price cannot be added).
+- First SKU pre-selected by default for products with variants.
+- Color variants displayed as colored square swatches using merchant's hex color codes.
 - Updating cart item count in the header.
 
 ### **Out of Scope**
@@ -155,3 +167,97 @@ Customers must be able to add products to their cart based on SKU selection, qua
 **BAC 9:** Products **without SKUs** can be added to cart using product-level quantity; system handles them the same as SKU-based products.
 
 **BAC 10:** Stock validation must respect the **"Continue selling when out of stock"** setting; if enabled, unlimited stock is assumed.
+
+**BAC 11:** First SKU must be **pre-selected by default** when PDP loads for products with SKUs.
+
+**BAC 12:** Color variants must display as **colored square swatches** using exact hex color codes selected by merchant.
+
+**BAC 13:** Products with **Scheduled Release** status are displayed in PLP and accessible on PDP, but **Add to Cart button is hidden** and **API add to cart is blocked**.
+
+**BAC 14:** Products with **limited stock** (quantity tracking enabled) must show "Out of Stock" and disable Add to Cart when quantity=0 or selected quantity exceeds available stock.
+
+**BAC 15:** Products with **`continue_selling=true`** (unlimited stock) must never show "Out of Stock" and always allow adding to cart.
+
+---
+
+# **5) Detailed Logic**
+
+## **Quantity Selection Flow**
+
+```
+Customer Opens PDP
+    ↓
+[Load Product]
+    ├─ Check Status
+    │   ├─ Draft/Unlisted → 404 Error
+    │   ├─ Scheduled Release → Show PDP, Hide Add to Cart
+    │   └─ Public → Full Functionality
+    ↓
+[For Products WITH SKUs]
+    ├─ First SKU auto-selected by default
+    ├─ Display color variants as hex-colored squares
+    └─ Customer can select different SKU
+    ↓
+[Quantity Selection]
+    ├─ Default: 1
+    ├─ Customer can increment/decrement
+    └─ Validation based on stock type:
+        ├─ Limited Stock → Check against available quantity
+        └─ Unlimited Stock (continue_selling) → No limit
+    ↓
+[Stock Validation]
+    ├─ Limited Stock:
+    │   ├─ quantity ≤ available → Enable Add to Cart
+    │   └─ quantity > available → Show "Out of Stock", Disable button
+    └─ Unlimited Stock → Always enabled
+    ↓
+[Price Validation]
+    ├─ Price > 0 → Enable Add to Cart
+    └─ Price = 0 or null → Show "$0", Disable Add to Cart
+    ↓
+[Add to Cart Clicked]
+    ↓
+[API Validation]
+    ├─ Re-verify product status
+    ├─ Re-verify stock (limited products)
+    ├─ Re-verify price > 0
+    └─ Add to cart or return error
+```
+
+## **Stock Types**
+
+### **Limited Stock (track_inventory = true)**
+
+| Scenario | UI Behavior | API Behavior |
+|----------|-------------|--------------|
+| quantity > 0 | Show quantity selector, Enable Add to Cart | Allow add to cart |
+| quantity = 0 | Show "Out of Stock", Disable Add to Cart | Block with error |
+| selected_qty > available | Show "Out of Stock"/"Insufficient stock", Disable | Block with error |
+
+### **Unlimited Stock (continue_selling = true)**
+
+| Scenario | UI Behavior | API Behavior |
+|----------|-------------|--------------|
+| Any quantity | No "Out of Stock" message, Always enabled | Always allow |
+| quantity = 0 | Still allow purchase, No stock message | Allow add to cart |
+
+## **Product Status Matrix**
+
+| Status | PLP Visibility | PDP Accessibility | Add to Cart | API Cart |
+|--------|----------------|-------------------|-------------|----------|
+| **Public** | Visible | Full access | Enabled | Allowed |
+| **Scheduled Release** | Visible | Accessible | Hidden | Blocked |
+| **Unlisted** | Hidden | 404/Redirect | N/A | Blocked |
+| **Draft** | Hidden | 404/Redirect | N/A | Blocked |
+
+## **Error Messages**
+
+| Error Condition | Message |
+|-----------------|---------|
+| Out of Stock | "This item is out of stock" |
+| Insufficient Stock | "Only X items available" |
+| Scheduled Release | "This product is not yet available for purchase" |
+| Draft/Unlisted | 404 Page |
+| Zero Price | "This product cannot be added to cart" |
+| API - Product Not Found | "Product not found or unavailable" |
+| API - Insufficient Stock | "Not enough stock available" |

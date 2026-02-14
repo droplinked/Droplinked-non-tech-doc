@@ -295,8 +295,8 @@ Day 1              Day 31                    Day 396
 **Pricing Configuration**
 
 - **R1.** **Starter:** Free, Default.
-- **R2.** **Pro:** $10/mo | $108/yr | $288/3yr.
-- **R3.** **Premium:** $30/mo | $324/yr | $864/3yr.
+- **R2.** **Pro:** $25/mo | $270/yr | $675/3yr.
+- **R3.** **Premium:** $50/mo | $540/yr | $1,350/3yr.
 - **R4.** **Enterprise:** Custom Pricing. Activation via Super Admin only.
 
 **Trial Logic (First-Time Purchase Only)**
