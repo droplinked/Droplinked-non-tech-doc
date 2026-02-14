@@ -168,8 +168,8 @@ Merchants and potential customers need a clear, visually appealing page to compa
 | Plan | Monthly | Yearly | 3-Year |
 | --- | --- | --- | --- |
 | Starter | Free | Free | Free |
-| Pro | $10/mo | $108/yr ($9/mo) | $288 ($8/mo) |
-| Premium | $30/mo | $324/yr ($27/mo) | $864 ($24/mo) |
+| Pro | $25/mo | $270/yr ($22.50/mo) | $675 ($18.75/mo) |
+| Premium | $50/mo | $540/yr ($45/mo) | $1,350 ($37.50/mo) |
 | Enterprise | Custom | Custom | Custom |
 
 ---

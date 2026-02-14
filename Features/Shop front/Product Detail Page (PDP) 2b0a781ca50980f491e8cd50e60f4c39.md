@@ -23,11 +23,17 @@ Customers need a detailed view of a product before making a purchase. The PDP mu
 - Display product images as a slider with zoom functionality (or **default placeholder image** if product has no images).
 - Show product title, description, and price (SKU price if SKUs exist, or product-level price if no SKUs).
 - For products **with SKUs**: Allow SKU selection and adjust displayed price accordingly.
+  - **First SKU is selected by default** when the page loads.
+  - **Color variants**: When merchant defines color variants using color picker, the exact hex color code is displayed as a colored square swatch on the PDP.
 - For products **without SKUs**: Display product-level price only (no SKU selector).
-- Quantity selection for products/SKUs that have stock.
-- Show "Out of Stock" when SKU/product has no quantity.
+- **Quantity selection**: Customer can select quantity before adding to cart.
+  - If product/SKU has **limited stock** and quantity is 0 or selected quantity exceeds available stock → Show "Out of Stock" and disable Add to Cart.
+  - If product has **unlimited stock** (`continue_selling=true`) → Customer can select any quantity, "Out of Stock" is never shown.
 - Products with **zero or no price**: Display "$0" and **disable Add to Cart button**.
-- Products with **Unlisted** or **Draft** status: Return 404 or redirect (not accessible even via direct link).
+- **Product Status Handling**:
+  - **Unlisted** or **Draft**: Return 404 or redirect to shop home (not accessible even via direct link).
+  - **Scheduled Release**: Product page is accessible but **Add to Cart button is hidden** and **API add to cart is blocked**.
+  - **Public**: Full functionality including Add to Cart.
 - For recorded/verified products, display blockchain verification link.
 - For physical products, hide Shipping and Size if irrelevant.
 - Enable adding product to cart based on selected SKU/product and quantity (only if price > 0).
@@ -41,8 +47,10 @@ Customers need a detailed view of a product before making a purchase. The PDP mu
 - Product image slider with zoom (or **default placeholder image** if no images exist).
 - Product title display.
 - Product description display (hidden if no description).
-- **Product visibility enforcement**: Unlisted/Draft products return 404 or redirect.
-- **Products with SKUs**: SKU selection with default SKU pre-selected; SKU-based price display.
+- **Product visibility enforcement**:
+  - Unlisted/Draft products return 404 or redirect.
+  - Scheduled Release products display the page but hide Add to Cart button and block API cart addition.
+- **Products with SKUs**: SKU selection with **first SKU pre-selected by default**; SKU-based price display; **Color variants display as colored square swatches** using the exact hex color code selected by merchant.
 - **Products without SKUs**: Display product-level price only; no SKU selector shown.
 - Quantity selection (increment/decrement).
 - "Out of Stock" handling for SKUs/products with 0 quantity.
@@ -72,7 +80,7 @@ As a **Customer**, I can view all relevant details of a product.
 **Step 2:** System checks product visibility status:
 
 - If **Unlisted** or **Draft** → return 404 or redirect to shop home.
-- If **Public** or **Scheduled Release (past date)** → proceed to display.
+- If **Public** or **Scheduled Release** → proceed to display.
 
 **Step 3:** PDP loads with product images in a slider with zoom. If no images exist, a **default placeholder image** is displayed.
 
@@ -174,3 +182,15 @@ As a **Customer**, I cannot access products that are not published.
 **BAC 9:** Products with **Unlisted** or **Draft** status must return 404 or redirect; they are NOT accessible via direct link, search, or any other method.
 
 **BAC 10:** The page must not break or show errors when product has no images, no description, or no SKUs.
+
+**BAC 11:** First SKU must be **pre-selected by default** when the PDP loads for products with SKUs.
+
+**BAC 12:** Color variants must display as **colored square swatches** using the exact hex color code selected by the merchant during product creation.
+
+**BAC 13:** Products with **Scheduled Release** status must display the product page but **hide the Add to Cart button** and **block API cart addition**.
+
+**BAC 14:** Products with **limited stock** (quantity tracking enabled) must show "Out of Stock" and disable Add to Cart when:
+   - Available quantity is 0, OR
+   - Customer's selected quantity exceeds available stock
+
+**BAC 15:** Products with **`continue_selling=true`** (unlimited stock) must **never show "Out of Stock"** and always allow adding to cart regardless of quantity selected.
