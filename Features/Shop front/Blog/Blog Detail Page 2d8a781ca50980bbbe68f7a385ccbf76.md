@@ -45,6 +45,7 @@ After customers discover blog posts on the listing page, they need a dedicated p
     - Embedded images
     - Hyperlinks
     - Formatted text (headings, lists, bold, italic, etc.)
+    - Markdown content from public APIs (parsed and rendered as HTML)
 - Responsive design for mobile, tablet, and desktop.
 - SEO-optimized page structure (meta tags, Open Graph).
 
@@ -132,6 +133,22 @@ After customers discover blog posts on the listing page, they need a dedicated p
 
 ---
 
+### **Journey 7 – Customer Views Markdown Blog from Public API**
+
+1. Customer accesses a blog that was created from a public API source.
+2. Blog content is in markdown format received from the API.
+3. System parses the markdown content and renders it as properly formatted HTML:
+    - Markdown headings (#, ##, ###) convert to HTML heading tags
+    - Markdown lists (-, *, 1.) convert to HTML list elements
+    - Markdown links convert to clickable hyperlinks
+    - Markdown images display properly with alt text
+    - Bold (**text**) and italic (*text*) formatting render correctly
+    - Code blocks and inline code display with proper formatting
+4. Customer sees the blog content formatted consistently with rich-text blogs.
+5. All links open appropriately (external links in new tab).
+
+---
+
 # **4) Business Acceptance Criteria (BAC)**
 
 ### **BAC 1:** Blog detail page must be accessible at `/blogs/:slug` where `:slug` is the unique blog identifier.
@@ -164,3 +181,20 @@ After customers discover blog posts on the listing page, they need a dedicated p
 ### **BAC 9:** External links in blog content must open in a new tab.
 
 ### **BAC 10:** The creation date must be formatted in a user-friendly, readable format.
+
+### **BAC 11:** Blogs created from public APIs with markdown format must be supported:
+
+- Markdown content from API sources must be parsed and rendered as HTML.
+- Standard markdown syntax must be supported (headings, lists, links, images, bold, italic, code blocks).
+- The rendered markdown must match the styling and layout of rich-text blogs.
+- External links in markdown must open in new tabs.
+- Images from markdown must load properly and scale responsively.
+
+---
+
+# **5) Changelog**
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.1 | 2025-02-15 | - | Added support for markdown content from public APIs (BAC 11, Journey 7) |
+| 1.0 | - | - | Initial release |

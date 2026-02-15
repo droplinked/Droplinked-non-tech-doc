@@ -1,0 +1,68 @@
+Category,Table,Test Case Count,Status,Last Sprint Test,Writer
+Product Management,Product List,19,Completed,Sprint 22,Abolfazl
+Product Management,Create Product,25,In Progress,Sprint 23,Behdad
+Product Management,Edit Product,20,In Progress,Sprint 23,Behdad
+Product Management,Delete Product,8,Draft,Sprint 24,Abolfazl
+Product Management Subtotal,,72,,,,
+Inventory,Stock Management,15,Completed,Sprint 22,Abolfazl
+Inventory,SKU Variants,21,In Progress,Sprint 23,Behdad
+Inventory Subtotal,,36,,,,
+Total,,108,,,,
+
+,,,,,,
+Feature,Test Case ID Range,,,,,
+Product Management,TC-PROD-001 to TC-PROD-072,,,,,
+Inventory,TC-INV-001 to TC-INV-036,,,,,
+,,,,,,
+Writer,Behdad,,,,,
+Last update,2026-02-15,,,,,
+Last sprint test,Sprint 23,,,,,
+Feature ID,[IAA-PROD-001] Product Management System,,,,,
+,,,,,,
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+PRODUCT LIST PAGE
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+✅ Display & Navigation,,,,,,,,,,,,,,,,
+Test Case ID,Scenario Title,Type,Precondition,Given,When,Then,Expected Result,Comment - data,Tester,Test Status (DEV),Test Status (main),Last Sprint Test,Front Unit test,Back Unit test,Front Integration,Api test
+TC-PROD-001,Verify Empty Product List Display,Functional,Merchant has no products,User navigates to product list page,Page loads with no products,Empty state message displays,"Message: 'No products yet. Click Create to add your first product'. Create button visible.",Empty state scenario,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-002,Verify Product List Table Display,Functional,Merchant has products created,User navigates to product list page,Product list page loads,Product table displays with columns,"Columns visible: Thumbnail, Title, Collection, Price, Status, Actions",Table structure check,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-003,Verify Product Thumbnail Display,Functional,Products exist with images,User views product list with thumbnails,List displays products with thumbnails,Product thumbnail shows primary image,"Image displayed in small thumbnail format. Placeholder shown if no image.",Thumbnail display,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-004,Verify Product Title Column,Functional,Products exist with titles,User views product list,Product titles display in table,Title column shows full product name,"Title fully visible or truncated with ellipsis.",Title display,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-005,Verify Infinite Scroll Loading,Functional,50+ products exist; first 20 loaded,User scrolls to bottom of product list,User scrolls down to end of visible list,System loads next batch of products server-side,More products load automatically without page reload. Smooth scroll experience.,Infinite scroll test,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+,,,,,,,,,,,,,,,,
+✅ Search & Filter,,,,,,,,,,,,,,,,
+Test Case ID,Scenario Title,Type,Precondition,Given,When,Then,Expected Result,Comment - data,Tester,Test Status (DEV),Test Status (main),Last Sprint Test,Front Unit test,Back Unit test,Front Integration,Api test
+TC-PROD-006,Verify Search Functionality - By Title,Functional,Multiple products in list,User enters search term in search box,User types product title in search field,Search filters products server-side,Only products with matching title display. Search is real-time or button-triggered.,Title search,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-007,Verify Search Functionality - Case-Insensitive,Functional,Product titled 'Blue Shirt' exists,User searches for 'blue shirt',User types lowercase search term,Search matches case-insensitively,Product found and displayed regardless of case.,Case-insensitive search,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-008,Verify Search Functionality - Partial Match,Functional,"Products: 'Blue Shirt', 'Shirt Red', 'Dress'",User searches for 'Shirt',User types partial term,System finds all products containing term,"Both 'Blue Shirt' and 'Shirt Red' display.",Partial match search,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-009,Verify Filter by Status,Functional,Products with different statuses,User selects status filter,User chooses 'Published' from filter dropdown,List filters to show only matching products,Only published products displayed in list.,Status filter,Behdad,In Progress,Sprint 23,Pending,Pending,Pending,Pending
+TC-PROD-010,Verify Filter by Collection,Functional,Products assigned to collections,User selects collection filter,User chooses specific collection,List filters to show only products in that collection,Only products from selected collection displayed.,Collection filter,Behdad,In Progress,Sprint 23,Pending,Pending,Pending,Pending
+,,,,,,,,,,,,,,,,
+✅ Actions & CRUD,,,,,,,,,,,,,,,,
+Test Case ID,Scenario Title,Type,Precondition,Given,When,Then,Expected Result,Comment - data,Tester,Test Status (DEV),Test Status (main),Last Sprint Test,Front Unit test,Back Unit test,Front Integration,Api test
+TC-PROD-011,Verify Action Menu - View Product,Functional,Product exists in list,User clicks action menu on product,Menu opens with options,View Product option available,User can click to view product details in shop frontend.,View action,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-012,Verify Action Menu - Edit Product,Functional,Product exists in list,User clicks action menu,Menu opens,Edit option available,User can click to open product editor.,Edit action,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-013,Verify Action Menu - Delete Product,Functional,Product exists in list,User clicks action menu,Menu opens,Delete/Remove option available,User can click to delete product with confirmation.,Delete action,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-014,Verify Delete Product Confirmation,Functional,User clicks delete action,Delete action triggered,Confirmation dialog appears,System shows confirmation,"Warning: 'Are you sure you want to delete this product?' with Confirm/Cancel.",Delete confirmation,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+TC-PROD-015,Verify Product Status Toggle,Functional,Draft product in list,User clicks action menu,Menu displays,Publish/Unpublish toggle available,User can toggle product publication status directly from list.,Publish toggle,Abolfazl,Pass ✅,Pass ✅,Sprint 22,Pass,Pass,Pass,Pass
+,,,,,,,,,,,,,,,,
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+CREATE PRODUCT
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+✅ Basic Creation,,,,,,,,,,,,,,,,
+Test Case ID,Scenario Title,Type,Precondition,Given,When,Then,Expected Result,Comment - data,Tester,Test Status (DEV),Test Status (main),Last Sprint Test,Front Unit test,Back Unit test,Front Integration,Api test
+TC-PROD-016,Create Product with Title only,Functional,User logged in as Merchant,Product creation form open,User enters Title and clicks Save,System saves product as Draft,Product created with status=DRAFT,"Title: 'Test Product'",Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-017,Create Product - Empty Title rejection,Validation,Product form open,Title field is empty,User clicks Save,System blocks save,"Validation error: 'Title is required'",Title: empty,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-018,Create Product - Title max length (150 chars),Validation,Product form open,User enters 150 character title,User saves product,System accepts full title,Title saved with 150 characters,Title: 150 chars,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-019,Create Product - Title exceeds max length (151+),Validation,Product form open,User enters 151+ characters,User tries to save,System blocks save,"Validation error: 'Title cannot exceed 150 characters'",Title: 151+ chars,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-020,Create Product with Description,Functional,Product creation form open,User enters title and description,User saves product,System persists Description,Description visible in product detail,"Description: 'Product description text'",Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+,,,,,,,,,,,,,,,,
+✅ Product Types,,,,,,,,,,,,,,,,
+Test Case ID,Scenario Title,Type,Precondition,Given,When,Then,Expected Result,Comment - data,Tester,Test Status (DEV),Test Status (main),Last Sprint Test,Front Unit test,Back Unit test,Front Integration,Api test
+TC-PROD-021,Create Physical Product,Functional,Merchant on Dashboard,Create Product page open,User selects Physical type,System opens physical product form,Physical-specific fields visible (Shipping tab),Physical product type,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-022,Create Digital Product,Functional,Merchant on Dashboard,Create Product page open,User selects Digital type,System opens digital product form,Digital-specific fields visible (Files tab),Digital product type,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-023,Create POD Product,Functional,Merchant on Dashboard,Create Product page open,User selects POD type,System opens POD product form,POD-specific fields visible,POD product type,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-024,Create Product via API,Functional,Valid API credentials,POST /products with product data,API sends creation payload,System creates product via API,Product created successfully,API channel,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
+TC-PROD-025,Create Product - Invalid Type Rejected,Validation,Product creation form open,User attempts to create with invalid type,Invalid type selected,System rejects creation,Error message displayed for invalid type,Invalid type validation,Behdad,Pass ✅,Pending ⏳,Sprint 23,Pass,Pass,Pass,Pass
