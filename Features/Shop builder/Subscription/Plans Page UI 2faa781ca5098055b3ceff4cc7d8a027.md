@@ -203,7 +203,6 @@ ON ToggleChange(cycle):
 | Merchant on Pro | Disabled (grayed out) | "Current Plan" (text, no button) | "Upgrade" → Stripe | "Contact Us" → Modal |
 | Merchant on Premium | Disabled (grayed out) | Disabled (grayed out) | "Current Plan" (text, no button) | "Contact Us" → Modal |
 | Merchant on Enterprise | Disabled (grayed out) | Disabled (grayed out) | Disabled (grayed out) | "Current Plan" (text, no button) |
-| Merchant in Trial | Same as active plan → "Current Plan" on trial plan, upgrades allowed |  |  |  |
 
 **Key Rules:**
 
@@ -297,7 +296,7 @@ ELSE:
 
 | Edge Case | System Behavior |
 | --- | --- |
-| **EC-1:** User on trial | Show "Trialing" badge, allow upgrade |
+| **EC-1:** User on first subscription | Show "New Subscription" badge |
 | **EC-2:** Enterprise inquiry fails | Show error, allow retry |
 | **EC-3:** Stripe redirect fails | Show error message with retry option |
 | **EC-4:** User already on highest plan | All upgrade buttons disabled |
