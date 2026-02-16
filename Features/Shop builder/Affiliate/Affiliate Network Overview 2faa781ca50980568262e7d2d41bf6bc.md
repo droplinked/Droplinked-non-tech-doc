@@ -135,6 +135,7 @@ Merchants want to expand their sales reach without additional marketing efforts.
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-16 | Behdad | Updated Business Rule R-3: Both shop currencies must be USD for affiliate transactions | Business requirement - Affiliate only for USD shops |
 | 2026-02-01 | Behdad | Initial document creation | New Feature |
 
 ---

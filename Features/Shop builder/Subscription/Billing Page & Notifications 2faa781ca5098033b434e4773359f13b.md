@@ -54,7 +54,7 @@ Merchants need a dedicated space to view their billing history, understand their
 - **Billing Table:**
     - Columns: Plan Name | Event | Cycle | Date | Amount | Status
     - Status values: `paid`, `upcoming`, `cancel`
-    - Event values: `trial`, `renew`, `upgrade`, `reactivate`, `new_subscription`
+    - Event values: `new_subscription`, `renew`, `upgrade`, `reactivate`
     - Click row → Opens Plan Details page
     - Starter plan does NOT create logs (no rows for Starter)
 - **Plan Details Page:**
@@ -163,7 +163,7 @@ Merchants need a dedicated space to view their billing history, understand their
 | BAC-3 | Billing table shows columns: Plan Name, Event, Cycle, Date, Amount, Status |  |
 | BAC-4 | Table displays all billing logs (Starter excluded) |  |
 | BAC-5 | Status column shows: `paid`, `upcoming`, or `cancel` |  |
-| BAC-6 | Event column shows: `trial`, `renew`, `upgrade`, `reactivate`, `new_subscription` |  |
+| BAC-6 | Event column shows: `new_subscription`, `renew`, `upgrade`, `reactivate` |  |
 | BAC-7 | Clicking a row opens Plan Details page |  |
 | **Plan Details Page** |  |  |
 | BAC-8 | Shows all billing table data + Log ID |  |
@@ -191,6 +191,7 @@ Merchants need a dedicated space to view their billing history, understand their
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-16 | Behdad | REMOVED: Trial event type from billing events. Removed Trialing state. Updated event list to reflect immediate activation. | Business decision - Remove trial period |
 | 2026-02-02 | Behdad | Major update: Renamed to Billing Page, Added Plan Details page, Updated log statuses (paid/upcoming/cancel), Events (trial/renew/upgrade/reactivate/new_subscription), Warning Banner, First-time Starter redirect, Cancel updates upcoming log | Feature Overhaul |
 | 2026-02-01 | Behdad | Initial document creation | Split from SUB-001, merged with notifications |
 
@@ -209,7 +210,7 @@ Merchants need a dedicated space to view their billing history, understand their
 | **Billing Page** | Dashboard page for viewing billing history and managing subscription |
 | **Billing Log** | A record of a billing event (Starter plan does NOT create logs) |
 | **Billing Status** | One of: `paid`, `upcoming`, `cancel` |
-| **Billing Event** | One of: `trial`, `renew`, `upgrade`, `reactivate`, `new_subscription` |
+| **Billing Event** | One of: `new_subscription`, `renew`, `upgrade`, `reactivate` |
 | **Plan Details Page** | Detailed view of a single billing log entry |
 | **Warning Banner** | Persistent alert above breadcrumb when renewal is at risk (7 days before expiry) |
 | **Auto-Renewal** | Flag indicating if subscription will automatically renew |
@@ -229,7 +230,6 @@ Merchants need a dedicated space to view their billing history, understand their
 | Redirect | First-time Starter user (no billing history) | Redirect to Plans page |
 | Empty | Had billing history but now on Starter | "No active subscription" message |
 | Active | Has active subscription | Billing table + current plan indicator |
-| Trialing | In trial period | Trial badge + days remaining |
 | Expiring | Canceled but not yet expired | "Expiring on [date]" indicator |
 
 ---
@@ -337,11 +337,10 @@ ON DashboardPageLoad:
 
 | Event | Description | Creates Invoice |
 | --- | --- | --- |
-| `trial` | 30-day free trial started | No (amount=$0) |
+| `new_subscription` | New subscription purchase | Yes |
 | `renew` | Plan renewed (or scheduled to renew) | Yes (if status=paid) |
 | `upgrade` | Upgraded from lower plan | Yes |
 | `reactivate` | Returned from Starter to paid plan | Yes |
-| `new_subscription` | Admin-activated subscription | Yes |
 
 ---
 
@@ -476,7 +475,6 @@ FOR each subscription WHERE expiry_date BETWEEN now AND now+7days:
 | Expiring | Expiry date reached | Expired | Downgrade to Starter, log created |
 | Active | Renewal successful | Active | Extend expiry, log created |
 | Active | Upgrade completed | Active (new plan) | Old plan logged as "Upgraded" |
-| Trialing | Trial ends | Active | First charge processed |
 
 ---
 
@@ -538,7 +536,7 @@ FOR each subscription WHERE expiry_date BETWEEN now AND now+7days:
 | **History & Invoices** |  |  |
 | TC-6 | View history | All events listed |
 | TC-7 | Download invoice | PDF downloads |
-| TC-8 | Event without invoice (trial) | No download icon |
+| TC-8 | Event without invoice | No download icon |
 | **Notifications** |  |  |
 | TC-9 | 7 days to expiry, Stripe canceled | Warning notification sent |
 | TC-10 | 7 days to expiry, Shop Credit low | Warning notification sent |

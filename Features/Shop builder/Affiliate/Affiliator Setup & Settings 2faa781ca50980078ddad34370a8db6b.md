@@ -51,7 +51,8 @@ Product owners want to leverage other merchants to sell their products without m
 - **Activation Flow**
     - First-time activation page with explanation
     - Activation modal with details
-    - One-click activation
+    - One-click activation (only for shops with USD currency)
+    - Currency validation before activation
 - **General Information Section**
     - Shop URL display with copy functionality
     - Category selection (dropdown)
@@ -81,17 +82,19 @@ Product owners want to leverage other merchants to sell their products without m
 
 ---
 
-**Journey 1: First-Time Activation**
+**Journey 1: First-Time Activation (USD Currency Required)**
 
 | Step | Actor | Action | System Response |
 | --- | --- | --- | --- |
-| 1 | Merchant | Clicks "Affiliate Network" in sidebar | First-time page loads |
-| 2 | Merchant | Views activation page | Message explaining affiliate + "Learn More" link |
-| 3 | Merchant | Clicks "Activate Affiliate Network" | Modal opens with detailed explanation |
-| 4 | Merchant | Reads modal content | Explains benefits and how it works |
-| 5 | Merchant | Clicks "Activate Affiliate Network" in modal | Affiliate activated |
-| 6 | System | Sets merchant role to Affiliator | Role locked permanently |
-| 7 | System | Redirects to settings page | Settings page with configuration options |
+| 1 | Merchant | Clicks "Affiliate Network" in sidebar | System checks shop currency |
+| 2 | System | Validates currency | IF not USD: Show currency error page |
+| 3 | Merchant (USD shop) | Views activation page | Message explaining affiliate + "Learn More" link |
+| 4 | Merchant | Clicks "Activate Affiliate Network" | Modal opens with detailed explanation |
+| 5 | Merchant | Reads modal content | Explains benefits and how it works |
+| 6 | Merchant | Clicks "Activate Affiliate Network" in modal | System validates USD currency |
+| 7 | System | Currency validation passed | Affiliate activated |
+| 8 | System | Sets merchant role to Affiliator | Role locked permanently |
+| 9 | System | Redirects to settings page | Settings page with configuration options |
 
 ---
 
@@ -154,6 +157,7 @@ Product owners want to leverage other merchants to sell their products without m
 | BAC-2 | Activation modal explains affiliate benefits clearly |
 | BAC-3 | After activation, merchant role is set to "Affiliator" permanently |
 | BAC-4 | Affiliate settings page loads after activation |
+| BAC-4.1 | Affiliate activation is ONLY available for shops with USD currency |
 | **General Information** |  |
 | BAC-5 | Shop marketplace URL is displayed and copyable |
 | BAC-6 | Category dropdown shows 10 predefined categories |
@@ -181,6 +185,7 @@ Product owners want to leverage other merchants to sell their products without m
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-16 | Behdad | Added USD currency requirement for Affiliate activation | Business requirement - Affiliate only for USD shops |
 | 2026-02-01 | Behdad | Initial document creation | New Feature |
 
 ---
@@ -233,6 +238,12 @@ ON NavigateTo('/affiliate-network'):
         REDIRECT to '/affiliate-network/marketplace'
         RETURN
 
+    IF merchant.shop_currency != 'USD':
+        RENDER CurrencyErrorPage(
+            message: "Affiliate Network is only available for shops with USD currency"
+        )
+        RETURN
+
     IF merchant.affiliate_role == null:
         IF NOT merchant.affiliate_activated:
             RENDER ActivationPage()
@@ -274,6 +285,12 @@ ActivationModal:
 
 ON ClickActivateInModal:
     SET loading = true
+
+    // Validate currency is USD
+    IF merchant.shop_currency != 'USD':
+        SHOW error "Affiliate Network is only available for shops with USD currency"
+        SET loading = false
+        RETURN
 
     response = API.activateAffiliate(merchant.id)
 
@@ -556,7 +573,7 @@ ON ToggleAffiliate(enabled):
 | **EC-4:** Product without commission in manual mode | Cannot save (must set rate) |
 | **EC-5:** Description exceeds 500 chars | Character limit enforced |
 | **EC-6:** Network error during save | Show error, allow retry |
-| **EC-7:** Shop currency not USD | Show warning, block activation |
+| **EC-7:** Shop currency not USD | Block activation, show error: "Affiliate Network is only available for shops with USD currency" |
 | **EC-8:** Disable affiliate with active Co-sellers | Products become Out of Stock |
 
 ---

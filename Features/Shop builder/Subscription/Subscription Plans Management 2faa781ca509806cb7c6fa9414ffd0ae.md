@@ -50,7 +50,7 @@ Merchants require a tiered subscription system to access advanced features/limit
 - **Tiered Plans:** Starter (Default/Free), Pro, Premium, Enterprise.
 - **Flexible Durations:** Monthly, Yearly, 3-Year.
 - **Stripe Integration:** Payments handled via Stripe Hosted Checkout; no on-site sensitive data handling.
-- **Trial System:** Automatic 30-day free trial for the *first* purchase of any paid plan. Card is registered but NOT charged during trial. Full plan activates after trial ends.
+- **Immediate Activation:** Plans activate immediately upon purchase with no trial period.
 - **Smart Renewals:** Stripe auto-renew for card purchases; Shop Credit deduction for Admin-activated plans.
 - **Upgrade Logic:** Immediate upgrades with prorated credit for unused time on previous plans. Previous paid logs remain unchanged.
 - **Billing Page:** Dedicated billing page with comprehensive transaction logs showing all billing events.
@@ -68,7 +68,7 @@ Merchants require a tiered subscription system to access advanced features/limit
 - **Purchase Flow:** Stripe Hosted Checkout (Redirection).
 - **Enterprise Flow:** "Request Info" modal → Super Admin inquiry (email support).
 - **Admin Activation:** Super Admin activates plans; renewals deduct from Merchant Shop Credit.
-- **Trial Logic:** 30-day free trial before the first billing cycle of the first purchase. Card registered but not charged. Full plan duration starts after trial.
+- **Immediate Activation:** Plans activate immediately upon purchase. No trial period is offered.
 - **Upgrade/Downgrade:**
     - Upgrades: Immediate, prorated credit applied, previous logs remain as "paid", upcoming log becomes "cancel".
     - Downgrades: **BLOCKED entirely** - both plan tier and cycle/date downgrades are prohibited.
@@ -90,45 +90,42 @@ Merchants require a tiered subscription system to access advanced features/limit
 
 ### 3) **Key User Journeys**
 
-**Journey 1: Public/Dashboard Plan Purchase (First Time with Trial)**
+**Journey 1: Public/Dashboard Plan Purchase (Immediate Activation)**
 
 - Merchant views the Plans page (Public or Dashboard).
 - Selects "Pro - Yearly" ($108).
 - Redirected to Stripe Checkout.
-- Registers card (setup for future charge) - **NO immediate charge**.
+- Card is charged immediately for the full plan price.
 - Redirected back to Dashboard → "Success Modal" (static, shown once).
 - **Outcome:**
-    - 30-Day Trial starts immediately.
+    - Pro Yearly plan activates immediately for full 1-year duration.
     - **Billing Log Created:**
-        - Log 1: `event=trial`, `status=paid`, `amount=$0`, `date=Day 1`
-        - Log 2: `event=renew`, `status=upcoming`, `amount=$108`, `date=Day 31` (scheduled)
-    - On Day 31: Card charged $108, Pro Yearly activates for full 1-year duration.
-    - New upcoming log created for Day 31 + 1 year.
+        - Log 1: `event=new_subscription`, `status=paid`, `amount=$108`, `date=Day 1`
+        - Log 2: `event=renew`, `status=upcoming`, `amount=$108`, `date=Day 1 + 1 year` (scheduled)
 
 ---
 
-### 📊 **Example: Ali's First Subscription Journey (Trial Flow)**
+### 📊 **Example: Ali's First Subscription Journey (Immediate Activation)**
 
 | Day | Event | Log Entry | Status | Amount | Notes |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Ali signs up & buys Pro Yearly | Trial Started | paid | $0 | Card registered, not charged |
-| 1 | System creates next billing | Pro Yearly Renewal | upcoming | $108 | Scheduled for Day 31 |
-| 31 | Trial ends, card charged | Pro Yearly Renewal | paid | $108 | Plan now active for 1 year |
-| 31 | System creates next billing | Pro Yearly Renewal | upcoming | $108 | Scheduled for Day 396 (31+365) |
-| 396 | Auto-renewal | Pro Yearly Renewal | paid | $108 | If not canceled |
+| 1 | Ali signs up & buys Pro Yearly | New Subscription | paid | $108 | Card charged immediately |
+| 1 | System creates next billing | Pro Yearly Renewal | upcoming | $108 | Scheduled for Day 366 |
+| 366 | Auto-renewal | Pro Yearly Renewal | paid | $108 | If not canceled |
+| 366 | System creates next billing | Pro Yearly Renewal | upcoming | $108 | Scheduled for Day 731 |
 
 **Visual Timeline:**
 
 ```
-Day 1              Day 31                    Day 396
-  │                  │                         │
-  ▼                  ▼                         ▼
-[Trial Start]──────►[Card Charged $108]──────►[Auto-Renewal $108]
-     │                    │                         │
-  30 Days FREE        1 Year PAID              1 Year PAID
-     │                    │                         │
-  Log: trial/paid      Log: renew/paid         Log: renew/paid
-  Log: renew/upcoming  Log: renew/upcoming     Log: renew/upcoming
+Day 1                              Day 366                           Day 731
+   │                                  │                                 │
+   ▼                                  ▼                                 ▼
+[New Subscription]───────────────►[Auto-Renewal $108]─────────────►[Auto-Renewal $108]
+   │                                  │                                 │
+ Card Charged $108              1 Year PAID                      1 Year PAID
+   │                                  │                                 │
+   Log: new_subscription/paid         Log: renew/paid                   Log: renew/paid
+   Log: renew/upcoming                Log: renew/upcoming               Log: renew/upcoming
 
 ```
 
@@ -190,7 +187,7 @@ Day 1              Day 31                    Day 396
 
 **Journey 5: Super Admin Activation**
 
-- Super Admin activates plan for a Shop → **No Trial**, immediate activation.
+- Super Admin activates plan for a Shop → Immediate activation.
 - Renewal via Shop Credit deduction.
 
 **Journey 6: Failed Renewal**
@@ -210,13 +207,12 @@ Day 1              Day 31                    Day 396
 
 ### 4) **Business Acceptance Criteria (BAC)**
 
-**Trial & Purchase**
+**Purchase & Activation**
 
 - **BAC 1:** User is redirected to Stripe for payments; success callback correctly activates the plan locally. → Pass/Fail.
-- **BAC 2:** First-time subscription purchase triggers a 30-day free trial; card registered but NOT charged during trial. → Pass/Fail.
-- **BAC 3:** After trial ends (Day 31), card is charged and full plan duration begins. → Pass/Fail.
-- **BAC 4:** Trial creates two logs: `trial/paid/$0` and `renew/upcoming/[plan price]`. → Pass/Fail.
-- **BAC 5:** Reactivation after cancel/expiry does NOT include trial (trial is first-time only). → Pass/Fail.
+- **BAC 2:** Plans activate immediately upon successful payment; NO trial period is offered. → Pass/Fail.
+- **BAC 3:** First billing creates `new_subscription` event log with `status=paid` and full plan amount. → Pass/Fail.
+- **BAC 4:** Upcoming renewal log is created immediately with `status=upcoming`. → Pass/Fail.
 
 **Upgrade & Downgrade**
 
@@ -261,6 +257,7 @@ Day 1              Day 31                    Day 396
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-16 | Behdad | REMOVED: 30-day trial period. All plans now activate immediately upon purchase. Updated all related logic, BAC, and examples. | Business decision - Remove trial period |
 | 2026-02-02 | Behdad | Major update: New Trial logic (30-day free then charge), Billing page, Log statuses (paid/upcoming/cancel), Events (trial/renew/upgrade/reactivate/new_subscription), Upgrade logic (previous paid unchanged, upcoming→cancel), Downgrade fully blocked, Failed renewal handling, Reactivation flow, Warning banner, Plan details page, Comprehensive examples with tables | Feature Overhaul |
 | 2026-02-01 | Behdad | Added Expiration Warning Notifications (R24-R29, BAC9-10, T6-T9) | New Feature Request |
 | 2026-01-31 | AI | Updated Pricing, Upgrade Logic, Stripe Flow, Enterprise Request, Logs | Feature Update Request |
@@ -280,7 +277,7 @@ Day 1              Day 31                    Day 396
 | **Plan** | A tier of service (Starter, Pro, Premium, Enterprise). |
 | **Cycle/Duration** | The billing period (Monthly, Yearly, 3-Year). |
 | **Trial** | A 30-day FREE period applied *once per merchant* upon their FIRST subscription purchase. Card is registered but NOT charged. Full plan duration starts after trial ends. |
-| **Active Subscription** | A paid (or trialing) plan with a future expiration date. |
+| **Active Subscription** | A paid plan with a future expiration date. |
 | **Billing Log** | A record of every billing event. Starter plan does NOT create logs. |
 | **Billing Status** | One of: `paid` (completed transaction), `upcoming` (scheduled future billing), `cancel` (will not process). |
 | **Billing Event** | One of: `trial`, `renew`, `upgrade`, `reactivate`, `new_subscription`. |
@@ -299,27 +296,21 @@ Day 1              Day 31                    Day 396
 - **R3.** **Premium:** $50/mo | $540/yr | $1,350/3yr.
 - **R4.** **Enterprise:** Custom Pricing. Activation via Super Admin only.
 
-**Trial Logic (First-Time Purchase Only)**
+**Activation Logic (Immediate - No Trial)**
 
-- **R5.** If `merchant.has_ever_subscribed == false`, the first purchase of *any* paid plan triggers a `Trial` state.
-- **R6.** Trial Duration: **30 Days fixed**.
-- **R7.** During Trial:
-    - Card is **registered** with Stripe but **NOT charged**.
-    - A `trial` event log is created with `status=paid` and `amount=$0`.
-    - An `upcoming` log is created for the actual plan activation (Day 31).
-- **R8.** After Trial Ends (Day 31):
-    - Card is charged for the **FULL plan price** (e.g., $108 for Pro Yearly).
-    - Plan activates for **FULL duration** (e.g., 1 year from Day 31).
-    - `upcoming` log status changes to `paid`.
-    - New `upcoming` log created for next renewal (Day 31 + plan duration).
-- **R9.** Admin-activated plans do **NOT** get a trial.
-- **R10.** Reactivation (after cancel/expiry) does **NOT** get a trial - trial is ONLY for first-ever purchase.
+- **R5.** All plan purchases activate immediately upon successful payment. **NO trial period is offered.**
+- **R6.** On successful Stripe checkout:
+    - Card is **charged immediately** for the full plan price.
+    - A `new_subscription` event log is created with `status=paid`.
+    - An `upcoming` log is created for the next renewal date.
+- **R7.** Reactivation (after cancel/expiry) follows the same immediate activation flow as new subscriptions.
 
 **Stripe & Payment Flow**
 
 - **R11.** All user-initiated purchases must redirect to Stripe Hosted Checkout.
 - **R12.** On successful Stripe checkout:
-    - If first-time: Create trial log + upcoming log, set plan status to `Trialing`.
+    - Create `new_subscription` event log with `status=paid`.
+    - Create `upcoming` log for next renewal.
     - If upgrade: Trigger Upgrade Logic (R16-R20).
     - If reactivation: Create `reactivate` event log + upcoming log.
     - If renewal: Update upcoming log to `paid`, create new upcoming log.
@@ -336,7 +327,7 @@ Day 1              Day 31                    Day 396
 
 | Event | When Used |
 | --- | --- |
-| `trial` | First-time purchase |
+| `new_subscription` | New subscription purchase |
 | `renew` | Renewal (auto or manual) |
 | `upgrade` | Plan upgrade |
 | `reactivate` | Return from Starter |
@@ -480,7 +471,7 @@ def calculate_upgrade(current_sub, new_plan_price):
 
 **Reactivation:**
 
-- **T7.** Reactivate after cancel → NO trial, event=reactivate
+- **T7.** Reactivate after cancel → event=reactivate
 
 **Admin:**
 
