@@ -125,27 +125,20 @@ High-level technical considerations (no implementation).
 
 Other features or systems this depends on.
 
-### Part 2: AI-Centric Layer (Functional Logic Depth)
+---
 
-This section provides detailed explanations for AI-assisted development. NO technical implementation details.
+## UI Flow (Source of Truth)
 
-#### Definitions & Glossary
+Document the user journey through the feature. Simple arrow notation showing screens and actions.
 
-Term definitions used in this feature.
+### Example
 
-#### Exhaustive Functional Logic
+```
+Dashboard → Click "Add Product" → Product Form → Fill Details → 
+Click "Save" → Success Message → Product List
+```
 
-Detailed step-by-step logic explanations.
-
-#### Edge Cases & Error Handling
-
-All possible edge cases and how to handle them.
-
-**⚠️ NOTE: Do NOT include:**
-- Database schemas
-- API routes
-- Component architecture
-- Code snippets
+---
 
 ### Attachments
 
@@ -266,7 +259,8 @@ When a spec is **Ready for Dev**, it generates multiple **Epic** tickets in the 
 - [ ] Design is complete and approved
 - [ ] Test cases are written
 - [ ] Dependencies are identified
-- [ ] AI-centric layer is documented
+- [ ] UI Flow is documented (source of truth for test cases)
+
 
 ---
 
@@ -278,8 +272,5 @@ A: Product Manager or Tech Lead writes the initial spec.
 **Q: When does design start?**  
 A: After the initial spec draft is complete.
 
-**Q: What goes in the AI-centric layer?**  
-A: Detailed functional logic, edge cases, and definitions — but NO technical implementation details (no database schemas, routes, or code).
-
-**Q: Can we skip the design phase?**  
+**Q: Can we skip the design phase?**
 A: Only for backend-only features with no UI impact.
