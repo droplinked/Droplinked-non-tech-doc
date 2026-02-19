@@ -49,14 +49,14 @@ Merchants may need to operate multiple stores for different brands, product line
 **In Scope:**
 
 - **Store Switcher UI**
-    - Located in sidebar profile section
-    - Shows current active store
-    - Click reveals store list dropdown
-    - Visual indicator for currently selected store
+    - Located in sidebar profile card section
+    - Shows current active store with visual indicator (circle around profile picture)
+    - Click on profile card reveals store list dropdown
+    - Visual indicator for currently selected store (circle around profile picture)
 - **Store List**
-    - Display all stores user owns (Admin)
-    - Display all stores user is member of (Member)
-    - "New Store" option at the bottom
+    - Display all stores user owns (Admin) - maximum 5 stores
+    - Display all stores user is member of (Member) - unlimited
+    - "New Store" option at the bottom (only if user has < 5 owned stores)
     - Store limit indicator when approaching limit
 - **Create New Store**
     - Modal with 3 fields: Store Name, Store URL, Store Logo
@@ -89,12 +89,11 @@ Merchants may need to operate multiple stores for different brands, product line
 
 | Step | Actor | Action | System Response |
 | --- | --- | --- | --- |
-| 1 | Merchant | Clicks on profile/store section in sidebar | Store switcher panel opens |
-| 2 | Merchant | Clicks "Switch Store" | Store list dropdown appears |
-| 3 | System | Displays stores | Owned stores shown first, then member stores |
-| 4 | System | Shows current store | Checkmark or highlight on active store |
-| 5 | System | Shows store URLs | Each store shows name and URL subdomain |
-| 6 | Merchant | Sees "+ New Store" option | Option visible if under 5 owned stores |
+| 1 | Merchant | Clicks on profile card in sidebar | Store list dropdown appears |
+| 2 | System | Displays stores | Owned stores shown first, then member stores |
+| 3 | System | Shows current store | Circle indicator around active store's profile picture |
+| 4 | System | Shows store URLs | Each store shows name and URL subdomain |
+| 5 | Merchant | Sees "+ New Store" option | Option visible if user has < 5 owned stores |
 
 ---
 
@@ -124,7 +123,8 @@ Merchants may need to operate multiple stores for different brands, product line
 | 7 | Merchant | Clicks "Create Store" | Loading state |
 | 8 | System | Creates new store | Store created with user as Admin |
 | 9 | System | Switches to new store | Dashboard loads with new store |
-| 10 | Merchant | Begins using new store | Can add products, configure settings |
+| 10 | System | Data isolation | All data (products, orders, settings) are from new store only |
+| 11 | Merchant | Begins using new store | Can add products, configure settings |
 
 ---
 
@@ -168,9 +168,9 @@ Merchants may need to operate multiple stores for different brands, product line
 | ID | Criteria |
 | --- | --- |
 | **Store Switcher** |  |
-| BAC-1 | Store switcher is accessible from sidebar profile section |
-| BAC-2 | Clicking "Switch Store" reveals list of all accessible stores |
-| BAC-3 | Current active store is visually highlighted (checkmark/highlight) |
+| BAC-1 | Store switcher is accessible by clicking profile card in sidebar |
+| BAC-2 | Clicking profile card reveals list of all accessible stores |
+| BAC-3 | Current active store has circle indicator around profile picture |
 | BAC-4 | Each store entry shows Store Name and Store URL |
 | BAC-5 | Owned stores (Admin) are listed before member stores |
 | **Store Switching** |  |
@@ -189,6 +189,7 @@ Merchants may need to operate multiple stores for different brands, product line
 | BAC-17 | "Create Store" button disabled until all validations pass |
 | BAC-18 | On creation, user is set as Admin of new store |
 | BAC-19 | After creation, user is automatically switched to the new store |
+| BAC-20 | After switching to new store, all data displayed must be from new store only (no data from other stores) |
 | **Store Limit** |  |
 | BAC-20 | Maximum 5 owned stores per user |
 | BAC-21 | "+ New Store" option hidden when limit reached |
@@ -204,393 +205,56 @@ Merchants may need to operate multiple stores for different brands, product line
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
 | 2026-02-01 | Behdad | Initial document creation | New Feature |
+| 2026-02-19 | Behdad | Updated flow: profile card click, active store indicator (circle), data isolation requirement, unlimited member stores | UX Improvements |
 
 ---
 
 ---
 
-## PART 2: AI-CENTRIC LAYER (Functional Logic Depth)
-
----
-
-### B1) Definitions & Glossary
-
-| Term | Definition |
-| --- | --- |
-| **Owned Store** | A store where the user is the Admin (original creator) |
-| **Member Store** | A store where the user was invited and accepted as a team member |
-| **Active Store** | The currently selected store in the user's session |
-| **Store Limit** | Maximum number of stores a user can own (5) |
-| **Store Switcher** | UI component for viewing and changing active store |
-
----
-
-### B2) Exhaustive Functional Logic
-
----
-
-### **FL-1: Load Store List**
+## UI Flow (Source of Truth)
 
 ```
-ON OpenStoreSwitcher:
-    allStores = []
-
-    // Get owned stores (user is admin)
-    ownedStores = API.getStoresByOwner(currentUser.id)
-    ownedStores.sort(by: created_at ASC)  // Oldest first
-    FOR EACH store IN ownedStores:
-        store.role = 'admin'
-        store.displayRole = 'Admin'
-        allStores.push(store)
-
-    // Get member stores (user is invited member)
-    memberStores = API.getStoresByMember(currentUser.id)
-    memberStores.sort(by: added_at ASC)  // Oldest first
-    FOR EACH store IN memberStores:
-        store.role = 'member'
-        store.displayRole = 'Member'
-        allStores.push(store)
-
-    // Determine if can create new store
-    canCreateNew = ownedStores.length < 5
-
-    RENDER storeSwitcher(allStores, canCreateNew, activeStoreId)
-
-```
-
----
-
-### **FL-2: Store Switcher UI Rendering**
-
-```
-FUNCTION renderStoreSwitcher(stores, canCreateNew, activeId):
-    FOR EACH store IN stores:
-        RENDER StoreItem:
-            - logo: store.logo_url OR defaultLogo
-            - name: store.name
-            - url: store.url + ".droplinked.io"
-            - isActive: store.id == activeId
-            - roleTag: store.displayRole (shown subtly)
-
-    IF canCreateNew:
-        RENDER NewStoreButton("+ New Store")
-    ELSE:
-        // Don't render new store option
-
-```
-
----
-
-### **FL-3: Switch Store**
-
-```
-ON ClickStore(storeId):
-    IF storeId == activeStoreId:
-        CLOSE switcher
-        RETURN
-
-    SET loading = true
-    SHOW loadingOverlay("Switching store...")
-
-    response = API.switchStore(storeId)
-
-    IF response.success:
-        SET activeStoreId = storeId
-        SET SESSION.currentStore = response.storeData
-
-        // Update UI
-        UPDATE sidebar.storeName = response.storeData.name
-        UPDATE sidebar.storeLogo = response.storeData.logo_url
-
-        // Reload dashboard data
-        REFRESH dashboardData()
-
-        CLOSE switcher
-    ELSE:
-        SHOW error "Failed to switch store"
-
-    SET loading = false
-
-```
-
----
-
-### **FL-4: Open Create Store Modal**
-
-```
-ON ClickNewStore:
-    IF ownedStoresCount >= 5:
-        SHOW error "You've reached the maximum of 5 stores"
-        RETURN
-
-    CLOSE storeSwitcher
-    OPEN CreateStoreModal:
-        - storeNameInput (empty)
-        - storeURLInput (empty)
-        - storeLogoUpload (empty)
-        - createButton (disabled)
-        - discardButton
-
-```
-
----
-
-### **FL-5: Store Name Validation**
-
-```
-ON StoreNameChange(value):
-    IF value.trim() == "":
-        SET nameError = "Store name is required"
-    ELSE IF value.length > 50:
-        SET nameError = "Maximum 50 characters allowed"
-    ELSE:
-        SET nameError = null
-
-    validateCreateButton()
-
-```
-
----
-
-### **FL-6: Store URL Validation**
-
-```
-reservedWords = [
-    'admin', 'api', 'support', 'droplinked', 'www',
-    'mail', 'ftp', 'help', 'shop', 'store',
-    'checkout', 'cart', 'account', 'login',
-    'signup', 'dashboard'
-]
-
-ON StoreURLChange(value):
-    cleanValue = value.toLowerCase().replace(/[^a-z0-9-]/g, '')
-
-    // Update input with cleaned value
-    storeURLInput.value = cleanValue
-
-    IF cleanValue == "":
-        SET urlError = "Store URL is required"
-        validateCreateButton()
-        RETURN
-
-    IF cleanValue.length > 50:
-        SET urlError = "Maximum 50 characters allowed"
-        validateCreateButton()
-        RETURN
-
-    IF cleanValue IN reservedWords:
-        SET urlError = "This URL is reserved"
-        validateCreateButton()
-        RETURN
-
-    // Check uniqueness (debounced)
-    DEBOUNCE 300ms:
-        response = API.checkURLUniqueness(cleanValue)
-        IF response.available == false:
-            SET urlError = "This URL is already taken"
-        ELSE:
-            SET urlError = null
-            SET urlIsUnique = true
-
-        validateCreateButton()
-
-```
-
----
-
-### **FL-7: Store Logo Validation**
-
-```
-ON LogoUpload(file):
-    IF file.type NOT IN ['image/jpeg', 'image/jpg', 'image/png']:
-        SHOW error "Only JPEG, JPG, PNG files are allowed"
-        RETURN
-
-    IF file.size > 5MB:
-        SHOW error "File size must be less than 5MB"
-        RETURN
-
-    // Upload to server
-    response = API.uploadLogo(file)
-
-    IF response.success:
-        SET storeLogo = response.url
-        SET logoError = null
-        SHOW logoPreview(response.url)
-    ELSE:
-        SET logoError = "Failed to upload logo"
-
-    validateCreateButton()
-
-```
-
----
-
-### **FL-8: Create Button State**
-
-```
-FUNCTION validateCreateButton():
-    isValid = (
-        storeName.value.trim() != "" AND
-        storeName.error == null AND
-        storeURL.value.trim() != "" AND
-        storeURL.error == null AND
-        storeURL.isUnique == true AND
-        storeLogo != null AND
-        storeLogo.error == null
-    )
-
-    createButton.disabled = !isValid
-
-```
-
----
-
-### **FL-9: Create Store**
-
-```
-ON ClickCreateStore:
-    SET loading = true
-
-    payload = {
-        name: storeName.value.trim(),
-        url: storeURL.value,
-        logo_url: storeLogo,
-        owner_id: currentUser.id
-    }
-
-    response = API.createStore(payload)
-
-    IF response.success:
-        newStoreId = response.store.id
-
-        CLOSE modal
-
-        // Switch to new store
-        SET activeStoreId = newStoreId
-        SET SESSION.currentStore = response.store
-
-        // Update UI
-        UPDATE sidebar.storeName = response.store.name
-        UPDATE sidebar.storeLogo = response.store.logo_url
-
-        REFRESH dashboardData()
-
-        SHOW success "Store created successfully"
-    ELSE:
-        SHOW error response.message
-
-    SET loading = false
-
-```
-
----
-
-### **FL-10: Default Store Selection on Login**
-
-```
-ON SuccessfulLogin:
-    stores = API.getAllUserStores(currentUser.id)
-
-    IF stores.length == 0:
-        // New user, hasn't completed onboarding
-        REDIRECT to /onboarding
-        RETURN
-
-    // Separate owned and member stores
-    ownedStores = stores.filter(s => s.role == 'admin')
-                        .sort(by: created_at ASC)
-    memberStores = stores.filter(s => s.role == 'member')
-                         .sort(by: added_at ASC)
-
-    defaultStore = null
-
-    IF ownedStores.length > 0:
-        defaultStore = ownedStores[0]  // Oldest owned
-    ELSE IF memberStores.length > 0:
-        defaultStore = memberStores[0]  // Oldest member
-
-    IF defaultStore:
-        SET activeStoreId = defaultStore.id
-        SET SESSION.currentStore = defaultStore
-        REDIRECT to /dashboard
-    ELSE:
-        // Edge case: all stores were deleted/removed
-        REDIRECT to /onboarding
-
-```
-
----
-
-### **FL-11: Discard Store Creation**
-
-```
-ON ClickDiscard:
-    IF anyFieldHasValue():
-        SHOW confirmDialog("Discard changes? Your store won't be created.")
-        IF confirmed:
-            CLOSE modal
-    ELSE:
-        CLOSE modal
-
-```
-
----
-
-### B3) Behavioral Flow
-
-```
-[User Logged In]
+[Sidebar Profile Card with Active Store Indicator]
     ↓
-[Click Profile/Store Section in Sidebar]
+[Click Profile Card]
     ↓
-[Click "Switch Store"]
-    ↓
-[Load Store List]
+[Store List Dropdown Opens]
     ↓
 [Display: Owned Stores (oldest first) → Member Stores (oldest first)]
     │
-    ├─ [Click Existing Store] → [Loading] → [Switch Context] → [Reload Dashboard]
+    ├─ [Active Store: Circle around profile picture]
     │
-    └─ [Click "+ New Store"] (if < 5 owned)
+    ├─ [Click Different Store] → [Loading State] → [Switch Context] → [Reload Dashboard with New Store Data]
+    │
+    └─ [Click "+ New Store"] (if user has < 5 owned stores)
         ↓
-    [Open Create Store Modal]
+    [New Store Modal Opens]
         ↓
-    [Fill: Name, URL, Logo]
+    [Fill: Store Name, URL, Logo]
         ↓
-    [All Valid] → [Create Button Enabled]
+    [All Validations Pass] → [Create Store Button Enabled]
         ↓
-    [Click Create]
+    [Click Create Store]
         ↓
-    [Create Store] → [Switch to New Store] → [Dashboard Loads]
-
+    [Create Store] → [Auto-Switch to New Store] → [Dashboard Loads with New Store Data Only]
 ```
 
 ---
 
-### B4) State Transitions
+## Attachments
 
-| Current State | Event | New State | Side Effects |
-| --- | --- | --- | --- |
-| Dashboard (Store A) | Switch to Store B | Dashboard (Store B) | All data reloads for Store B |
-| Dashboard | Open switcher | Switcher Open | Load store list |
-| Switcher Open | Click store | Switching | Loading overlay shown |
-| Switching | Load complete | Dashboard (new store) | UI updated |
-| Switcher Open | Click New Store | Modal Open | Create modal shown |
-| Modal Open | Click Create | Creating | Loading state |
-| Creating | Success | Dashboard (new store) | New store active |
-| Creating | Failure | Modal Open | Error shown, can retry |
-| Modal Open | Click Discard | Switcher Open | Modal closed |
+- 🎨 **Design:** [Figma - Multi-Store Management]
+- 🧪 **Test Cases:** [Test Cases Document]
 
 ---
 
-### B5) Edge Cases & Error Handling
+### Edge Cases & Error Handling
 
 | Edge Case | System Behavior |
 | --- | --- |
 | **EC-1:** User has no stores (new user) | Redirect to onboarding |
 | **EC-2:** User only has member stores (no owned) | Show member stores, New Store option available |
-| **EC-3:** User at 5 store limit | Hide "+ New Store" option |
+| **EC-3:** User at 5 owned store limit | Hide "+ New Store" option |
 | **EC-4:** URL already taken | Show error, disable create button |
 | **EC-5:** Logo upload fails | Show error, allow retry, create button stays disabled |
 | **EC-6:** Network error during store creation | Show error, allow retry |
@@ -600,63 +264,4 @@ ON ClickDiscard:
 | **EC-10:** Concurrent store creation with same URL | Second request fails with "URL taken" error |
 | **EC-11:** User enters URL with spaces | Auto-stripped, show clean URL |
 | **EC-12:** User enters URL with uppercase | Auto-converted to lowercase |
-
----
-
-### B6) Data Requirements
-
-**Store Table (relevant fields):**
-
-| Field | Type | Description |
-| --- | --- | --- |
-| id | UUID | Unique store ID |
-| name | String | Store display name |
-| url | String | Unique URL subdomain |
-| logo_url | String | Store logo URL |
-| owner_id | UUID | User ID of store creator (Admin) |
-| created_at | DateTime | When store was created |
-| theme_id | String | Selected theme (default if new) |
-
-**User Store Access (for member stores):**
-
-| Field | Type | Description |
-| --- | --- | --- |
-| id | UUID | Unique record ID |
-| store_id | UUID | Store ID |
-| user_id | UUID | User ID |
-| role | Enum | admin, member |
-| added_at | DateTime | When access was granted |
-
-**API Endpoints:**
-
-| Endpoint | Method | Purpose |
-| --- | --- | --- |
-| `/api/users/{id}/stores` | GET | Get all stores user has access to |
-| `/api/stores` | POST | Create new store |
-| `/api/stores/check-url` | POST | Check URL uniqueness |
-| `/api/stores/{id}/switch` | POST | Switch active store context |
-| `/api/upload/logo` | POST | Upload store logo |
-
----
-
-### B7) Test Case Hooks
-
-| Test ID | Scenario | Expected Result |
-| --- | --- | --- |
-| TC-1 | Open store switcher | Shows list of all accessible stores |
-| TC-2 | Owned stores listed first | Owned stores appear above member stores |
-| TC-3 | Current store highlighted | Active store has visual indicator |
-| TC-4 | Switch to different store | Dashboard reloads with new store data |
-| TC-5 | Create new store with valid data | Store created, user switched to it |
-| TC-6 | Create store with taken URL | Error shown, cannot create |
-| TC-7 | Create store with reserved URL | Error shown, cannot create |
-| TC-8 | User has 5 stores | "+ New Store" option hidden |
-| TC-9 | User has 4 stores | "+ New Store" option visible |
-| TC-10 | Upload invalid logo format | Error shown |
-| TC-11 | Upload oversized logo | Error shown |
-| TC-12 | Login with multiple stores | Default to oldest owned store |
-| TC-13 | Login with only member stores | Default to oldest member store |
-| TC-14 | Discard store creation with data | Confirmation shown |
-| TC-15 | Discard store creation empty form | Modal closes immediately |
-| TC-16 | URL with uppercase entered | Auto-converted to lowercase |
-| TC-17 | Member stores don't count toward limit | User can create 5 stores regardless of member stores |
+| **EC-13:** Data from other stores visible after switch | All data must be from current store only |
