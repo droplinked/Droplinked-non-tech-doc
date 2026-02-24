@@ -1,7 +1,7 @@
 ---
 name: spec-writer
-version: 1.0.0
-description: Help write and edit product specifications following the Define phase workflow
+version: 2.0.0
+description: Help write and edit product specifications following Droplinked's standardized format
 license: MIT
 compatibility: opencode
 metadata:
@@ -10,214 +10,306 @@ metadata:
   language: bilingual (English/Persian)
 ---
 
+# Skill: spec-writer
+
 ## What I do
 
-- **Create new specs** from scratch following the standardized format in `Product-Development-Workflow/02-define.md`
-- **Edit existing specs** to improve clarity, completeness, or structure
-- **Ask clarifying questions** to ensure specs are unambiguous and complete
-- **Identify missing information** and request it from you
-- **Guide you through the spec writing process** step by step
+- **Create new specs** from scratch following the Droplinked format in `@notion\🧭 Droplinked — Product Overview\Features/`
+- **Edit existing specs** - Modify existing documents without rewriting
+- **Manage spec structure** - Help organize and structure complex features
+- **Break down large architectures** - Split big features into manageable sub-features
+- **Ask clarifying questions** - Never assume; always ask when unclear
 
 ## When to use me
 
 Use this skill when:
 - You need to write a new feature specification
-- You want to edit an existing spec document
-- You're not sure what information is needed for a complete spec
-- You want to ensure your spec follows the team standards
+- You want to edit/update an existing spec
+- You need to break down a large feature into smaller components
+- You're unsure where a new feature fits in the existing structure
+- You want to maintain consistency with existing documentation
 
-## How I Work
+## Important Rules
 
-### For New Specs
+⚠️ **DO NOT:**
+- Write content without clarifying questions first
+- Generate AI sections for specs (AI features are deprecated for spec writing)
+- Assume anything about the feature - always ask
+- Create new files unless explicitly instructed
 
-1. **Gather Requirements** - I'll ask you about:
-   - Feature name/title
-   - Problem you're solving
-   - Target users (actors)
-   - Channel (Web/Mobile/API)
-   - Category/Module
-   - Any existing context or constraints
+✅ **DO:**
+- First ask a list of questions to understand what you need
+- Read and understand existing docs before editing
+- Follow the exact format from existing Droplinked specs
+- Break down large features into logical sub-features
+- Identify which existing docs need updates vs. new docs needed
 
-2. **Draft the Spec** - I'll create a complete spec following this structure:
-   - Feature metadata (ID, title, category, actors, channel, status, owner)
-   - Part 1: Human-Readable Spec
-     - Problem Statement
-     - User Stories
-     - Key User Journeys
-     - Scope (In/Out)
-     - Acceptance Criteria
-     - Technical Notes
-     - Dependencies
-   - UI Flow (Source of Truth)
-   - Attachments
-   - Change Log
+## My Workflow
 
-3. **Review & Refine** - I'll ask if anything needs adjustment
+### Step 1: Clarify Requirements
 
-### For Editing Existing Specs
+**Before writing anything, I will ask you:**
 
-1. **Analyze Current Spec** - I'll read and understand what's there
-2. **Identify Gaps/Issues** - I'll point out:
-   - Missing required sections
-   - Ambiguous language
-   - Incomplete information
-   - Structural issues
-3. **Propose Improvements** - I'll suggest specific edits
-4. **Apply Changes** - With your approval, I'll update the document
+1. **What do you want to do?**
+   - Create a new feature spec?
+   - Edit an existing spec?
+   - Restructure/organize existing specs?
+   - Break down a large feature?
 
-## Spec Document Structure
+2. **Context questions:**
+   - What's the feature name?
+   - Which category/module does it belong to? (e.g., Shop builder, Checkout, Shop front)
+   - Is there an existing document I should reference?
+   - Are there related features already documented?
 
-Every spec I create follows this exact format:
+3. **For new features:**
+   - What problem are we solving?
+   - Who are the target users?
+   - What channels? (Web/Mobile/API)
+   - Any constraints or dependencies?
+
+4. **For editing:**
+   - What specific changes are needed?
+   - Is this adding new functionality or modifying existing?
+   - What sections need updates?
+
+### Step 2: Analyze Existing Structure
+
+**I will:**
+- Read existing documents in the relevant category
+- Understand the hierarchy and naming conventions
+- Identify which documents need:
+  - Creation (new sub-features)
+  - Updates (adding to existing)
+  - No changes (unaffected areas)
+
+### Step 3: Create or Update
+
+**For new specs:**
+- Follow the exact format from the template below
+- Save to the correct location based on category
+- Use consistent naming: `[Feature Name] [ID].md`
+
+**For existing specs:**
+- Read the current document first
+- Identify exact sections to modify
+- Propose changes before applying
+
+## Spec Document Format
+
+Every spec follows this exact structure (matching Droplinked standards):
 
 ```markdown
 # [Feature Title]
 
-**Feature ID:** [IAA-XXX-001]  
-**Category:** [Module]  
-**Actors:** [User Types]  
-**Channel:** [Web/Mobile/API]  
-**Status:** Writing Spec (Draft)  
-**Owner:** [Name]  
+### Feature ID:
+
+**[IAA-XXX-001]**
+
+### Title:
+
+**[Feature Title]**
+
+### Category:
+
+**[Module]** | **Actors**: [User Types] | **Channel**: [Web/Mobile/API]
+
+### Status:
+
+**[Writing Spec (Draft) / Released / etc]**
+
+### Owner:
+
+[Name]
 
 ---
 
-## Part 1: Human-Readable Spec
+### 1) Summary
 
-### Problem Statement
-
+**Problem/Value:**
 [What problem are we solving? Why does it matter?]
 
-### User Stories
-
-- As a [user type], I want [action] so that [benefit].
-- As a [user type], I want [action] so that [benefit].
-
-### Key User Journeys
-
-[Step-by-step flow of how users interact with feature]
-
-### Scope
-
-**✅ In Scope:**
-- [Item 1]
-- [Item 2]
-
-**❌ Out of Scope:**
-- [Item 1]
-- [Item 2]
-
-### Acceptance Criteria
-
-- [ ] Criterion 1
-- [ ] Criterion 2
-- [ ] Criterion 3
-
-### Technical Notes
-
-[High-level technical considerations (no implementation details)]
-
-### Dependencies
-
-- [Dependency 1]
-- [Dependency 2]
+**Desired Outcome:**
+- [Outcome 1]
+- [Outcome 2]
 
 ---
 
-## UI Flow (Source of Truth)
+### 2) Scope – In / Out
 
-```
-[Screen 1] → [Action] → [Screen 2] → [Action] → [Screen 3]
-```
+**In:**
 
----
+- [Feature item 1]
+- [Feature item 2]
 
-## Attachments
+**Out:**
 
-- 📎 **Linked Request:** [REQ-XXX]
-- 📄 **Spec Document:** [Link]
-- 🎨 **Design:** [Link to Figma]
-- 🧪 **Test Cases:** [Link]
+- [Item not included 1]
+- [Item not included 2]
 
 ---
 
-## Change Log
+### 3) Key User Journeys
 
-- YYYY-MM-DD — [Name] — Initial draft
+**Journey 1: [Name]**
+
+- **Step 1:** [Action]
+- **Step 2:** [Action]
+- **Step 3:** [Action]
+
+**Journey 2: [Name]**
+
+- **Step 1:** [Action]
+- **Step 2:** [Action]
+
+---
+
+### 4) Business Acceptance Criteria (BAC)
+
+- **BAC 1:** [Criterion description]
+- **BAC 2:** [Criterion description]
+- **BAC 3:** [Criterion description]
+
+### 📜 Change Log
+
+| Date | Author | Description of Changes | Reason |
+| --- | --- | --- | --- |
+| YYYY-MM-DD | [Name] | [Description] | [Reason] |
+
+---
+
+---
+
+# [PART 2: DETAILED REFERENCE SPEC]
+
+### B1) Definitions & Glossary
+
+- **[Term 1]:** [Definition]
+- **[Term 2]:** [Definition]
+
+### B2) Detailed Functional Rules (Numbered)
+
+- **R1.** [Rule description]
+- **R2.** [Rule description]
+- **R3.** [Rule description]
+
+### B3) UI/UX States & Triggers
+
+- **[State 1]:**
+    - [Behavior description]
+- **[State 2]:**
+    - [Behavior description]
+
+### B4) Edge Cases & Error Handling
+
+- **[EC1]:** [Case description and handling]
+- **[EC2]:** [Case description and handling]
+
+### B5) Data Requirements & API Contracts
+
+- **Fields:**
+    - `[field_name]`: [Type] ([Req/Opt])
+    - `[field_name]`: [Type] ([Req/Opt])
+
+### B6) Logical Flow & Pseudo-code
+
+```
+IF [Condition]:
+    [Action]
+    [Action]
+ELSE:
+    [Action]
 ```
 
-## Questions I'll Ask
+### B7) Testing Matrix
 
-When creating a new spec, I may ask:
+- **T1:** [Test case description] -> Expect [Result]
+- **T2:** [Test case description] -> Expect [Result]
+```
 
-**Basic Info:**
-- What's the feature name/title?
-- Which module/category does this belong to?
-- Who are the primary users/actors?
-- Is this for Web, Mobile, or API?
-- Who is the owner/Product Manager?
+## Breaking Down Large Features
 
-**Problem & Value:**
-- What problem are we solving?
-- Why is this important?
-- What happens if we don't build this?
+When a feature is too large for one document:
 
-**Functionality:**
-- What are the main user stories?
-- What are the key user journeys/flows?
-- What's the happy path?
-- What are the edge cases?
+1. **Create an Overview document** with:
+   - High-level description
+   - Complete user flow diagram
+   - List of sub-features with links
 
-**Boundaries:**
-- What's definitely in scope?
-- What's definitely out of scope?
-- Are there any constraints or limitations?
+2. **Create sub-feature documents** for:
+   - Each major step in the journey
+   - Each distinct functionality
+   - Each user type's perspective
 
-**Dependencies:**
-- Does this depend on other features?
-- Are there technical dependencies?
-- Is there existing work this builds on?
+3. **Link properly:**
+   - Overview → links to sub-features
+   - Sub-features → link back to overview
+   - Cross-reference related sub-features
 
-**For Editing:**
-- What specifically do you want to change?
-- Are you adding new functionality?
-- Are you removing or modifying existing requirements?
-- Is there new context I should know about?
+## Example: How I Work
 
-## Example Interaction
+### Scenario 1: You want to add a new feature
 
-**You:** "I need a spec for a product image upload feature"
+**You:** "I need to add a feature for product bulk import"
 
-**Me:** "Great! Let me ask a few questions to create a complete spec:
+**Me:** "Before I write anything, let me ask a few questions:
 
-1. What's the exact feature name/title?
-2. Which module is this for? (e.g., Product Management, Shop Builder, etc.)
-3. Who are the primary users? (e.g., Merchants, Admins)
-4. Is this for Web, Mobile, or both?
-5. What's the main problem we're solving?
-6. Do you have any existing context or constraints I should know about?"
+1. Where should this go? Is this part of 'Shop builder > Products' or a separate category?
+2. Are there existing product-related docs I should reference?
+3. What problem does bulk import solve for merchants?
+4. What format will imports support? (CSV, Excel, API?)
+5. Is this for merchants only, or will admins also use it?
 
-**You:** [Provide answers]
+Please answer these, then I'll create the spec."
 
-**Me:** [Create complete spec document]
+### Scenario 2: You want to update an existing feature
 
-## Output Location
+**You:** "Update the Checkout spec to add wallet payment details"
 
-Specs are saved to: `Product-Development-Workflow/02-define/`
+**Me:** "Let me first read the existing Checkout documentation to understand the current structure. Then I'll ask:
 
-File naming: `[Feature-ID]-[feature-name].md`
-Example: `IAA-PROD-001-product-image-upload.md`
+1. Which specific section needs the wallet payment details?
+2. Is this a new payment method addition or an update to existing?
+3. Are there other docs (like Payment spec) that also need updates?
 
-## Tips for Best Results
+I'll read the current doc, then propose the exact changes."
 
-- **Be specific** - The more detail you provide, the better the spec
-- **Share context** - Tell me about user pain points, business goals, or technical constraints
-- **Iterate** - It's okay to start rough and refine together
-- **Reference existing specs** - If you have a similar feature already spec'd, let me know
-- **Don't worry about perfection** - I can always help you edit and improve later
+### Scenario 3: You have a large feature to structure
+
+**You:** "Document the entire affiliate system"
+
+**Me:** "This is a large feature that needs to be broken down. Let me first ask:
+
+1. Who are the main user types in the affiliate system? (Merchants, Affiliates, Admin?)
+2. What are the main flows? (Activation, Management, Payouts, etc.)
+3. Are there existing docs I should reference or update?
+
+Based on your answers, I'll create:
+- An overview document
+- Separate docs for each major component
+- Proper linking between all documents"
+
+## Document Location & Naming
+
+**Base Path:** `notion/🧭 Droplinked — Product Overview/Features/`
+
+**Structure:**
+```
+Features/
+├── [Category]/
+│   ├── [Sub-feature].md
+│   └── [Sub-category]/
+│       └── [Feature].md
+```
+
+**Naming:**
+- Main category: `[Category] [ID].md`
+- Sub-feature: `[Feature Name] [ID].md`
 
 ## Status Workflow
 
-I track the spec through these statuses:
+I track specs through these statuses:
+
 1. **Writing Spec (Draft)** - Initial creation
 2. **Waiting for Design** - Ready for designer
 3. **Researching** - Designer researching
@@ -227,4 +319,17 @@ I track the spec through these statuses:
 7. **Writing Test Cases** - QA writing tests
 8. **Ready for Dev** - Complete!
 
-I'll update the status field as we progress.
+## Remember
+
+🎯 **My goal is to:**
+- Ask questions BEFORE writing
+- Understand the full picture first
+- Maintain consistency with existing docs
+- Break down complex features logically
+- Only write what you confirm is needed
+
+🚫 **I will NOT:**
+- Guess or assume requirements
+- Write AI sections (deprecated)
+- Create documents without your approval of structure
+- Overwrite existing content without reviewing it first

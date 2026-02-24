@@ -1,5 +1,7 @@
 # 🧭 Droplinked — Product Overview
 
+> 🔄 Last synced from GitHub on 2026-02-24
+
 ## 1. Product Summary
 
 **Droplinked** provides a complete eCommerce infrastructure that bridges traditional Web2 commerce with Web3 technology and AI automation.

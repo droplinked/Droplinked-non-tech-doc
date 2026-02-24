@@ -1,0 +1,85 @@
+name: Sync to Notion
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'notion/**/*.md'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Sync Markdown files to Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          npm init -y
+          npm install @notionhq/client
+          node << 'EOF'
+          const { Client } = require('@notionhq/client');
+          const fs = require('fs');
+          const path = require('path');
+
+          const notion = new Client({ auth: process.env.NOTION_TOKEN });
+
+          // Map: filename -> Notion Page ID
+          const pageMapping = {
+            '🧭 Droplinked — Product Overview 25ba781ca509800486d1f6f8eb35f63b.md': '25ba781ca509800486d1f6f8eb35f63b',
+            'Product Development Workflow 2fda781ca5098022884af09d8e0b9a73.md': '2fda781ca5098022884af09d8e0b9a73'
+          };
+
+          async function updateNotionPage(filePath, pageId) {
+            const content = fs.readFileSync(filePath, 'utf-8');
+            
+            // Clear existing content
+            const page = await notion.pages.retrieve({ page_id: pageId });
+            const blocks = await notion.blocks.children.list({ block_id: pageId });
+            
+            for (const block of blocks.results) {
+              await notion.blocks.delete({ block_id: block.id });
+            }
+
+            // Add new content as paragraph blocks
+            const lines = content.split('\n').filter(line => line.trim());
+            const blocks2 = lines.map(line => ({
+              object: 'block',
+              type: 'paragraph',
+              paragraph: {
+                rich_text: [{ type: 'text', text: { content: line } }]
+              }
+            }));
+
+            // Add in chunks (max 100 blocks per request)
+            for (let i = 0; i < blocks2.length; i += 100) {
+              const chunk = blocks2.slice(i, i + 100);
+              await notion.blocks.children.append({
+                block_id: pageId,
+                children: chunk
+              });
+            }
+            
+            console.log(`✅ Synced: ${path.basename(filePath)}`);
+          }
+
+          async function main() {
+            const notionDir = './notion';
+            const files = fs.readdirSync(notionDir).filter(f => f.endsWith('.md'));
+            
+            for (const file of files) {
+              const pageId = pageMapping[file];
+              if (pageId) {
+                await updateNotionPage(path.join(notionDir, file), pageId);
+              }
+            }
+          }
+
+          main().catch(console.error);
+          EOF
