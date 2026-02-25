@@ -20,6 +20,8 @@
 
 Affiliators need detailed information about each Co-seller partner. The Overview tab provides comprehensive partner information including store details, performance metrics, and social media links. This helps Affiliators understand who is selling their products and how well they're performing.
 
+**Cancel Collaboration:** Affiliators can cancel collaboration with a partner from this page using the 3-dot menu, which immediately ends the partnership and removes all products of this Affiliator from that Co-seller's shop.
+
 ### User Stories
 
 - As an Affiliator, I want to view detailed information about a partner so that I can understand my sales channels.
@@ -38,6 +40,31 @@ Affiliators need detailed information about each Co-seller partner. The Overview
 | 3 | System | Shows performance metrics | Imported Products, Products Sold, Affiliate Sales, Net Revenue, Commission Paid |
 | 4 | System | Shows social media links | Links to partner's social channels |
 | 5 | Affiliator | Clicks "View Store" button | Partner's shop opens in new tab |
+
+**Journey 2: Cancel Collaboration (from 3-dot menu)**
+
+| Step | Actor | Action | System Response |
+| --- | --- | --- | --- |
+| 1 | Affiliator | On Partner page, clicks 3-dot menu (⋯) | Dropdown menu opens |
+| 2 | System | Shows menu options | "Cancel Collaboration" option visible |
+| 3 | Affiliator | Clicks "Cancel Collaboration" | Warning modal opens |
+| 4 | System | Shows warning modal | "All products will be removed from [Partner Name]'s shop. They will no longer be able to import your products." |
+| 5 | System | Shows list of affected products | Product count and names listed |
+| 6 | Affiliator | Reviews warning | Can see which products will be removed |
+| 7 | Affiliator | Clicks "Confirm Cancel" | Collaboration cancelled |
+| 8 | System | Removes all products | All Affiliator's products removed from partner's shop immediately |
+| 9 | System | Updates partner status | Status changes to "Inactive" |
+| 10 | System | Shows success message | "Collaboration cancelled. X products removed from [Partner Name]'s shop." |
+| 11 | Affiliator | Redirected to dashboard | Dashboard shows updated partner list |
+
+**Journey 3: Attempt Re-import After Cancellation**
+
+| Step | Actor | Action | System Response |
+| --- | --- | --- | --- |
+| 1 | Co-seller | Goes to Marketplace | Browses products |
+| 2 | Co-seller | Finds product from cancelled Affiliator | Product detail shows |
+| 3 | Co-seller | Clicks "Add Product" | Error message shown |
+| 4 | System | Blocks import | "This collaboration has been cancelled. You cannot import products from this merchant." |
 
 ### Scope
 
@@ -59,6 +86,12 @@ Affiliators need detailed information about each Co-seller partner. The Overview
 - **Social Media Links**
     - Display partner's social media links (if provided)
     - Links open in new tabs
+- **Cancel Collaboration (3-dot menu)**
+    - 3-dot menu (⋯) on partner card/header
+    - "Cancel Collaboration" option
+    - Warning modal with affected products list
+    - Immediate removal of all products from partner's shop
+    - Partner cannot re-import products after cancellation
 - **Navigation**
     - Tabs: Overview (active), Products, Payouts
 
@@ -84,6 +117,15 @@ Affiliators need detailed information about each Co-seller partner. The Overview
 - [ ]  All monetary values in USD
 - [ ]  Social media links displayed if partner provided them
 - [ ]  "View Store" button opens partner's shop in new tab
+- [ ]  **3-dot menu (⋯) visible on partner page header/card**
+- [ ]  **Clicking 3-dot menu shows dropdown with "Cancel Collaboration" option**
+- [ ]  **Clicking "Cancel Collaboration" opens warning modal**
+- [ ]  **Warning modal shows list of products that will be removed**
+- [ ]  **Warning modal shows product count: "X products will be removed"**
+- [ ]  **Confirming cancellation immediately removes all products from partner's shop**
+- [ ]  **Partner status changes to "Inactive" after cancellation**
+- [ ]  **Cancelled partner cannot re-import products (error: "Collaboration cancelled")**
+- [ ]  **Products in active checkout/cart can still be purchased (no disruption)**
 - [ ]  Three tabs visible: Overview (active), Products, Payouts
 - [ ]  Clicking other tabs navigates to those sections
 
@@ -105,6 +147,71 @@ Affiliators need detailed information about each Co-seller partner. The Overview
 
 ## UI Flow (Source of Truth)
 
+```
+[Merchant Dashboard]
+    ↓
+[Click Partner Row]
+    ↓
+[Partner Page - Overview Tab]
+    ┌──────────────────────────────────────────────┐
+    │ ← Back to Dashboard                           │
+    │                                               │
+    │ Partner Information         [⋯] ← 3-dot menu  │
+    │ ├─ Store Name: [Name]                        │
+    │ ├─ Email Address: [Email]                    │
+    │ ├─ Join Date: [Date]                         │
+    │ ├─ Status: [Active/Inactive]                  │
+    │ ├─ About: [Description]                     │
+    │ └─ [View Store] button                        │
+    │                                               │
+    │ Performance                                   │
+    │ ├─ Imported Products: XX                    │
+    │ ├─ Products Sold: XX                          │
+    │ ├─ Affiliate Sales: $X,XXX.XX USD             │
+    │ ├─ Net Revenue: $X,XXX.XX USD                 │
+    │ └─ Commission Paid: $X,XXX.XX USD             │
+    │                                               │
+    │ Social Media                                  │
+    │ ├─ [Instagram] [Twitter] etc.                 │
+    │                                               │
+    │ Tabs:                                         │
+    │ [Overview] [Products] [Payouts]             │
+    └──────────────────────────────────────────────┘
+    ↓
+[Click 3-dot menu (⋯)]
+    ↓
+[Dropdown Menu]
+    ├─ Cancel Collaboration ← Click
+    ↓
+[Warning Modal]
+    ┌──────────────────────────────────────────────┐
+    │ Cancel Collaboration                          │
+    │                                               │
+    │ You are about to cancel collaboration         │
+    │ with [Partner Name].                          │
+    │                                               │
+    │ The following X products will be              │
+    │ removed from their shop:                      │
+    │                                               │
+    │ • Product A                                   │
+    │ • Product B                                   │
+    │ • Product C                                   │
+    │ • ...                                         │
+    │                                               │
+    │ ⚠️ This action cannot be undone.              │
+    │ The partner will NOT be able to import        │
+    │ your products again.                          │
+    │                                               │
+    │ [Cancel]        [Confirm Cancel]              │
+    └──────────────────────────────────────────────┘
+    ↓
+[Click Confirm Cancel]
+    ↓
+[Products Removed from Partner Shop]
+[Partner Status: Inactive]
+[Success Message]
+    ↓
+[Redirect to Dashboard]
 ```
 [Merchant Dashboard]
     ↓

@@ -38,6 +38,7 @@ The previous multi-step checkout process caused friction and drop-offs. A single
 - **Address Book**: Logged-in users see saved addresses list with Add/Edit/Delete capabilities.
 - **Guest Flow**: Guest enters email → if email exists in system, load user data and addresses automatically.
 - **Digital Products**: For carts with only digital products, show only First Name, Last Name, Phone Number (no address form).
+- **Affiliate Products**: For orders with affiliate products, display merchant's payment methods (Affiliator's), not Co-seller's.
 - Simplify address entry by removing strict third-party validation blocking (allow users to proceed).
 - Provide immediate feedback on Shipping availability based on the entered address.
 - Allow users to add optional notes to their order.
@@ -126,6 +127,54 @@ The previous multi-step checkout process caused friction and drop-offs. A single
 
 ---
 
+**Journey 3B: Affiliate Products Checkout**
+
+1. **Load:** Customer clicks "Checkout" on an affiliate product (direct from PDP).
+2. **Direct Checkout:** Product is pre-loaded in checkout (not from cart).
+3. **Contact:** Email field (pre-filled if logged in).
+4. **Details:** Show delivery details form (if physical) or contact only (if digital).
+5. **No Coupon:** Coupon code input is disabled/hidden with message: "Coupons cannot be applied to affiliate products".
+6. **Payment Methods:** Display **Affiliator's (merchant's) payment methods**, not Co-seller's:
+    - Customer pays using Affiliator's connected Stripe/PayPal/Crypto
+    - This ensures Affiliator receives their share directly
+7. **Payment:** Select payment method from Affiliator's available options.
+8. **Submit:** Complete order.
+9. **Split:** Payment is automatically split between Affiliator and Co-seller.
+
+---
+
+**Journey 3C: Affiliate Product - Commission Rate Change During Checkout**
+
+**Scenario:**
+```
+⏰ 10:00 AM - Customer A starts checkout for an affiliate product
+           → System snapshots current commission rate: 15%
+           → Order object stores: affiliate_commission_rate = 15%
+           → Customer A proceeds with checkout (enters details, etc.)
+
+⏰ 10:05 AM - Merchant changes commission rate from 15% to 20%
+           → New rate applies immediately to marketplace
+           → Customer B sees 20% on product page
+
+⏰ 10:06 AM - Customer B starts checkout for the same product
+           → System snapshots current commission rate: 20%
+           → Order object stores: affiliate_commission_rate = 20%
+
+⏰ 10:10 AM - Customer A completes payment
+           → Commission calculated with 15% (old rate, at checkout start)
+           → Affiliator receives: $98.40 (instead of $98.00 with 20%)
+           → Co-seller receives: $24.60 (instead of $24.80 with 20%)
+
+⏰ 10:15 AM - Customer B completes payment
+           → Commission calculated with 20% (current rate at checkout start)
+           → Affiliator receives: $98.00
+           → Co-seller receives: $24.80
+```
+
+**Key Rule:** Commission rate is locked at checkout start time, even if merchant changes it during the process.
+
+---
+
 **Journey 4: Discount to Zero**
 
 1. **Coupon:** Customer applies a coupon in Sidebar.
@@ -133,6 +182,8 @@ The previous multi-step checkout process caused friction and drop-offs. A single
 3. **Payment Hidden:** Payment methods section disappears.
 4. **Confirm:** "Confirm Order" button appears directly.
 5. **Submit:** Customer clicks Confirm.
+
+---
 
 **Journey 5: No Shipping Available**
 
@@ -170,11 +221,18 @@ The previous multi-step checkout process caused friction and drop-offs. A single
 - **BAC 13:** Payment methods MUST be visible but disabled/locked until all required information is complete.
 - **BAC 14:** Credit Card option: Stripe component loads only AFTER user clicks "Credit Card" option.
 - **BAC 15:** PayPal and Crypto options: Redirect to respective payment pages on click.
+- **BAC 16:** **For affiliate product orders: Coupon code input MUST be disabled/hidden.**
+- **BAC 17:** **For affiliate product orders: Payment methods displayed MUST be the Affiliator's (merchant's) connected methods, NOT the Co-seller's.**
+- **BAC 18:** **Affiliate products use direct checkout flow (pre-loaded from PDP, not from cart).**
+- **BAC 19:** **Affiliate product orders CANNOT mix with regular products in the same order.**
+- **BAC 20:** **When affiliate product checkout starts, system MUST snapshot the current commission rate and store it in order data. This rate MUST be used for calculations even if merchant changes commission rate before order completion.**
 
 ### 📜 Change Log
 
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
+| 2026-02-25 | Behdad | Added Journey 3C (Commission Rate Change During Checkout) with detailed timestamp example showing how commission rate is locked at checkout start | Commission rate snapshot requirements |
+| 2026-02-25 | Behdad | Added Journey 3B (Affiliate Products Checkout) and BAC 16-19 for affiliate product handling | Affiliate product requirements |
 | 2026-01-31 | Copy/Paste AI | Initial Draft | Creation |
 
 ---

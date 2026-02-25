@@ -72,7 +72,8 @@ Merchants who want to sell products without creating inventory need a centralize
     - Shop name and logo
     - Product title
     - Price (USD)
-    - Commission percentage
+    - Commission percentage (e.g., "15%")
+    - **Commission amount in USD (e.g., "$4.50")**
     - Click to view product detail
 - **Search**
     - Search by product title
@@ -106,7 +107,9 @@ Merchants who want to sell products without creating inventory need a centralize
     - Shop name and shop logo
     - Product title
     - Price in USD
-    - Commission percentage
+    - Commission percentage (e.g., "15%")
+    - **Commission amount in USD (e.g., "You earn $4.50")**
+- [ ]  Commission amount calculated as: Price × Commission %
 - [ ]  Products paginated or infinite scroll (20 per page)
 - [ ]  Only products from enabled Affiliators shown
 - [ ]  Only products with stock > 0 shown
@@ -133,6 +136,8 @@ Merchants who want to sell products without creating inventory need a centralize
 - Filter: affiliator_enabled = true AND quantity > 0
 - Search: product title OR shop name (LIKE query)
 - Pagination with offset/limit
+- **Commission amount calculated: price × (commission_rate / 100)**
+- **Display format: "+$X.XX" or "You earn $X.XX"
 
 ### Dependencies
 
@@ -162,18 +167,19 @@ Merchants who want to sell products without creating inventory need a centralize
     │                                                    │
     │ ⚠️ Your shop currency must be USD to import       │
     │                                                    │
-    │ Product Grid (20 per page)                        │
-    │ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  │
-    │ │ [Img]   │ │ [Img]   │ │ [Img]   │ │ [Img]   │  │
-    │ │ [Logo]  │ │ [Logo]  │ │ [Logo]  │ │ [Logo]  │  │
-    │ │ Shop A  │ │ Shop B  │ │ Shop C  │ │ Shop D  │  │
-    │ │         │ │         │ │         │ │         │  │
-    │ │Product  │ │Product  │ │Product  │ │Product  │  │
-    │ │Title   │ │Title   │ │Title   │ │Title   │  │
-    │ │         │ │         │ │         │ │         │  │
-    │ │$29.99  │ │$49.99  │ │$19.99  │ │$39.99  │  │
-    │ │ 15%    │ │ 20%    │ │ 10%    │ │ 25%    │  │
-    │ └─────────┘ └─────────┘ └─────────┘ └─────────┘  │
+│ Product Grid (20 per page)                        │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  │
+│ │ [Img]   │ │ [Img]   │ │ [Img]   │ │ [Img]   │  │
+│ │ [Logo]  │ │ [Logo]  │ │ [Logo]  │ │ [Logo]  │  │
+│ │ Shop A  │ │ Shop B  │ │ Shop C  │ │ Shop D  │  │
+│ │         │ │         │ │         │ │         │  │
+│ │Product  │ │Product  │ │Product  │ │Product  │  │
+│ │Title   │ │Title   │ │Title   │ │Title   │  │
+│ │         │ │         │ │         │ │         │  │
+│ │$29.99  │ │$49.99  │ │$19.99  │ │$39.99  │  │
+│ │ 15%     │ │ 20%     │ │ 10%     │ │ 25%     │  │
+│ │+$4.50   │ │+$9.99   │ │+$2.00   │ │+$9.75   │  │ ← Commission Amount
+│ └─────────┘ └─────────┘ └─────────┘ └─────────┘  │
     │                                                    │
     │ [Load More] or Pagination                         │
     └────────────────────────────────────────────────────┘
@@ -195,6 +201,7 @@ Merchants who want to sell products without creating inventory need a centralize
 
 ## Change Log
 
+- 2026-02-25 — Behdad — Updated product cards to display commission amount in USD (calculated as Price × Commission %)
 - 2026-02-22 — Behdad — Complete rewrite based on [init.md](http://init.md/) requirements
 - 2026-02-01 — Behdad — Initial document creation
 

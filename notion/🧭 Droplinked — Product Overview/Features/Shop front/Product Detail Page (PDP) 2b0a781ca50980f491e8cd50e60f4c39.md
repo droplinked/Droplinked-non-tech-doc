@@ -57,6 +57,10 @@ Customers need a detailed view of a product before making a purchase. The PDP mu
 - **Zero/No price handling**: Display "$0" and disable Add to Cart button.
 - Blockchain verification section for recorded products with external link.
 - Add to Cart button functional based on SKU/product and quantity (disabled if price ≤ 0).
+- **Affiliate Products Handling**:
+    - Direct checkout button instead of Add to Cart
+    - Redirect to checkout page on click (not cart)
+    - Cannot be added to cart with other products
 - Conditional display of Shipping and Size for physical products.
 
 ### **Out of Scope**
@@ -132,7 +136,7 @@ As a **Customer**, I can verify recorded products on the blockchain.
 
 ---
 
-### **Journey 4 – Add Product to Cart**
+### **Journey 4 – Add Product to Cart (Regular Products)**
 
 As a **Customer**, I can add products to the cart based on selected SKU/product and quantity.
 
@@ -146,6 +150,26 @@ As a **Customer**, I can add products to the cart based on selected SKU/product 
 **Step 3:** If valid → Customer clicks **Add to Cart** → Product is added to cart.
 
 **Step 4:** If price is zero or not set → **Add to Cart button is disabled**; customer cannot add to cart.
+
+---
+
+### **Journey 4B – Direct Checkout for Affiliate Products**
+
+As a **Customer**, I can proceed directly to checkout for affiliate products without adding to cart.
+
+**Step 1:** Customer views an affiliate product (imported product from another merchant).
+
+**Step 2:** System detects product is an affiliate product.
+
+**Step 3:** **Instead of "Add to Cart" button, "Checkout" button is displayed**.
+
+**Step 4:** Customer selects SKU (if applicable) and quantity.
+
+**Step 5:** Customer clicks **Checkout** → Redirected directly to checkout page with this product pre-loaded.
+
+**Step 6:** Affiliate products **cannot be mixed with regular products in cart**; they always use direct checkout.
+
+---
 
 ---
 
@@ -194,4 +218,21 @@ As a **Customer**, I cannot access products that are not published.
 - Available quantity is 0, OR
 - Customer's selected quantity exceeds available stock
 
-**BAC 15:** Products with **`continue_selling=true`** (unlimited stock) must **never show "Out of Stock"** and always allow adding to cart regardless of quantity selected.
+**BAC 16:** For **affiliate products (imported products)**, display **"Checkout" button** instead of "Add to Cart" button.
+
+**BAC 17:** Clicking **Checkout** on an affiliate product redirects customer **directly to checkout page** with the product pre-loaded (skips cart).
+
+**BAC 18:** Affiliate products **cannot be added to cart** and **cannot be mixed with regular products** in the same purchase.
+
+**BAC 19:** Affiliate products bypass the cart entirely and use **direct-to-checkout flow**.
+
+---
+
+### 📜 Change Log
+
+| Date | Author | Description of Changes | Reason |
+| --- | --- | --- | --- |
+| 2026-02-25 | Behdad | Added affiliate product handling (Journey 4B, BAC 16-19): Direct checkout button instead of Add to Cart | Affiliate product requirements |
+| 2026-02-01 | Behdad | Initial document creation | New Feature Definition |
+
+---

@@ -18,7 +18,9 @@
 
 ### Problem Statement
 
-Co-sellers want to explore specific merchants and see all the products they offer. The Shop Page provides a merchant profile with their full product catalog, making it easy for Co-sellers to browse and import multiple products from a trusted merchant.
+Co-sellers want to explore specific merchants and see all the products they offer. The Shop Page provides a merchant profile with their full product catalog, payment methods, and key statistics, making it easy for Co-sellers to browse and import multiple products from a trusted merchant.
+
+**Payment Methods Information:** Co-sellers can see which payment methods the merchant has connected. This helps Co-sellers understand how they will receive their commission payouts.
 
 ### User Stories
 
@@ -57,14 +59,18 @@ Co-sellers want to explore specific merchants and see all the products they offe
     - Shop category
     - Shop description
     - "View on Marketplace" link (if applicable)
+- **Payment Methods Section**
+    - Display merchant's connected payment methods (Stripe, PayPal, Crypto)
+    - Show which methods are active
+    - Help text: "You will receive commission payouts via these methods"
+- **Statistics Section**
+    - Total products available
+    - Average commission rate
 - **Product Grid**
     - All affiliate products from this shop
     - Same product cards as marketplace
     - Click to view product detail
     - "Add Product" button per card
-- **Statistics (Optional)**
-    - Total products available
-    - Average commission rate
 - **Navigation**
     - Back button to marketplace
     - Product cards link to product detail
@@ -85,12 +91,19 @@ Co-sellers want to explore specific merchants and see all the products they offe
     - Shop name
     - Shop category
     - Shop description
+- [ ]  **Payment Methods section shows merchant's connected payment methods:**
+    - **Stripe (Credit Card)** - shown if connected
+    - **PayPal** - shown if connected
+    - **Crypto Wallet** - shown if connected
+- [ ]  **Display at least one active payment method (required for affiliate)**
+- [ ]  **Show help text: "Commission payouts will be made via these payment methods"**
 - [ ]  Shows grid of all active affiliate products from this shop
 - [ ]  Product cards show:
     - Product image
     - Product title
     - Price (USD)
     - Commission percentage
+    - **Commission amount in USD**
 - [ ]  Clicking product card navigates to product detail page
 - [ ]  "Add Product" button on each card (if Co-seller and USD)
 - [ ]  Back button returns to marketplace
@@ -134,6 +147,14 @@ Co-sellers want to explore specific merchants and see all the products they offe
     │ Lorem ipsum dolor sit amet, consetetur            │
     │ sadipscing elitr...                               │
     │                                                   │
+    │ Payment Methods                                   │
+    │ ┌───────────────────────────────────────────────┐│
+    │ │ [Credit Card] [PayPal] [Crypto]             ││
+    │ │                                               ││
+    │ │ Commission payouts will be made via these   ││
+    │ │ payment methods.                              ││
+    │ └───────────────────────────────────────────────┘│
+    │                                                   │
     │ XX Products | Avg. Commission: XX%               │
     │                                                   │
     │ Product Grid                                      │
@@ -144,7 +165,8 @@ Co-sellers want to explore specific merchants and see all the products they offe
     │ │Title   │ │Title   │ │Title   │ │Title   │ │
     │ │         │ │         │ │         │ │         │ │
     │ │$29.99  │ │$49.99  │ │$19.99  │ │$39.99  │ │
-    │ │ 15%    │ │ 20%    │ │ 10%    │ │ 25%    │ │
+    │ │ 15%     │ │ 20%     │ │ 10%     │ │ 25%     │ │
+    │ │+$4.50   │ │+$9.99   │ │+$2.00   │ │+$9.75   │ │
     │ │[Add]   │ │[Add]   │ │[Add]   │ │[Add]   │ │
     │ └─────────┘ └─────────┘ └─────────┘ └─────────┘ │
     └──────────────────────────────────────────────────┘
@@ -166,6 +188,7 @@ Co-sellers want to explore specific merchants and see all the products they offe
 
 ## Change Log
 
+- 2026-02-25 — Behdad — Added Payment Methods section showing merchant's connected payment methods (Stripe, PayPal, Crypto)
 - 2026-02-22 — Behdad — Complete rewrite based on [init.md](http://init.md/) requirements
 - 2026-02-01 — Behdad — Initial document creation
 
