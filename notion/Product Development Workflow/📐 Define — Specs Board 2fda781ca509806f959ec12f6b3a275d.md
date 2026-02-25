@@ -78,76 +78,146 @@ Designer must add these items inside the spec document or design file linked fro
 
 ## 📄 Spec Document Structure
 
-Every spec follows this standardized format:
+Every spec follows this standardized format based on the actual Droplinked documentation:
 
-### Feature Specification
+### Header Section
 
-- **Feature Title:** [Name]
-- **Feature ID:** [IAA-STM-001]
-- **Category:** [Module]
-- **Actors:** [User Types]
-- **Channel:** [Web/Mobile/API]
-- **Status:** Defined
-- **Owner:** [Name]
+```markdown
+# [Feature Title]
+
+### Feature ID:
+**[IAA-XXX-001]**
+
+### Title:
+**[Feature Title]**
+
+### Category:
+**[Module]** | **Actors**: [User Types] | **Channel**: [Web/Mobile/API]
+
+### Status:
+**[Writing Spec (Draft) / Released / etc]**
+
+### Owner:
+[Name]
+```
 
 ### Part 1: Human-Readable Spec
 
-### Problem Statement
+#### 1) Summary
 
+**Problem/Value:**
 What problem are we solving? Why does it matter?
 
-### User Stories
+**Desired Outcome:**
+- [Outcome 1]
+- [Outcome 2]
+- [Outcome 3]
 
-As a [user type], I want [action] so that [benefit].
+#### 2) Scope – In / Out
 
-### Key User Journeys
+**In:**
+- ✅ [Feature item 1]
+- ✅ [Feature item 2]
 
-Step-by-step flow of how users interact with feature.
+**Out:**
+- ❌ [Item not included 1]
+- ❌ [Item not included 2]
 
-### Scope
+#### 3) Key User Journeys
 
-- ✅ **In Scope:** What's included
-- ❌ **Out of Scope:** What's NOT included
+**Journey 1: [Name]**
+- **Step 1:** [Action]
+- **Step 2:** [Action]
+- **Step 3:** [Action]
 
-### Acceptance Criteria
+**Journey 2: [Name]**
+- **Step 1:** [Action]
+- **Step 2:** [Action]
 
-- ☑ Criterion 1
-- ☑ Criterion 2
-- ☑ Criterion 3
+#### 4) Business Acceptance Criteria (BAC)
 
-### Technical Notes
+- **BAC 1:** [Criterion description]
+- **BAC 2:** [Criterion description]
+- **BAC 3:** [Criterion description]
 
-High-level technical considerations (no implementation).
+#### 📜 Change Log
 
-### Dependencies
+**⚠️ REQUIRED: Update this table for EVERY change made to the spec**
 
-Other features or systems this depends on.
+| Date | Author | Description of Changes | Reason |
+| --- | --- | --- | --- |
+| YYYY-MM-DD | [Name] | [Description] | [Reason] |
 
 ---
 
-## UI Flow (Source of Truth)
+### Part 2: Edge Cases & UI Flow
 
-Document the user journey through the feature. Simple arrow notation showing screens and actions.
+#### Edge Cases & Error Handling
 
-### Example
+Document edge cases and how the system handles errors:
+
+- **Edge Case 1:** [Description] → [Handling]
+- **Edge Case 2:** [Description] → [Handling]
+- **Error 1:** [Error scenario] → [Error message/action]
+
+#### UI Flow (Source of Truth)
+
+Simple arrow notation showing screens and user actions:
 
 ```
-Dashboard → Click "Add Product" → Product Form → Fill Details →
-Click "Save" → Success Message → Product List
+[Screen/Action 1]
+    ↓
+[Decision Point]
+    ├─ [Condition A] → [Screen/Action 2A]
+    └─ [Condition B] → [Screen/Action 2B]
+                              ↓
+                    [Next Screen/Action]
+```
+
+**Example:**
+```
+[Click "Billing" in Sidebar]
+    ↓
+[Check Subscription]
+    ├─ Starter + No History → [Empty State] → [View Plans] → [Pricing Page]
+    └─ Has Plan/History → [Billing Page]
+                              ↓
+                    [Overview Tab (Default)]
+                              ├─ [View Current Plan Info]
+                              ├─ [View Payment Details]
+                              └─ [View Plans] → [Pricing Page]
+                              ↓
+                    [Invoices Tab]
+                              ├─ [Search Invoices]
+                              └─ [Click Invoice Row] → [Invoice Detail Page]
 ```
 
 ---
 
-### Attachments
+### For Large Features: Overview + Sub-features
 
-- 📎 Linked Tickets: [List of related tickets]
+**Overview Document** (at category level):
+```markdown
+# [Feature Category]
 
-### Change Log
+[Sub-feature 1]([Category]/[Sub-feature 1].md)
+[Sub-feature 2]([Category]/[Sub-feature 2].md)
+```
 
-- 2024-03-15 — Sarah — Initial draft
-- 2024-03-17 — Mike — Added edge cases
+**Sub-feature Documents** (in folder):
+- Each major screen/page gets its own detailed spec
+- Full Part 1 and Part 2 sections
+- Linked from overview
 
----
+Example:
+```
+Subscription/
+├── Subscription.md (Overview with links)
+└── Subscription/
+    ├── Pricing Page.md (Full spec)
+    ├── Billing Page.md (Full spec)
+    └── Invoice Detail Page.md (Full spec)
+```
 
 ## 🧪 Test Case Format (with example)
 
@@ -261,6 +331,7 @@ When a spec is **Ready for Dev**, it generates multiple **Epic** tickets in the 
 - [ ]  Test cases are written
 - [ ]  Dependencies are identified
 - [ ]  UI Flow is documented (source of truth for test cases)
+- [ ]  **Change Log is updated with all modifications**
 
 ---
 

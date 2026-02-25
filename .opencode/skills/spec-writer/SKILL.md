@@ -43,6 +43,7 @@ Use this skill when:
 - Follow the exact format from existing Droplinked specs
 - Break down large features into logical sub-features
 - Identify which existing docs need updates vs. new docs needed
+- **Update the Change Log for EVERY edit** - Add a new row with: Date, Author, Description of Changes, Reason
 
 ## My Workflow
 
@@ -94,6 +95,7 @@ Use this skill when:
 - Read the current document first
 - Identify exact sections to modify
 - Propose changes before applying
+- **⚠️ CRITICAL: Update Change Log with every modification** - Add new entry: Date | Author | Description | Reason
 
 ## Spec Document Format
 
@@ -172,6 +174,8 @@ Every spec follows this exact structure (matching Droplinked standards):
 
 ### 📜 Change Log
 
+**⚠️ REQUIRED: Update this table for EVERY change made to the spec**
+
 | Date | Author | Description of Changes | Reason |
 | --- | --- | --- | --- |
 | YYYY-MM-DD | [Name] | [Description] | [Reason] |
@@ -180,51 +184,46 @@ Every spec follows this exact structure (matching Droplinked standards):
 
 ---
 
-# [PART 2: DETAILED REFERENCE SPEC]
+## Part 2: Edge Cases & UI Flow
 
-### B1) Definitions & Glossary
+### Edge Cases & Error Handling
 
-- **[Term 1]:** [Definition]
-- **[Term 2]:** [Definition]
+Document edge cases and how the system handles errors:
 
-### B2) Detailed Functional Rules (Numbered)
+- **Edge Case 1:** [Description] → [Handling]
+- **Edge Case 2:** [Description] → [Handling]
+- **Error 1:** [Error scenario] → [Error message/action]
 
-- **R1.** [Rule description]
-- **R2.** [Rule description]
-- **R3.** [Rule description]
+### UI Flow (Source of Truth)
 
-### B3) UI/UX States & Triggers
-
-- **[State 1]:**
-    - [Behavior description]
-- **[State 2]:**
-    - [Behavior description]
-
-### B4) Edge Cases & Error Handling
-
-- **[EC1]:** [Case description and handling]
-- **[EC2]:** [Case description and handling]
-
-### B5) Data Requirements & API Contracts
-
-- **Fields:**
-    - `[field_name]`: [Type] ([Req/Opt])
-    - `[field_name]`: [Type] ([Req/Opt])
-
-### B6) Logical Flow & Pseudo-code
+Simple arrow notation showing screens and user actions:
 
 ```
-IF [Condition]:
-    [Action]
-    [Action]
-ELSE:
-    [Action]
+[Screen/Action 1]
+    ↓
+[Decision Point]
+    ├─ [Condition A] → [Screen/Action 2A]
+    └─ [Condition B] → [Screen/Action 2B]
+                              ↓
+                    [Next Screen/Action]
 ```
 
-### B7) Testing Matrix
-
-- **T1:** [Test case description] -> Expect [Result]
-- **T2:** [Test case description] -> Expect [Result]
+**Example:**
+```
+[Click "Billing" in Sidebar]
+    ↓
+[Check Subscription]
+    ├─ Starter + No History → [Empty State] → [View Plans] → [Pricing Page]
+    └─ Has Plan/History → [Billing Page]
+                              ↓
+                    [Overview Tab (Default)]
+                              ├─ [View Current Plan Info]
+                              ├─ [View Payment Details]
+                              └─ [View Plans] → [Pricing Page]
+                              ↓
+                    [Invoices Tab]
+                              ├─ [Search Invoices]
+                              └─ [Click Invoice Row] → [Invoice Detail Page]
 ```
 
 ## Breaking Down Large Features
@@ -318,6 +317,110 @@ I track specs through these statuses:
 6. **Waiting for Test Cases** - Ready for QA
 7. **Writing Test Cases** - QA writing tests
 8. **Ready for Dev** - Complete!
+
+## Document Structure & UI/UX Path
+
+The Features documentation follows a **hierarchical structure** where large features are broken down into manageable sub-features:
+
+### Structure Pattern
+
+```
+Features/
+├── [Category]/                           # Main category (e.g., Shop builder)
+│   ├── [Feature Category].md            # Overview document with links to sub-features
+│   └── [Feature Category]/              # Folder containing sub-feature specs
+│       ├── [Sub-feature 1].md          # Detailed spec
+│       ├── [Sub-feature 2].md          # Detailed spec
+│       └── [Sub-feature 3].md          # Detailed spec
+```
+
+### Example: Subscription Feature
+
+```
+Shop builder/
+├── Subscription.md                      # Overview: Links to all subscription features
+└── Subscription/
+    ├── Pricing Page (Public & Dashboard).md    # Detailed spec
+    ├── Billing Page.md                           # Detailed spec
+    └── Invoice Detail Page.md                    # Detailed spec
+```
+
+### Overview Document Format
+
+The **overview document** acts as an index/navigation hub:
+
+```markdown
+# [Feature Category Name]
+
+[Sub-feature 1]([Category]/[Sub-feature 1].md)
+
+[Sub-feature 2]([Category]/[Sub-feature 2].md)
+
+[Sub-feature 3]([Category]/[Sub-feature 3].md)
+```
+
+**Rules:**
+- Overview doc only contains links to sub-features
+- No detailed requirements in overview
+- Sub-features contain full specs with all details
+
+### When to Use This Structure
+
+**Create Overview + Sub-features when:**
+- Feature has multiple distinct user journeys
+- Different user types interact with different parts
+- Feature spans multiple pages/screens
+- Team is large and needs to work on parts separately
+
+**Use Single Document when:**
+- Feature is simple (one page, one flow)
+- Small team working on entire feature
+- All requirements fit comfortably in one doc
+
+## Document Location & Naming
+
+**Base Path:** `notion/🧭 Droplinked — Product Overview/Features/`
+
+**Naming Convention:**
+- Overview: `[Feature Category] [ID].md` (e.g., `Subscription 2faa781ca50980b09c6ad6c1b57857dd.md`)
+- Sub-feature: `[Sub-feature Name] [ID].md` (e.g., `Pricing Page (Public & Dashboard) 2faa781ca5098055b3ceff4cc7d8a027.md`)
+
+**Folder Structure:**
+- Folder name matches category name without ID
+- All sub-features go in the folder
+
+## Breaking Down Large Features
+
+When a feature is too large for one document:
+
+1. **Create an Overview document** at category level with:
+   - Title (Category name)
+   - Links to all sub-feature documents
+   - No other content needed
+
+2. **Create sub-feature documents** in a subfolder for:
+   - Each major screen/page
+   - Each distinct user flow
+   - Each user type's perspective (if significantly different)
+
+3. **Link properly:**
+   - Overview → links to sub-features
+   - Sub-features → can link to related sub-features
+   - Cross-reference when features interact
+
+### Example Breakdown
+
+**Feature: Order Management**
+
+```
+Order management/
+├── Order management.md                 # Overview with links
+└── Order management/
+    ├── Order List Page.md              # View all orders
+    ├── Order Detail Page.md            # Single order view
+    ├── Order Actions (Refund, Cancel).md
+    └── Order Export.md                 # Bulk export feature
+```
 
 ## Remember
 
